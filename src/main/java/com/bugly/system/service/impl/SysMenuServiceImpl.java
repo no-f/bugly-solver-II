@@ -3,6 +3,8 @@ package com.bugly.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bugly.common.base.Constants;
+import com.bugly.system.dao.SysMenuRoleDao;
+import com.bugly.system.entity.SysMenuRole;
 import com.bugly.system.service.SysMenuService;
 import com.bugly.system.dao.SysMenuDao;
 import com.bugly.system.dao.SysRoleDao;
@@ -34,6 +36,10 @@ public class SysMenuServiceImpl implements SysMenuService {
     private final SysMenuDao sysMenuDao;
 
     private final SysRoleDao sysRoleDao;
+
+    private final SysMenuRoleDao sysMenuRoleDao;
+
+
 
 
     @Override
@@ -87,7 +93,10 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Override
     public int addMenu(SysMenuVO sysMenu) {
-        return sysMenuDao.addMenu(sysMenu);
+        int result = sysMenuDao.addMenu(sysMenu);
+        SysRole sysRole = sysRoleDao.findByName(sysMenu.getCreateBy());
+        sysMenuRoleDao.addMenuRole(new SysMenuRole(sysMenu.getId(), sysRole.getId()));
+        return result;
     }
 
     @Override

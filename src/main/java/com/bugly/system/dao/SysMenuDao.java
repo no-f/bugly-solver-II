@@ -15,14 +15,13 @@ import java.util.List;
  * @author no_f
  * @ClassName SysMenuDao
  * @Description TODO
- * @Date 2020/62/19 15:44
+ * @Date 2020/06/19 15:44
  */
 @Repository
 public interface SysMenuDao extends BaseMapper<SysMenu> {
 
     @Select("SELECT *  FROM sys_menu as m LEFT JOIN sys_menu_role as r ON m.id = r.menu_id WHERE m.is_show = '1' and r.role_id = #{roleId} ORDER BY m.menu_weight")
     List<SysMenu> findByRoleId(@Param("roleId") String roleId);
-
 
     @Select("SELECT * FROM sys_menu WHERE menu_level = 1 ORDER BY menu_weight")
     IPage<SysMenu> findFirstMenu(Page page);
