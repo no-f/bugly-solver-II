@@ -26,30 +26,26 @@
                             default-expand-all
                             :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
                         <el-table-column
-                                prop="id"
-                                label="ID"
+                                prop="threadId"
+                                label="线程ID"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 width="150px"
                                 prop="machineAddress"
-                                label="服务名称"
+                                label="机器地址"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 width="350px"
-                                prop="errorLocation"
-                                label="错误位置"
+                                prop="errorMessage"
+                                label="错误信息"
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                prop="tag"
-                                label="标签"
-                                align="center">
-                        </el-table-column>
-                        <el-table-column
-                                prop="state"
-                                label="处理状态"
+                                width="350px"
+                                prop="errorException"
+                                label="错误异常"
                                 align="center">
                         </el-table-column>
                         <el-table-column

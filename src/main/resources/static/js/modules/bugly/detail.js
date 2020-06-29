@@ -8,51 +8,32 @@ $().ready(function(){
             current_page: 1
         },
         methods: {
-            handleEdit: function(row) {
+            handleDetail: function(row) {
                 layer.open({
                     type: 2,
-                    title: '状态变更',
+                    title: '查看完整异常',
                     maxmin: true,
-                    shadeClose: false, // 点击遮罩关闭层
+                    shadeClose: false,
                     area: ['800px', '700px'],
-                    content: context + 'bugly/exception/update?id='+row.id,
+                    content: context + 'bugly/exception/detail_show?exception='+row.errorException,
                     end: function () {
-                        vm.getDifferentExceptionList();
+                        vm.getExceptionDatailList();
                     }
-                });
-            },
-
-            handleDetail:function(row) {
-                layer.confirm("您确定要删除吗？", function (index) {
-                    $.ajax({
-                        url: context + 'user/deleteUser?id=' + row.id,
-                        type: 'GET',
-                        success: function (res) {
-                            if (res.code === 200){
-                               if (res.data.code === 200){
-                                   layer.msg("操作成功");
-                                   vm.getUserList();
-                               } else if(res.data.code === 500){
-                                   layer.msg("操作失败");
-                               }
-                            }
-                        }
-                    });
                 });
             },
 
             handleSizeChange: function (val) {
                 vm.page_size = val;
-                this.getDifferentExceptionList();
+                this.getExceptionDatailList();
             },
             handleCurrentChange: function (val) {
                 vm.current_page = val;
-                this.getDifferentExceptionList();
+                this.getExceptionDatailList();
             },
 
-            getDifferentExceptionList: function () {
+            getExceptionDatailList: function () {
                             $.ajax({
-                                url: context + 'exception/findAll',
+                                url: context + 'exception/detail_list',
                                 type: 'GET',
                                 success: function (res) {
                                     vm.tableData = res.data.sysUserList;
@@ -65,7 +46,7 @@ $().ready(function(){
 
         },
         mounted: function () {
-            this.getDifferentExceptionList();
+            this.getExceptionDatailList();
         }
     });
 });

@@ -99,9 +99,30 @@ public class ExceptionServiceImpl implements ExceptionService {
         return ApiResponse.ofSuccess(jsonObject);
     }
 
-    @Override
-    public CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(GetServerLogDto getServerLogDto) {
 
+    @Override
+    public ApiResponse getDetailsAll() {
+        List<ServiceExceptionBo> serviceExceptionBos = new ArrayList<>();
+
+        ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
+        serviceExceptionBo.setMachineAddress("facepp-proxy-service-6d4c55f6f-bb4mm/10.244.7.41");
+        serviceExceptionBo.setErrorException("123123123");
+        serviceExceptionBo.setErrorMessage("zzzxxasdsdqsdasdasdasda");
+        serviceExceptionBo.setTriggerTime(String.valueOf(new Date()));
+        serviceExceptionBo.setThreadId(111);
+        serviceExceptionBo.setErrorLocation("com.bullyun.fpp.util.FaceUploadImage.socketConnect【行号=-2】");
+        serviceExceptionBos.add(serviceExceptionBo);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",10);
+        jsonObject.put("page",0);
+        jsonObject.put("page_size",10);
+        jsonObject.put("sysUserList",serviceExceptionBos);
+        return ApiResponse.ofSuccess(jsonObject);
+    }
+
+    @Override
+    public ApiResponse getDetails(GetServerLogDto getServerLogDto) {
         List<ServiceLog> serviceLogs = serviceLogDao.findByCondition(getServerLogDto);
         List<ServiceExceptionBo> serviceExceptionBos = new ArrayList<>();
         serviceLogs.forEach(s -> {
@@ -111,10 +132,13 @@ public class ExceptionServiceImpl implements ExceptionService {
             serviceExceptionBo.setTriggerTime(String.valueOf(s.getTriggerTime().getTime()));
             serviceExceptionBos.add(serviceExceptionBo);
         });
-        PageResult<ServiceExceptionBo> listPageResult = new PageResult<>();
-        listPageResult.setList(serviceExceptionBos);
-        listPageResult.setTotal(serviceLogDao.countCondition(getServerLogDto));
-        return success(listPageResult);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",serviceLogDao.countCondition(getServerLogDto));
+        jsonObject.put("page",0);
+        jsonObject.put("page_size",10);
+        jsonObject.put("sysUserList",serviceExceptionBos);
+        return ApiResponse.ofSuccess(jsonObject);
     }
 
     @Override

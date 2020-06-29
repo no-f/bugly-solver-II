@@ -1,12 +1,10 @@
 package com.bugly.system.rest;
 
 import com.bugly.common.base.ApiResponse;
-import com.bugly.system.bo.ServiceExceptionBo;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.vo.CommonResult;
-import com.bugly.system.vo.PageResult;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,7 @@ public class ExceptionRestController {
 
     @GetMapping("/findAll")
     public ApiResponse findAll() {
+        //需要删除的
         return exceptionService.findAll();
     }
 
@@ -49,8 +48,15 @@ public class ExceptionRestController {
         return exceptionService.dealWith(dealWithServerLogDto);
     }
 
-    @PostMapping("/detail_list")
-    public CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(@RequestBody @Validated GetServerLogDto getServerLogDto) {
-        return exceptionService.getServiceLogs(getServerLogDto);
+    @GetMapping("/detail_list")
+//    public ApiResponse getDetails(@RequestParam("page") int page,
+//                                  @RequestParam("page_size") int pageSize) {
+//        GetServerLogDto dto = new GetServerLogDto();
+//        dto.setPageNo(page);
+//        dto.setPageSize(pageSize);
+//        return exceptionService.getDetails(dto);
+//    }
+    public ApiResponse getDetails() {
+        return exceptionService.getDetailsAll();
     }
 }

@@ -22,24 +22,10 @@ $().ready(function(){
                 });
             },
 
-            handleDetail:function(row) {
-                layer.confirm("您确定要删除吗？", function (index) {
-                    $.ajax({
-                        url: context + 'user/deleteUser?id=' + row.id,
-                        type: 'GET',
-                        success: function (res) {
-                            if (res.code === 200){
-                               if (res.data.code === 200){
-                                   layer.msg("操作成功");
-                                   vm.getUserList();
-                               } else if(res.data.code === 500){
-                                   layer.msg("操作失败");
-                               }
-                            }
-                        }
-                    });
-                });
-            },
+//            handleDetail:function(row) {
+////               window.location.href = context + "bugly/exception/detail?id="+row.id;
+//                 window.open(context + "bugly/exception/detail?id="+row.id);
+//            },
 
             handleSizeChange: function (val) {
                 vm.page_size = val;

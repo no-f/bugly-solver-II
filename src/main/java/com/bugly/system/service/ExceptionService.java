@@ -1,11 +1,9 @@
 package com.bugly.system.service;
 
 import com.bugly.common.base.ApiResponse;
-import com.bugly.system.bo.ServiceExceptionBo;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.vo.CommonResult;
-import com.bugly.system.vo.PageResult;
 import net.sf.json.JSONObject;
 
 /**
@@ -20,7 +18,9 @@ public interface ExceptionService {
 
     ApiResponse getExceptions(GetServerLogDto getServerLogDto);
 
-    CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(GetServerLogDto getServerLogDto);
+    ApiResponse getDetails(GetServerLogDto getServerLogDto);
+
+    ApiResponse getDetailsAll();
 
     CommonResult<Boolean> dealWith(DealWithServerLogDto dealWithServerLogDto);
 
