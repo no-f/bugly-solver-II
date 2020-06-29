@@ -1,54 +1,44 @@
 package com.bugly.system.controller;
 
-import com.bugly.system.bo.ExceptionTypeBo;
-import com.bugly.system.bo.ServiceExceptionBo;
-import com.bugly.system.dto.DealWithServerLogDto;
-import com.bugly.system.dto.GetServerLogDto;
-import com.bugly.system.service.ExceptionService;
-import com.bugly.system.vo.CommonResult;
-import com.bugly.system.vo.PageResult;
-import net.sf.json.JSONObject;
+import com.bugly.common.utils.SecurityUtils;
+import com.bugly.system.entity.SysUser;
+import com.bugly.system.service.SysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 /**
  * @author no_f
  * @create 2020-06-16 17:46
  */
-@RestController
+@Controller
 @RequestMapping("/bugly/exception")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ExceptionController {
 
-    @Autowired
-    private ExceptionService exceptionService;
+    private final SysUserService sysUserService;
 
-    @PostMapping("/save")
-    public CommonResult<Boolean> saveServiceLog(@RequestBody JSONObject jsonParam) {
-        return exceptionService.saveServiceLog(jsonParam);
+    @GetMapping("/list")
+    public String index(){
+        return "module/bugly/bugly";
     }
 
-    @PostMapping("/findAll")
-    public CommonResult<PageResult<ExceptionTypeBo>> findAll() {
-        return exceptionService.findAll();
+    @GetMapping("/update")
+    public String update(String id, Model model){
+        Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
+        String username = (String)authentication.getPrincipal();
+        SysUser sysUser = sysUserService.findByName(username);
+        model.addAttribute("sysUser", sysUser);
+        return "module/bugly/updaterBugly";
     }
 
-    @PostMapping("/exception_list")
-    public CommonResult<PageResult<ExceptionTypeBo>> getExceptions(@RequestBody @Validated GetServerLogDto getServerLogDto) {
-        return exceptionService.getExceptions(getServerLogDto);
-    }
-
-    @PostMapping("/deal_with")
-    public CommonResult<Boolean> dealWith(@Validated DealWithServerLogDto dealWithServerLogDto) {
-        return exceptionService.dealWith(dealWithServerLogDto);
-    }
-
-    @PostMapping("/list")
-    public CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(@RequestBody @Validated GetServerLogDto getServerLogDto) {
-        return exceptionService.getServiceLogs(getServerLogDto);
+    @GetMapping("/detail")
+    public String detail(String id){
+        return "module/bugly/detail";
     }
 }

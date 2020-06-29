@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author no_f
  * @ClassName CustomLogoutSuccessHandler
  * @Description TODO
- * @Date 2020/62/18 18:00
+ * @Date 2020/06/18 18:00
  */
 @Component
 @Slf4j

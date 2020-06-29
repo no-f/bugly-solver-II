@@ -1,5 +1,6 @@
 package com.bugly.system.service.impl;
 
+import com.bugly.common.base.ApiResponse;
 import com.bugly.common.logrobot.DingTalkSender;
 import com.bugly.common.utils.UUIDUtils;
 import com.bugly.system.bo.ExceptionTypeBo;
@@ -57,37 +58,45 @@ public class ExceptionServiceImpl implements ExceptionService {
 
 
     @Override
-    public CommonResult<PageResult<ExceptionTypeBo>> findAll() {
+    public ApiResponse findAll() {
         List<ExceptionType> exceptionTypes = exceptionTypeDao.findAll();
         List<ExceptionTypeBo> exceptionTypeBos = new ArrayList<>();
         exceptionTypes.forEach(e -> {
             ExceptionTypeBo exceptionTypeBo = new ExceptionTypeBo();
             BeanUtils.copyProperties(e, exceptionTypeBo);
-            exceptionTypeBo.setCtime(String.valueOf(e.getCtime().getTime()));
-            exceptionTypeBo.setMtime(String.valueOf(e.getMtime().getTime()));
+            exceptionTypeBo.setMtime(String.valueOf(e.getMtime()));
+            exceptionTypeBo.setTag("测试用");
+            exceptionTypeBo.setState("未解决");
+            exceptionTypeBo.setMachineAddress("load-balance-service-6976ccfbdd-ktfjh/10.244.2.166");
             exceptionTypeBos.add(exceptionTypeBo);
         });
-        PageResult<ExceptionTypeBo> listPageResult = new PageResult<>();
-        listPageResult.setList(exceptionTypeBos);
-        listPageResult.setTotal(exceptionTypes.size());
-        return success(listPageResult);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",exceptionTypes.size());
+        jsonObject.put("page",0);
+        jsonObject.put("page_size",10);
+        jsonObject.put("sysUserList",exceptionTypeBos);
+        return ApiResponse.ofSuccess(jsonObject);
     }
 
     @Override
-    public CommonResult<PageResult<ExceptionTypeBo>> getExceptions(GetServerLogDto getServerLogDto) {
+    public ApiResponse getExceptions(GetServerLogDto getServerLogDto) {
         List<ExceptionType> exceptionTypes = exceptionTypeDao.findByCondition(getServerLogDto);
         List<ExceptionTypeBo> exceptionTypeBos = new ArrayList<>();
         exceptionTypes.forEach(e -> {
             ExceptionTypeBo exceptionTypeBo = new ExceptionTypeBo();
             BeanUtils.copyProperties(e, exceptionTypeBo);
-            exceptionTypeBo.setCtime(String.valueOf(e.getCtime().getTime()));
-            exceptionTypeBo.setMtime(String.valueOf(e.getMtime().getTime()));
+            exceptionTypeBo.setMtime(String.valueOf(e.getMtime()));
+            exceptionTypeBo.setState(stateString(e.getState()));
             exceptionTypeBos.add(exceptionTypeBo);
         });
-        PageResult<ExceptionTypeBo> listPageResult = new PageResult<>();
-        listPageResult.setList(exceptionTypeBos);
-        listPageResult.setTotal(exceptionTypeDao.countCondition(getServerLogDto));
-        return success(listPageResult);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",exceptionTypeDao.countCondition(getServerLogDto));
+        jsonObject.put("page",0);
+        jsonObject.put("page_size",10);
+        jsonObject.put("sysUserList",exceptionTypeBos);
+        return ApiResponse.ofSuccess(jsonObject);
     }
 
     @Override
@@ -180,5 +189,17 @@ public class ExceptionServiceImpl implements ExceptionService {
             return e.getId();
         }
         return id;
+    }
+
+    private String stateString(int state) {
+        switch (state) {
+            case 0:
+                return "待处理";
+            case 1:
+                return "已处理";
+            case 2:
+                return "处理中";
+            default: return "待处理";
+        }
     }
 }

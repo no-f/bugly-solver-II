@@ -5,7 +5,7 @@ import com.bugly.system.entity.SysMenuRole;
 import java.util.List;
 
 /**
- * @author cuiyating
+ * @author no_f
  * @date 2020/6/8 14:29
  */
 public interface SysMenuRoleService {

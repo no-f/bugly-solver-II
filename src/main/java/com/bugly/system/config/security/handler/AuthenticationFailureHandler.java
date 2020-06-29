@@ -23,7 +23,7 @@ import java.io.IOException;
  * @author no_f
  * @ClassName AuthenticationFailureHandler
  * @Description TODO
- * @Date 2020/62/11 11:35
+ * @Date 2020/06/11 11:35
  */
 @Component
 @Slf4j

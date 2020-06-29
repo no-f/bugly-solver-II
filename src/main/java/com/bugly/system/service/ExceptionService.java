@@ -1,6 +1,6 @@
 package com.bugly.system.service;
 
-import com.bugly.system.bo.ExceptionTypeBo;
+import com.bugly.common.base.ApiResponse;
 import com.bugly.system.bo.ServiceExceptionBo;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
@@ -16,9 +16,9 @@ public interface ExceptionService {
 
     CommonResult<Boolean> saveServiceLog(JSONObject content);
 
-    CommonResult<PageResult<ExceptionTypeBo>> findAll();
+    ApiResponse findAll();
 
-    CommonResult<PageResult<ExceptionTypeBo>> getExceptions(GetServerLogDto getServerLogDto);
+    ApiResponse getExceptions(GetServerLogDto getServerLogDto);
 
     CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(GetServerLogDto getServerLogDto);
 

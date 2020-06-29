@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author cuiyating
+ * @author no_f
  * @date 2020/6/12 0:42
  */
 @Repository

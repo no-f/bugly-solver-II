@@ -20,11 +20,14 @@ public class ExceptionTypeBo {
     @JsonProperty("error_location")
     private String errorLocation;
 
+    @JsonProperty("machine_address")
+    private String machineAddress;
+
+    private String state;
+
     private String tag;
 
     private Integer num;
-
-    private String ctime;
 
     private String mtime;
 

@@ -3,7 +3,7 @@ package com.bugly.system.service;
 import com.bugly.system.entity.SysUserRole;
 
 /**
- * @author cuiyating
+ * @author no_f
  * @date 2020/6/12 0:43
  */
 public interface SysUserRoleService {

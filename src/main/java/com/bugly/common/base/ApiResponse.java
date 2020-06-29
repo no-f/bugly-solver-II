@@ -6,7 +6,7 @@ import lombok.Data;
  * @author no_f
  * @ClassName ApiResponse
  * @Description TODO
- * @Date 2020/62/11 15:34
+ * @Date 2020/06/11 15:34
  */
 @Data
 public class ApiResponse {

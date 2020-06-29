@@ -34,6 +34,7 @@ public class AccessAuthHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //这块功能得优化一下
         List<SysMenu> secondMenu = sysMenuService.getSecondMenu();
         List<String> urlList = secondMenu.stream().map(o -> o.getMenuHref()).collect(Collectors.toList());
         String servletPath = StringUtils.replace(request.getServletPath(), "/", "", 1);

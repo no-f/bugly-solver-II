@@ -4,7 +4,7 @@ import com.bugly.system.entity.SysRole;
 import lombok.Data;
 
 /**
- * @author cuiyating
+ * @author no_f
  * @date 2020/6/16 16:45
  */
 @Data
