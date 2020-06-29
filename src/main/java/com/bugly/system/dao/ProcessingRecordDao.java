@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @create 2020-06-19 19:02
  */
 @Repository
-public interface ProcessingRecordMapper extends BaseMapper<ProcessingRecord> {
+public interface ProcessingRecordDao extends BaseMapper<ProcessingRecord> {
 
     @Select("SELECT num FROM `service_log` WHERE error_location=#{location} ORDER BY ctime DESC LIMIT 1")
     int findSameExceptionNum(@Param("location") String location);

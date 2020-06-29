@@ -1,5 +1,6 @@
 package com.bugly.system.controller;
 
+import com.bugly.system.bo.ExceptionTypeBo;
 import com.bugly.system.bo.ServiceExceptionBo;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
@@ -31,13 +32,23 @@ public class ExceptionController {
         return exceptionService.saveServiceLog(jsonParam);
     }
 
-    @PostMapping("/list")
-    public CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(@RequestBody @Validated GetServerLogDto getServerLogDto) {
-        return exceptionService.getServiceLogs(getServerLogDto);
+    @PostMapping("/findAll")
+    public CommonResult<PageResult<ExceptionTypeBo>> findAll() {
+        return exceptionService.findAll();
+    }
+
+    @PostMapping("/exception_list")
+    public CommonResult<PageResult<ExceptionTypeBo>> getExceptions(@RequestBody @Validated GetServerLogDto getServerLogDto) {
+        return exceptionService.getExceptions(getServerLogDto);
     }
 
     @PostMapping("/deal_with")
     public CommonResult<Boolean> dealWith(@Validated DealWithServerLogDto dealWithServerLogDto) {
         return exceptionService.dealWith(dealWithServerLogDto);
+    }
+
+    @PostMapping("/list")
+    public CommonResult<PageResult<ServiceExceptionBo>> getServiceLogs(@RequestBody @Validated GetServerLogDto getServerLogDto) {
+        return exceptionService.getServiceLogs(getServerLogDto);
     }
 }

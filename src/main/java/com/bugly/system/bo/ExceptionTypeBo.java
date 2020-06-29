@@ -1,4 +1,4 @@
-package com.bugly.system.dto;
+package com.bugly.system.bo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -6,28 +6,26 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
  * @author no_f
- * @create 2020-06-18 10:38
+ * @create 2020-06-18 11:05
  */
 @Data
 @Accessors(chain = true)
-public class DealWithServerLogDto implements Serializable {
-
-    private static final long serialVersionUID = 1391340588728829310L;
+public class ExceptionTypeBo {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    private Integer state;
+    @JsonProperty("error_location")
+    private String errorLocation;
 
-    @JsonProperty("user_id")
-    private Long userId;
-
-    private String remarks;
+    private String tag;
 
     private Integer num;
+
+    private String ctime;
+
+    private String mtime;
 
 }

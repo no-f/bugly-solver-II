@@ -18,7 +18,7 @@ import java.util.List;
  * @create 2020-06-19 11:29
  */
 @Repository
-public interface ServiceLogMapper extends BaseMapper<ServiceLog> {
+public interface ServiceLogDao extends BaseMapper<ServiceLog> {
 
     @SelectProvider(type = ServiceLogProvider.class, method = "findByCondition")
     List<ServiceLog> findByCondition(GetServerLogDto getServerLogDto);

@@ -16,6 +16,7 @@ public class ServiceLog extends DeletableDO {
 
 
     private Long id;
+    private Long exceptionTypeId;
     private String currentCluster;
     private String serviceName;
     private String machineAddress;
@@ -23,11 +24,8 @@ public class ServiceLog extends DeletableDO {
     private int threadId;
     private String level;
     private int type;
-    private String errorLocation;
     private String errorMessage;
     private String errorException;
     private String tag;
-    private int num;
-    private int state;
 
 }

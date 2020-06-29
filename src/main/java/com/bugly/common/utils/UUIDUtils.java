@@ -6,7 +6,7 @@ import java.util.UUID;
  * @author no_f
  * @ClassName UUIDUtils
  * @Description TODO
- * @Date 2020/62/24 14:55
+ * @Date 2020/06/24 14:55
  */
 public class UUIDUtils {
 
