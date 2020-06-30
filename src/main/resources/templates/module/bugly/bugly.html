@@ -10,14 +10,39 @@
     <link th:href="@{/static/css/layui/admin.css}" rel="stylesheet">
     <link th:href="@{/static/css/element-ui.2.13.0.css}" rel="stylesheet">
     <link th:href="@{/static/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/module/bugly.css}" rel="stylesheet">
 </head>
 <body>
 <div class="layui-fluid" id="app">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
             <div class="layui-card">
+                <div class="layui-card-body">
+                    <form name="bugly_search">
+                    <ul class="layui-nav" style="background-color: #fbfcff;color: #333;" lay-filter="">
+                        <li class="layui-nav-item b-li" style="line-height: 36px;">
+                            <input name="search_machinneAddress" class="b-input" placeholder="服务名称">
+                        </li>
+                        <li class="layui-nav-item b-li" style="line-height: 36px;">
+                            <input name="search_errorLocaltion" class="b-input" placeholder="异常位置">
+                        </li>
+                        <li class="layui-nav-item b-li" style="line-height: 36px;">
+                            <select name="search_state" class="b-input b-s">
+                                <option value="0" selected="selected">待处理</option>
+                                <option value="1">已处理</option>
+                                <option value="2">处理中</option>
+                            </select>
+                        </li>
+                        <li class="layui-nav-item b-li" style="line-height: 36px;">
+                            <input name="search_nickName" class="b-input" placeholder="处理人">
+                        </li>
+                        <span @click="search()" class="btn btn-primary">搜索</span>
+                    </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="layui-card">
                 <!--新增一个查询功能-->
-
                 <div class="layui-card-body">
                     <el-table
                             :data="tableData"
@@ -70,11 +95,12 @@
                                         size="mini"
                                         @click="handleEdit(scope.row)">状态变更
                                 </el-button>
-                                <el-button
-                                        size="mini"
-                                        type="danger"
-                                        @click="handleDetail(scope.row)">详细信息
-                                </el-button>
+<!--                                <el-button-->
+<!--                                        size="mini"-->
+<!--                                        type="danger"-->
+<!--                                        @click="handleDetail(scope.row)">详细信息-->
+<!--                                </el-button>-->
+                                <a lay-href="/bugly/exception/detail">异常细节</a>
 <!--                                <a lay-href="bugly/exception/detail">详细信息</a>-->
                             </template>
                         </el-table-column>

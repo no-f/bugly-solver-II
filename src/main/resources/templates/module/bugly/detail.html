@@ -10,11 +10,36 @@
     <link th:href="@{/static/css/layui/admin.css}" rel="stylesheet">
     <link th:href="@{/static/css/element-ui.2.13.0.css}" rel="stylesheet">
     <link th:href="@{/static/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/module/bugly.css}" rel="stylesheet">
 </head>
 <body>
 <div class="layui-fluid" id="app">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
+            <div class="layui-card-body">
+                <form name="bugly_detail_search">
+                <ul class="layui-nav" style="background-color: #fbfcff;color: #333;" lay-filter="">
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+                        <input name="search_threadId" class="b-input" placeholder="线程ID">
+                    </li>
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+                        <input name="search_machinneAddress" class="b-input" placeholder="服务名称">
+                    </li>
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+                        <input name="search_errorMessage" class="b-input" placeholder="错误信息">
+                    </li>
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+                        <input name="search_errorException" class="b-input" placeholder="错误异常">
+                    </li>
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+<!--                        <input type="text" class="form-control" id="shoot_day" name="search_time"-->
+<!--                               value="2019-10-10">-->
+                        <input name="search_time" class="b-input" placeholder="上报时间">
+                    </li>
+                    <span @click="search()" class="btn btn-primary">搜索</span>
+                </ul>
+                </form>
+            </div>
             <div class="layui-card">
                 <!--新增一个查询功能-->
                 <div class="layui-card-body">
@@ -37,13 +62,13 @@
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                width="350px"
+                                width="270px"
                                 prop="errorMessage"
                                 label="错误信息"
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                width="350px"
+                                width="270px"
                                 prop="errorException"
                                 label="错误异常"
                                 align="center">
@@ -87,6 +112,7 @@
 <script th:src="@{/static/js/jquery.validate.min.js}"></script>
 <script th:src="@{/static/js/layui/layui.js}"></script>
 <script th:src="@{/static/js/layui/lay/modules/layer.js}"></script>
+<!--<script th:src="@{/static/js/layui/lay/modules/laydate.js"></script>-->
 <script th:src="@{/static/js/vue.2.6.11.js}"></script>
 <script th:src="@{/static/js/element-ui.2.13.0.js}"></script>
 <script th:src="@{/static/js/modules/bugly/detail.js}"></script>

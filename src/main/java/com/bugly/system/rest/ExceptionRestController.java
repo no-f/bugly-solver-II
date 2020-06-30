@@ -4,6 +4,8 @@ import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.service.ExceptionService;
+import com.bugly.system.vo.BuglyDetailSearchVo;
+import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
@@ -34,6 +36,13 @@ public class ExceptionRestController {
         return exceptionService.findAll();
     }
 
+    @PostMapping("/search")
+    @ResponseBody
+    public ApiResponse search(@RequestBody BuglySearchVo buglySearchVo) {
+        String aa  = buglySearchVo.getErrorLocaltion();
+        return exceptionService.findAll();
+    }
+
     @GetMapping("/list")
     public ApiResponse getExceptions(@RequestParam("page") int page,
                                      @RequestParam("page_size") int pageSize) {
@@ -59,4 +68,12 @@ public class ExceptionRestController {
     public ApiResponse getDetails() {
         return exceptionService.getDetailsAll();
     }
+
+    @PostMapping("/detail_search")
+    @ResponseBody
+    public ApiResponse detailSearch(@RequestBody BuglyDetailSearchVo buglyDetailSearchVo) {
+        return exceptionService.getDetailsAll();
+    }
+
+
 }
