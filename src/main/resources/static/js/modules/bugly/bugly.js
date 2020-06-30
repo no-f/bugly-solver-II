@@ -23,15 +23,8 @@ $().ready(function(){
             },
 
             handleDetail:function(row) {
-                         $.ajax({
-                                url: context + 'bugly/exception/detail',
-                                type: 'GET',
-                                success: function (res) {
-                                }
-                            });
-
-//               window.location.href = context + "bugly/exception/detail?id="+row.id;
-//                 window.open(context + "bugly/exception/detail?id="+row.id);
+            //todo 这里还需要优化一下
+                         window.location.href = context + "bugly/exception/detail";
             },
 
             handleSizeChange: function (val) {
