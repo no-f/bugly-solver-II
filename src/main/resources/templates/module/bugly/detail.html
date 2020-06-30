@@ -32,11 +32,12 @@
                         <input name="search_errorException" class="b-input" placeholder="错误异常">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
-<!--                        <input type="text" class="form-control" id="shoot_day" name="search_time"-->
-<!--                               value="2019-10-10">-->
-                        <input name="search_time" class="b-input" placeholder="上报时间">
+                        <el-date-picker id="time" name="time" v-model="time"
+                                        type="daterange" start-placeholder="开始日期" end-placeholder="结束日期">
+                        </el-date-picker>
+
                     </li>
-                    <span @click="search()" class="btn btn-primary">搜索</span>
+                    <span style="margin-left: 1%;" @click="searchdetail()" class="btn btn-primary">搜索</span>
                 </ul>
                 </form>
             </div>
@@ -112,7 +113,6 @@
 <script th:src="@{/static/js/jquery.validate.min.js}"></script>
 <script th:src="@{/static/js/layui/layui.js}"></script>
 <script th:src="@{/static/js/layui/lay/modules/layer.js}"></script>
-<!--<script th:src="@{/static/js/layui/lay/modules/laydate.js"></script>-->
 <script th:src="@{/static/js/vue.2.6.11.js}"></script>
 <script th:src="@{/static/js/element-ui.2.13.0.js}"></script>
 <script th:src="@{/static/js/modules/bugly/detail.js}"></script>

@@ -13,4 +13,6 @@ public class BuglyDetailSearchVo {
     private String nickName;
     private String errorMessage;
     private String errorException;
+    private String startTime;
+    private String endTime;
 }
