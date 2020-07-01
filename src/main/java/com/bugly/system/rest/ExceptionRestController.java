@@ -58,21 +58,15 @@ public class ExceptionRestController {
     }
 
     @GetMapping("/detail_list")
-//    public ApiResponse getDetails(@RequestParam("page") int page,
-//                                  @RequestParam("page_size") int pageSize) {
-//        GetServerLogDto dto = new GetServerLogDto();
-//        dto.setPageNo(page);
-//        dto.setPageSize(pageSize);
-//        return exceptionService.getDetails(dto);
-//    }
-    public ApiResponse getDetails() {
-        return exceptionService.getDetailsAll();
+    public ApiResponse getDetails(String exceptionTypeId) {
+        String id = exceptionTypeId;
+        return exceptionService.getDetailsAll(exceptionTypeId);
     }
 
     @PostMapping("/detail_search")
     @ResponseBody
     public ApiResponse detailSearch(@RequestBody BuglyDetailSearchVo buglyDetailSearchVo) {
-        return exceptionService.getDetailsAll();
+        return exceptionService.getDetailsAll(null);
     }
 
 

@@ -33,8 +33,10 @@ $().ready(function(){
             },
 
             getExceptionDatailList: function () {
+                            var exceptionTypeId = $('#exceptionTypeId').val();
+                            console.log(exceptionTypeId)
                             $.ajax({
-                                url: context + 'exception/detail_list',
+                                url: context + 'exception/detail_list?exceptionTypeId='+exceptionTypeId,
                                 type: 'GET',
                                 success: function (res) {
                                     vm.tableData = res.data.sysUserList;

@@ -40,7 +40,8 @@ public class ExceptionController {
     }
 
     @GetMapping("/detail")
-    public String detail(){
+    public String detail(String id, Model model){
+        model.addAttribute("exceptionTypeId", id);
         return "module/bugly/detail";
     }
 

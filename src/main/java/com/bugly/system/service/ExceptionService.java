@@ -25,7 +25,7 @@ public interface ExceptionService {
 
     ApiResponse getDetails(GetServerLogDto getServerLogDto);
 
-    ApiResponse getDetailsAll();
+    ApiResponse getDetailsAll(String exceptionTypeId);
 
     /**
      * 异常处理

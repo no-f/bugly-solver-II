@@ -24,7 +24,8 @@ $().ready(function(){
 
             handleDetail:function(row) {
             //todo 这里还需要优化一下
-                         window.location.href = context + "bugly/exception/detail";
+                 var id = row.id;
+                 window.location.href = context + "bugly/exception/detail?id="+id;
             },
 
             handleSizeChange: function (val) {

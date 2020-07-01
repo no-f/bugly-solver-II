@@ -17,6 +17,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
             <div class="layui-card-body">
+                <input id="exceptionTypeId" name="exceptionTypeId" th:value="${exceptionTypeId}" type="hidden">
                 <form name="bugly_detail_search">
                 <ul class="layui-nav" style="background-color: #fbfcff;color: #333;" lay-filter="">
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
@@ -26,10 +27,10 @@
                         <input name="search_machinneAddress" class="b-input" placeholder="服务名称">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
-                        <input name="search_errorMessage" class="b-input" placeholder="错误信息">
+                        <input name="search_errorMessage" class="b-input" placeholder="错误信息关键字">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
-                        <input name="search_errorException" class="b-input" placeholder="错误异常">
+                        <input name="search_errorException" class="b-input" placeholder="错误异常关键字">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
                         <el-date-picker id="time" name="time" v-model="time"
@@ -42,7 +43,6 @@
                 </form>
             </div>
             <div class="layui-card">
-                <!--新增一个查询功能-->
                 <div class="layui-card-body">
                     <el-table
                             :data="tableData"

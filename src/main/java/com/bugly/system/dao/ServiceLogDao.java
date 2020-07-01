@@ -24,7 +24,13 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     List<ServiceLog> findByCondition(GetServerLogDto getServerLogDto);
 
     @Select("SELECT machine_address FROM `service_log` WHERE exception_type_id=#{id} LIMIT 1")
-    ServiceLog findByExceptionTypeId(String id);
+    ServiceLog findOneByExceptionTypeId(String id);
+
+    @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{exceptionTypeId} ORDER BY ctime DESC LIMIT #{pageSize}")
+    List<ServiceLog> findByExceptionTypeId(String exceptionTypeId, Integer pageSize);
+
+    @Select("SELECT * FROM `service_log` ORDER BY ctime DESC LIMIT #{pageSize}")
+    List<ServiceLog> findAll(Integer pageSize);
 
     @SelectProvider(type = ServiceLogProvider.class, method = "countCondition")
     int countCondition(GetServerLogDto getServerLogDto);

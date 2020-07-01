@@ -22,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.bugly.system.vo.CommonResult.success;
 
@@ -83,7 +80,7 @@ public class ExceptionServiceImpl implements ExceptionService {
             BeanUtils.copyProperties(e, exceptionTypeBo);
             exceptionTypeBo.setMtime(sf.format(e.getMtime()));
             exceptionTypeBo.setState(stateString(e.getState()));
-            ServiceLog serviceLog = serviceLogDao.findByExceptionTypeId(e.getId());
+            ServiceLog serviceLog = serviceLogDao.findOneByExceptionTypeId(e.getId());
             Optional.ofNullable(serviceLog).ifPresent(s-> exceptionTypeBo.setMachineAddress(s.getMachineAddress()));
             exceptionTypeBos.add(exceptionTypeBo);
         });
@@ -106,7 +103,7 @@ public class ExceptionServiceImpl implements ExceptionService {
             BeanUtils.copyProperties(e, exceptionTypeBo);
             exceptionTypeBo.setMtime(sf.format(e.getMtime()));
             exceptionTypeBo.setState(stateString(e.getState()));
-            ServiceLog serviceLog = serviceLogDao.findByExceptionTypeId(e.getId());
+            ServiceLog serviceLog = serviceLogDao.findOneByExceptionTypeId(e.getId());
             Optional.ofNullable(serviceLog).ifPresent(s-> exceptionTypeBo.setMachineAddress(s.getMachineAddress()));
         });
 
@@ -120,19 +117,36 @@ public class ExceptionServiceImpl implements ExceptionService {
 
 
     @Override
-    public ApiResponse getDetailsAll() {
-        List<ServiceExceptionBo> serviceExceptionBos = new ArrayList<>();
+    public ApiResponse getDetailsAll(String exceptionTypeId) {
+        List<ServiceLog> serviceLogs = new ArrayList<>();
+        if (null == exceptionTypeId || exceptionTypeId.isEmpty()) {
+            serviceLogs = serviceLogDao.findAll(10);
+        } else {
+            serviceLogs = serviceLogDao.findByExceptionTypeId(exceptionTypeId, 10);
 
-        ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
-        serviceExceptionBo.setMachineAddress("facepp-proxy-service-6d4c55f6f-bb4mm/10.244.7.41");
-        serviceExceptionBo.setErrorException("123123123");
-        serviceExceptionBo.setErrorMessage("zzzxxasdsdqsdasdasdasda");
-        serviceExceptionBo.setTriggerTime(String.valueOf(new Date()));
-        serviceExceptionBo.setThreadId(111);
-        serviceExceptionBo.setErrorLocation("com.bullyun.fpp.util.FaceUploadImage.socketConnect【行号=-2】");
-        serviceExceptionBos.add(serviceExceptionBo);
+        }
 
         JSONObject jsonObject = new JSONObject();
+        if (null == serviceLogs || serviceLogs.isEmpty()) {
+            jsonObject.put("total",0);
+            jsonObject.put("page",0);
+            jsonObject.put("page_size",10);
+            jsonObject.put("sysUserList", Collections.emptyList());
+            return ApiResponse.ofSuccess(jsonObject);
+        }
+        SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
+        List<ServiceExceptionBo> serviceExceptionBos = new ArrayList<>();
+        serviceLogs.forEach(serviceLog -> {
+            ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
+            BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
+            serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
+            if (null != serviceLog.getErrorException()) {
+                serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,200) + "......");
+            }
+            serviceExceptionBos.add(serviceExceptionBo);
+
+        });
+
         jsonObject.put("total",10);
         jsonObject.put("page",0);
         jsonObject.put("page_size",10);
@@ -147,7 +161,6 @@ public class ExceptionServiceImpl implements ExceptionService {
         serviceLogs.forEach(s -> {
             ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
             BeanUtils.copyProperties(s, serviceExceptionBo);
-            serviceExceptionBo.setCtime(String.valueOf(s.getCtime().getTime()));
             serviceExceptionBo.setTriggerTime(String.valueOf(s.getTriggerTime().getTime()));
             serviceExceptionBos.add(serviceExceptionBo);
         });
