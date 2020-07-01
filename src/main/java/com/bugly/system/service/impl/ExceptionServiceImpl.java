@@ -23,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -73,8 +74,8 @@ public class ExceptionServiceImpl implements ExceptionService {
 
 
     @Override
-    public ApiResponse findAll() {
-        List<ExceptionType> exceptionTypes = exceptionTypeDao.findAll();
+    public ApiResponse findAll(int page, int pageSize) {
+        List<ExceptionType> exceptionTypes = exceptionTypeDao.findAll((page-1)*pageSize, pageSize);
         List<ExceptionTypeBo> exceptionTypeBos = new ArrayList<>();
         SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
         exceptionTypes.forEach(e -> {
@@ -89,8 +90,8 @@ public class ExceptionServiceImpl implements ExceptionService {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("total",exceptionTypeDao.findAllNum());
-        jsonObject.put("page",0);
-        jsonObject.put("page_size",10);
+        jsonObject.put("page",page);
+        jsonObject.put("page_size",pageSize);
         jsonObject.put("sysUserList",exceptionTypeBos);
         return ApiResponse.ofSuccess(jsonObject);
     }
@@ -119,23 +120,23 @@ public class ExceptionServiceImpl implements ExceptionService {
 
 
     @Override
-    public ApiResponse getDetailsAll(String exceptionTypeId) {
+    public ApiResponse getDetailsAll(String exceptionTypeId, Integer page, Integer pageSize) {
         List<ServiceLog> serviceLogs = null;
         int count = 0;
         if (null == exceptionTypeId || exceptionTypeId.isEmpty()) {
-            serviceLogs = serviceLogDao.findAll(10);
+            serviceLogs = serviceLogDao.findAll((page-1) * pageSize , pageSize);
             count = serviceLogDao.findAllNum();
         } else {
-            serviceLogs = serviceLogDao.findByExceptionTypeId(exceptionTypeId, 10);
+            serviceLogs = serviceLogDao.findByExceptionTypeId(exceptionTypeId, (page-1) * pageSize , pageSize);
             count = serviceLogDao.findCountByExceptionTypeId(exceptionTypeId);
 
         }
 
         JSONObject jsonObject = new JSONObject();
         if (null == serviceLogs || serviceLogs.isEmpty()) {
-            jsonObject.put("total",0);
-            jsonObject.put("page",0);
-            jsonObject.put("page_size",10);
+            jsonObject.put("total",count);
+            jsonObject.put("page",page);
+            jsonObject.put("page_size",pageSize);
             jsonObject.put("sysUserList", Collections.emptyList());
             return ApiResponse.ofSuccess(jsonObject);
         }
@@ -156,8 +157,8 @@ public class ExceptionServiceImpl implements ExceptionService {
         });
 
         jsonObject.put("total",count);
-        jsonObject.put("page",0);
-        jsonObject.put("page_size",10);
+        jsonObject.put("page",page);
+        jsonObject.put("page_size",pageSize);
         jsonObject.put("sysUserList",serviceExceptionBos);
         return ApiResponse.ofSuccess(jsonObject);
     }
@@ -167,21 +168,26 @@ public class ExceptionServiceImpl implements ExceptionService {
     public ApiResponse getDetailsByCondition(BuglyDetailSearchVo buglyDetailSearchVo) {
         GetServerLogDto getServerLogDto = new GetServerLogDto();
         BeanUtils.copyProperties(buglyDetailSearchVo, getServerLogDto);
+        try {
 
-        if (null != buglyDetailSearchVo.getStartTime()) {
-            getServerLogDto.setStartTime(new Date());
-        }
+            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",Locale.ENGLISH);
+            if (null != buglyDetailSearchVo.getStartTime()) {
+                getServerLogDto.setStartTime(dff.parse(buglyDetailSearchVo.getStartTime()));
+            }
+            if (null != buglyDetailSearchVo.getEndTime()) {
+                getServerLogDto.setEndTime(dff.parse(buglyDetailSearchVo.getEndTime()));
+            }
 
-        if (null != buglyDetailSearchVo.getEndTime()) {
-            getServerLogDto.setEndTime(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         List<ServiceLog> serviceLogs = serviceLogDao.findByCondition(getServerLogDto);
         JSONObject jsonObject = new JSONObject();
         if (null == serviceLogs || serviceLogs.isEmpty()) {
             jsonObject.put("total",0);
-            jsonObject.put("page",0);
-            jsonObject.put("page_size",10);
+            jsonObject.put("page",buglyDetailSearchVo.getPage());
+            jsonObject.put("page_size",buglyDetailSearchVo.getPageSize());
             jsonObject.put("sysUserList", Collections.emptyList());
             return ApiResponse.ofSuccess(jsonObject);
         }

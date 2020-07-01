@@ -24,14 +24,14 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     @Select("SELECT machine_address FROM `service_log` WHERE exception_type_id=#{id} LIMIT 1")
     ServiceLog findOneByExceptionTypeId(String id);
 
-    @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{exceptionTypeId} ORDER BY ctime DESC LIMIT #{pageSize}")
-    List<ServiceLog> findByExceptionTypeId(String exceptionTypeId, Integer pageSize);
+    @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{exceptionTypeId} ORDER BY ctime DESC LIMIT #{no},#{pageSize}")
+    List<ServiceLog> findByExceptionTypeId(String exceptionTypeId, Integer no, Integer pageSize);
 
     @Select("SELECT count(id) FROM `service_log` WHERE exception_type_id=#{exceptionTypeId}")
     int findCountByExceptionTypeId(String exceptionTypeId);
 
-    @Select("SELECT * FROM `service_log` ORDER BY ctime DESC LIMIT #{pageSize}")
-    List<ServiceLog> findAll(Integer pageSize);
+    @Select("SELECT * FROM `service_log` ORDER BY ctime DESC LIMIT #{no}, #{pageSize}")
+    List<ServiceLog> findAll(Integer no, Integer pageSize);
 
     @Select("SELECT count(id) FROM `service_log`")
     int findAllNum();

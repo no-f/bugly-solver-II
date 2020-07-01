@@ -30,8 +30,8 @@ public class ExceptionRestController {
     }
 
     @GetMapping("/findAll")
-    public ApiResponse findAll() {
-        return exceptionService.findAll();
+    public ApiResponse findAll(int page, int pageSize) {
+        return exceptionService.findAll(page, pageSize);
     }
 
     @PostMapping("/search")
@@ -47,8 +47,8 @@ public class ExceptionRestController {
     }
 
     @GetMapping("/detail_list")
-    public ApiResponse getDetails(String exceptionTypeId) {
-        return exceptionService.getDetailsAll(exceptionTypeId);
+    public ApiResponse getDetails(String exceptionTypeId, int page, int pageSize) {
+        return exceptionService.getDetailsAll(exceptionTypeId, page, pageSize);
     }
 
     @PostMapping("/detail_search")

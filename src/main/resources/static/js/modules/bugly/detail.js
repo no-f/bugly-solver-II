@@ -34,9 +34,11 @@ $().ready(function(){
 
             getExceptionDatailList: function () {
                             var exceptionTypeId = $('#exceptionTypeId').val();
-                            console.log(exceptionTypeId)
+                            var page = this.current_page;
+                            var pageSize = this.page_size;
                             $.ajax({
-                                url: context + 'exception/detail_list?exceptionTypeId='+exceptionTypeId,
+                                url: context + 'exception/detail_list?exceptionTypeId='+exceptionTypeId+'&pageSize=' + pageSize
+                                + '&page=' + page,
                                 type: 'GET',
                                 success: function (res) {
                                     vm.tableData = res.data.sysUserList;

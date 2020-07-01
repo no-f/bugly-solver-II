@@ -20,18 +20,18 @@ public class ServiceLogProvider {
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {
-            sb.append(" AND locate(#{machinneAddress}, `machinne_address`)>0 ");
+            sb.append(" AND locate(#{machinneAddress}, `machine_address`)>0 ");
         }
 
         if (getServerLogDto.getStartTime() != null) {
-            sb.append(" AND `trigger_time` >={startTime} ");
+            sb.append(" AND `trigger_time` >=#{startTime} ");
         }
 
         if (getServerLogDto.getEndTime() != null) {
-            sb.append(" AND `trigger_time` <={endTime} ");
+            sb.append(" AND `trigger_time` <=#{endTime} ");
         }
         sb.append(" order by mtime desc ");
-        sb.append(" Limit ").append(getServerLogDto.getPage() * getServerLogDto.getPageSize())
+        sb.append(" Limit ").append((getServerLogDto.getPage() -1) * getServerLogDto.getPageSize())
                 .append(",").append(getServerLogDto.getPageSize());
         return sb.toString();
     }
@@ -47,15 +47,15 @@ public class ServiceLogProvider {
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {
-            sb.append(" AND locate(#{machinneAddress}, `machinne_address`)>0 ");
+            sb.append(" AND locate(#{machinneAddress}, `machine_address`)>0 ");
         }
 
         if (getServerLogDto.getStartTime() != null) {
-            sb.append(" AND `trigger_time` >={startTime} ");
+            sb.append(" AND `trigger_time` >=#{startTime} ");
         }
 
         if (getServerLogDto.getEndTime() != null) {
-            sb.append(" AND `trigger_time` <={endTime} ");
+            sb.append(" AND `trigger_time` <=#{endTime} ");
         }
         return sb.toString();
     }

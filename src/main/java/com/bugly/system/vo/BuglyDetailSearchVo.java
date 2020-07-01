@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class BuglyDetailSearchVo {
 
-    private String nickName;
+    private String machinneAddress;
     private String errorMessage;
     private String errorException;
     private String startTime;

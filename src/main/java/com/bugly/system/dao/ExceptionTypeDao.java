@@ -18,8 +18,8 @@ import java.util.List;
 @Repository
 public interface ExceptionTypeDao extends BaseMapper<ExceptionType> {
 
-    @Select("SELECT * FROM `exception_type` order by mtime desc limit 0, 10")
-    List<ExceptionType> findAll();
+    @Select("SELECT * FROM `exception_type` order by mtime desc limit #{no}, #{pageSize}")
+    List<ExceptionType> findAll(Integer no, Integer pageSize);
 
     @Select("SELECT count(id) FROM `exception_type`")
     int findAllNum();

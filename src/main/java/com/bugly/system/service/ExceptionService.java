@@ -24,7 +24,7 @@ public interface ExceptionService {
      * 获取所有异常类型列表
      * @return
      */
-    ApiResponse findAll();
+    ApiResponse findAll(int page, int pageSize);
 
     /**
      * 根据获取所有异常类型列表
@@ -37,7 +37,7 @@ public interface ExceptionService {
      * @param exceptionTypeId
      * @return
      */
-    ApiResponse getDetailsAll(String exceptionTypeId);
+    ApiResponse getDetailsAll(String exceptionTypeId, Integer page, Integer pageSize);
 
     /**
      * 根据条件查询异常信息列表

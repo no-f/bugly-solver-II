@@ -19,7 +19,7 @@ public class ExceptionTypeProvider {
             sb.append(" AND locate(#{errorLocaltion}, `error_location`)>0 ");
         }
         sb.append(" order by mtime desc ");
-        sb.append(" Limit ").append(buglySearchVo.getPage() * buglySearchVo.getPageSize())
+        sb.append(" Limit ").append((buglySearchVo.getPage()-1) * buglySearchVo.getPageSize())
                 .append(",").append(buglySearchVo.getPageSize());
         return sb.toString();
     }
