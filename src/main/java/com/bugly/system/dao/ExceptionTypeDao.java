@@ -16,8 +16,11 @@ import java.util.List;
 @Repository
 public interface ExceptionTypeDao extends BaseMapper<ExceptionType> {
 
-    @Select("SELECT * FROM `exception_type`")
+    @Select("SELECT * FROM `exception_type` order by mtime desc limit 0, 10")
     List<ExceptionType> findAll();
+
+    @Select("SELECT count(id) FROM `exception_type`")
+    int findAllNum();
 
 //    @SelectProvider(type = ExceptionTypeProvider.class, method = "findByCondition")
     List<ExceptionType> findByCondition(GetServerLogDto getServerLogDto);

@@ -14,8 +14,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ExceptionTypeBo {
 
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+
+    private String id;
 
     @JsonProperty("error_location")
     private String errorLocation;

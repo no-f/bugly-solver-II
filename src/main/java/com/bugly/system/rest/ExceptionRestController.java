@@ -32,7 +32,6 @@ public class ExceptionRestController {
 
     @GetMapping("/findAll")
     public ApiResponse findAll() {
-        //需要删除的
         return exceptionService.findAll();
     }
 
@@ -53,7 +52,8 @@ public class ExceptionRestController {
     }
 
     @PostMapping("/deal_with")
-    public CommonResult<Boolean> dealWith(@Validated DealWithServerLogDto dealWithServerLogDto) {
+    @ResponseBody
+    public ApiResponse dealWith(@RequestBody DealWithServerLogDto dealWithServerLogDto) {
         return exceptionService.dealWith(dealWithServerLogDto);
     }
 

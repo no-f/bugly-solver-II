@@ -34,6 +34,7 @@ public class ExceptionController {
         Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
         String username = (String)authentication.getPrincipal();
         SysUser sysUser = sysUserService.findByName(username);
+        model.addAttribute("exceptionTypeId", id);
         model.addAttribute("sysUser", sysUser);
         return "module/bugly/updaterBugly";
     }

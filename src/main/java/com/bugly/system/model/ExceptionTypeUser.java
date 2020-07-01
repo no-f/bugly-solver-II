@@ -18,5 +18,6 @@ public class ExceptionTypeUser extends DeletableDO implements Serializable {
     private String id;
     private String exceptionTypeId;
     private String userId;
+    private String remark;
 
 }

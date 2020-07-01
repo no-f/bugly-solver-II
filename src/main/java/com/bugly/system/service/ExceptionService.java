@@ -27,7 +27,12 @@ public interface ExceptionService {
 
     ApiResponse getDetailsAll();
 
-    CommonResult<Boolean> dealWith(DealWithServerLogDto dealWithServerLogDto);
+    /**
+     * 异常处理
+     * @param dealWithServerLogDto
+     * @return
+     */
+    ApiResponse dealWith(DealWithServerLogDto dealWithServerLogDto);
 
 
 

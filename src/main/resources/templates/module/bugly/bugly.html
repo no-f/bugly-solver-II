@@ -52,6 +52,7 @@
                             default-expand-all
                             :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
                         <el-table-column
+                                display="none"
                                 prop="id"
                                 label="ID"
                                 align="center">
@@ -66,11 +67,6 @@
                                 width="350px"
                                 prop="errorLocation"
                                 label="错误位置"
-                                align="center">
-                        </el-table-column>
-                        <el-table-column
-                                prop="tag"
-                                label="标签"
                                 align="center">
                         </el-table-column>
                         <el-table-column
@@ -89,6 +85,11 @@
                                 label="发生次数"
                                 align="center">
                         </el-table-column>
+                        <el-table-column
+                                prop="tag"
+                                label="标签"
+                                align="center">
+                        </el-table-column>
                         <el-table-column  width="200px" label="操作"  align="center">
                             <template slot-scope="scope">
                                 <el-button
@@ -101,7 +102,6 @@
                                         @click="handleDetail(scope.row)">详细信息
                                 </el-button>
 <!--                                <a lay-href="/bugly/exception/detail">异常细节</a>-->
-<!--                                <a lay-href="bugly/exception/detail">详细信息</a>-->
                             </template>
                         </el-table-column>
                     </el-table>
