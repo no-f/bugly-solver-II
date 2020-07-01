@@ -9,8 +9,11 @@ import lombok.Data;
 @Data
 public class BuglySearchVo {
 
-    private int state;
+    private Integer state;
     private String nickName;
     private String errorLocaltion;
     private String machinneAddress;
+    private Integer pageSize;
+    private Integer page;
+
 }

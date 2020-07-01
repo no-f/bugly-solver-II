@@ -20,11 +20,11 @@
                 <input id="exceptionTypeId" name="exceptionTypeId" th:value="${exceptionTypeId}" type="hidden">
                 <form name="bugly_detail_search">
                 <ul class="layui-nav" style="background-color: #fbfcff;color: #333;" lay-filter="">
+<!--                    <li class="layui-nav-item b-li" style="line-height: 36px;">-->
+<!--                        <input name="search_threadId" class="b-input" placeholder="线程ID">-->
+<!--                    </li>-->
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
-                        <input name="search_threadId" class="b-input" placeholder="线程ID">
-                    </li>
-                    <li class="layui-nav-item b-li" style="line-height: 36px;">
-                        <input name="search_machinneAddress" class="b-input" placeholder="服务名称">
+                        <input name="search_machinneAddress" class="b-input" placeholder="机器地址">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
                         <input name="search_errorMessage" class="b-input" placeholder="错误信息关键字">
@@ -52,24 +52,22 @@
                             default-expand-all
                             :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
                         <el-table-column
-                                prop="threadId"
-                                label="线程ID"
+                                prop="id"
+                                label="id"
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                width="150px"
                                 prop="machineAddress"
                                 label="机器地址"
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                width="270px"
                                 prop="errorMessage"
                                 label="错误信息"
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                width="270px"
+
                                 prop="errorException"
                                 label="错误异常"
                                 align="center">

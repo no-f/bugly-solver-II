@@ -2,7 +2,6 @@ package com.bugly.system.rest;
 
 import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
-import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import com.bugly.system.vo.BuglySearchVo;
@@ -10,12 +9,12 @@ import com.bugly.system.vo.CommonResult;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
  * @author no_f
+ * rest
  * @create 2020-06-16 17:46
  */
 @RestController
@@ -38,17 +37,7 @@ public class ExceptionRestController {
     @PostMapping("/search")
     @ResponseBody
     public ApiResponse search(@RequestBody BuglySearchVo buglySearchVo) {
-        String aa  = buglySearchVo.getErrorLocaltion();
-        return exceptionService.findAll();
-    }
-
-    @GetMapping("/list")
-    public ApiResponse getExceptions(@RequestParam("page") int page,
-                                     @RequestParam("page_size") int pageSize) {
-        GetServerLogDto dto = new GetServerLogDto();
-        dto.setPageNo(page);
-        dto.setPageSize(pageSize);
-        return exceptionService.getExceptions(dto);
+        return exceptionService.findByCondition(buglySearchVo);
     }
 
     @PostMapping("/deal_with")
@@ -59,14 +48,13 @@ public class ExceptionRestController {
 
     @GetMapping("/detail_list")
     public ApiResponse getDetails(String exceptionTypeId) {
-        String id = exceptionTypeId;
         return exceptionService.getDetailsAll(exceptionTypeId);
     }
 
     @PostMapping("/detail_search")
     @ResponseBody
     public ApiResponse detailSearch(@RequestBody BuglyDetailSearchVo buglyDetailSearchVo) {
-        return exceptionService.getDetailsAll(null);
+        return exceptionService.getDetailsByCondition(buglyDetailSearchVo);
     }
 
 

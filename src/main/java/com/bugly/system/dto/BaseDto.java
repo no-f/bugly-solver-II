@@ -1,6 +1,5 @@
 package com.bugly.system.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,9 +13,7 @@ public class BaseDto implements Serializable {
 
     private static final long serialVersionUID = -6349345170667962883L;
 
-    @JsonProperty("page_no")
-    private Integer pageNo = 0;
+    private Integer page = 0;
 
-    @JsonProperty("page_size")
     private Integer pageSize = 20;
 }

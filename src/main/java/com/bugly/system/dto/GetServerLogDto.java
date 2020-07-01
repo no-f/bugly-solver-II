@@ -1,8 +1,9 @@
 package com.bugly.system.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
  * @author no_f
@@ -14,27 +15,14 @@ public class GetServerLogDto extends BaseDto {
 
     private static final long serialVersionUID = 1391340588728829310L;
 
-    @JsonProperty("service_name")
-    private String serviceName;
+    private String errorMessage;
 
-    @JsonProperty("current_cluster")
-    private String currentCluster;
+    private String errorException;
 
-    private Integer state;
+    private String machinneAddress;
 
-    @JsonProperty("user_id")
-    private Long userId;
+    private Date startTime;
 
-    private Integer type;
-
-    private String key;
-
-    private String tag;
-
-    @JsonProperty("start_time")
-    private Long startTime;
-
-    @JsonProperty("end_time")
-    private Long endTime;
+    private Date endTime;
 
 }

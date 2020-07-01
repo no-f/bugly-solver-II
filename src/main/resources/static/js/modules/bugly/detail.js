@@ -16,7 +16,7 @@ $().ready(function(){
                     maxmin: true,
                     shadeClose: false,
                     area: ['800px', '700px'],
-                    content: context + 'bugly/exception/detail_show?exception='+row.errorException,
+                    content: context + 'bugly/exception/detail_show?id='+row.id,
                     end: function () {
                         vm.getExceptionDatailList();
                     }
@@ -49,8 +49,9 @@ $().ready(function(){
 
             searchdetail: function () {
                 var searchBuglyDatail = {
+                       'pageSize':this.page_size,
+                       'page':this.current_page,
                        'machinneAddress':bugly_detail_search.search_machinneAddress.value,
-                       'threadId':bugly_detail_search.search_threadId.value,
                        'errorMessage':bugly_detail_search.search_errorMessage.value,
                        'errorException':bugly_detail_search.search_errorException.value,
                        'startTime':this.time[0],

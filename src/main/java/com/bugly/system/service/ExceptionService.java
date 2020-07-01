@@ -2,7 +2,8 @@ package com.bugly.system.service;
 
 import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
-import com.bugly.system.dto.GetServerLogDto;
+import com.bugly.system.vo.BuglyDetailSearchVo;
+import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
 import net.sf.json.JSONObject;
 
@@ -19,13 +20,31 @@ public interface ExceptionService {
      */
     CommonResult<Boolean> saveServiceLog(JSONObject content);
 
+    /**
+     * 获取所有异常类型列表
+     * @return
+     */
     ApiResponse findAll();
 
-    ApiResponse getExceptions(GetServerLogDto getServerLogDto);
+    /**
+     * 根据获取所有异常类型列表
+     * @return
+     */
+    ApiResponse findByCondition(BuglySearchVo buglySearchVo);
 
-    ApiResponse getDetails(GetServerLogDto getServerLogDto);
-
+    /**
+     * 获取所有异常信息列表
+     * @param exceptionTypeId
+     * @return
+     */
     ApiResponse getDetailsAll(String exceptionTypeId);
+
+    /**
+     * 根据条件查询异常信息列表
+     * @param buglyDetailSearchVo
+     * @return
+     */
+    ApiResponse getDetailsByCondition(BuglyDetailSearchVo buglyDetailSearchVo);
 
     /**
      * 异常处理

@@ -54,8 +54,10 @@ $().ready(function(){
 
             search: function () {
                     var searchBugly = {
-                           'machinneAddress':bugly_search.search_machinneAddress.value,
-                           'nickName':bugly_search.search_nickName.value,
+//                           'machinneAddress':bugly_search.search_machinneAddress.value,
+//                           'nickName':bugly_search.search_nickName.value,
+                           'pageSize':this.page_size,
+                           'page':this.current_page,
                            'errorLocaltion':bugly_search.search_errorLocaltion.value,
                            'state':bugly_search.search_state.value
                            };

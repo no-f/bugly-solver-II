@@ -9,10 +9,11 @@ import lombok.Data;
 @Data
 public class BuglyDetailSearchVo {
 
-    private String threadId;
     private String nickName;
     private String errorMessage;
     private String errorException;
     private String startTime;
     private String endTime;
+    private Integer page;
+    private Integer pageSize;
 }

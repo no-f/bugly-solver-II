@@ -15,6 +15,8 @@ import com.bugly.system.model.ExceptionTypeUser;
 import com.bugly.system.model.ServiceLog;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.service.SysUserService;
+import com.bugly.system.vo.BuglyDetailSearchVo;
+import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -94,8 +96,8 @@ public class ExceptionServiceImpl implements ExceptionService {
     }
 
     @Override
-    public ApiResponse getExceptions(GetServerLogDto getServerLogDto) {
-        List<ExceptionType> exceptionTypes = exceptionTypeDao.findByCondition(getServerLogDto);
+    public ApiResponse findByCondition(BuglySearchVo buglySearchVo) {
+        List<ExceptionType> exceptionTypes = exceptionTypeDao.findByCondition(buglySearchVo);
         List<ExceptionTypeBo> exceptionTypeBos = new ArrayList<>();
         SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
         exceptionTypes.forEach(e -> {
@@ -105,12 +107,12 @@ public class ExceptionServiceImpl implements ExceptionService {
             exceptionTypeBo.setState(stateString(e.getState()));
             ServiceLog serviceLog = serviceLogDao.findOneByExceptionTypeId(e.getId());
             Optional.ofNullable(serviceLog).ifPresent(s-> exceptionTypeBo.setMachineAddress(s.getMachineAddress()));
+            exceptionTypeBos.add(exceptionTypeBo);
         });
-
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("total",exceptionTypeDao.countCondition(getServerLogDto));
-        jsonObject.put("page",0);
-        jsonObject.put("page_size",10);
+        jsonObject.put("total",exceptionTypeDao.countCondition(buglySearchVo));
+        jsonObject.put("page",buglySearchVo.getPage());
+        jsonObject.put("page_size",buglySearchVo.getPageSize());
         jsonObject.put("sysUserList",exceptionTypeBos);
         return ApiResponse.ofSuccess(jsonObject);
     }
@@ -118,11 +120,14 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     @Override
     public ApiResponse getDetailsAll(String exceptionTypeId) {
-        List<ServiceLog> serviceLogs = new ArrayList<>();
+        List<ServiceLog> serviceLogs = null;
+        int count = 0;
         if (null == exceptionTypeId || exceptionTypeId.isEmpty()) {
             serviceLogs = serviceLogDao.findAll(10);
+            count = serviceLogDao.findAllNum();
         } else {
             serviceLogs = serviceLogDao.findByExceptionTypeId(exceptionTypeId, 10);
+            count = serviceLogDao.findCountByExceptionTypeId(exceptionTypeId);
 
         }
 
@@ -141,34 +146,63 @@ public class ExceptionServiceImpl implements ExceptionService {
             BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
             serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
             if (null != serviceLog.getErrorException()) {
-                serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,200) + "......");
+                serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,100) + "......");
+            }
+            if (null != serviceLog.getErrorMessage()) {
+                serviceExceptionBo.setErrorMessage(serviceLog.getErrorMessage().substring(0,100) + "......");
             }
             serviceExceptionBos.add(serviceExceptionBo);
 
         });
 
-        jsonObject.put("total",10);
+        jsonObject.put("total",count);
         jsonObject.put("page",0);
         jsonObject.put("page_size",10);
         jsonObject.put("sysUserList",serviceExceptionBos);
         return ApiResponse.ofSuccess(jsonObject);
     }
 
+
     @Override
-    public ApiResponse getDetails(GetServerLogDto getServerLogDto) {
+    public ApiResponse getDetailsByCondition(BuglyDetailSearchVo buglyDetailSearchVo) {
+        GetServerLogDto getServerLogDto = new GetServerLogDto();
+        BeanUtils.copyProperties(buglyDetailSearchVo, getServerLogDto);
+
+        if (null != buglyDetailSearchVo.getStartTime()) {
+            getServerLogDto.setStartTime(new Date());
+        }
+
+        if (null != buglyDetailSearchVo.getEndTime()) {
+            getServerLogDto.setEndTime(new Date());
+        }
+
         List<ServiceLog> serviceLogs = serviceLogDao.findByCondition(getServerLogDto);
+        JSONObject jsonObject = new JSONObject();
+        if (null == serviceLogs || serviceLogs.isEmpty()) {
+            jsonObject.put("total",0);
+            jsonObject.put("page",0);
+            jsonObject.put("page_size",10);
+            jsonObject.put("sysUserList", Collections.emptyList());
+            return ApiResponse.ofSuccess(jsonObject);
+        }
+        SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
         List<ServiceExceptionBo> serviceExceptionBos = new ArrayList<>();
-        serviceLogs.forEach(s -> {
+        serviceLogs.forEach(serviceLog -> {
             ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
-            BeanUtils.copyProperties(s, serviceExceptionBo);
-            serviceExceptionBo.setTriggerTime(String.valueOf(s.getTriggerTime().getTime()));
+            BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
+            serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
+            if (null != serviceLog.getErrorException()) {
+                serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,100) + "......");
+            }
+            if (null != serviceLog.getErrorMessage()) {
+                serviceExceptionBo.setErrorMessage(serviceLog.getErrorMessage().substring(0,100) + "......");
+            }
             serviceExceptionBos.add(serviceExceptionBo);
         });
 
-        JSONObject jsonObject = new JSONObject();
         jsonObject.put("total",serviceLogDao.countCondition(getServerLogDto));
-        jsonObject.put("page",0);
-        jsonObject.put("page_size",10);
+        jsonObject.put("page",buglyDetailSearchVo.getPage());
+        jsonObject.put("page_size",buglyDetailSearchVo.getPageSize());
         jsonObject.put("sysUserList",serviceExceptionBos);
         return ApiResponse.ofSuccess(jsonObject);
     }
