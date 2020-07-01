@@ -4,6 +4,7 @@ import com.bugly.common.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,11 +13,10 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class ServiceLog extends DeletableDO {
+public class ServiceLog extends DeletableDO implements Serializable {
 
-
-    private Long id;
-    private Long exceptionTypeId;
+    private String id;
+    private String exceptionTypeId;
     private String currentCluster;
     private String serviceName;
     private String machineAddress;

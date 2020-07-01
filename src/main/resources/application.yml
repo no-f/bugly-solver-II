@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /thyme
+    context-path: /bugly
     session:
       timeout: 1800
   connection-timeout: 10000

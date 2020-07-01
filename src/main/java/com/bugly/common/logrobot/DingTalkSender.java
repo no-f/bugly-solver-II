@@ -1,5 +1,7 @@
 package com.bugly.common.logrobot;
 
+import net.sf.json.JSONObject;
+
 /**
  * @author bbb
  * @since 2020-05-26
@@ -12,8 +14,8 @@ public class DingTalkSender {
      * @param webHookUrl 钉钉报警群群地址
      *
      */
-    public static void sendDingTalk(String content, String webHookUrl) {
-        if (localVerify(webHookUrl, content)) {
+    public static void sendDingTalk(JSONObject content, String webHookUrl) {
+        if (localVerify(content, webHookUrl)) {
             return;
         }
         TextMessage message = new TextMessage(content);
@@ -21,7 +23,7 @@ public class DingTalkSender {
         DingTalkTool.send(message);
     }
 
-    private static Boolean localVerify(String content, String webHookUrl) {
+    private static Boolean localVerify(JSONObject content, String webHookUrl) {
         if (null == webHookUrl || webHookUrl.isEmpty()) {
             return true;
         }

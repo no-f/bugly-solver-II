@@ -12,6 +12,11 @@ import net.sf.json.JSONObject;
  */
 public interface ExceptionService {
 
+    /**
+     * 第三方 报警异常存储
+     * @param content
+     * @return
+     */
     CommonResult<Boolean> saveServiceLog(JSONObject content);
 
     ApiResponse findAll();

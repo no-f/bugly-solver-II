@@ -5,17 +5,18 @@ import com.bugly.common.logrobot.DingTalkSender;
 import com.bugly.common.utils.UUIDUtils;
 import com.bugly.system.bo.ExceptionTypeBo;
 import com.bugly.system.bo.ServiceExceptionBo;
+import com.bugly.system.dao.AlarmConfigDao;
 import com.bugly.system.dao.ExceptionTypeDao;
 import com.bugly.system.dao.ProcessingRecordDao;
 import com.bugly.system.dao.ServiceLogDao;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
+import com.bugly.system.entity.AlarmConfig;
 import com.bugly.system.model.ExceptionType;
 import com.bugly.system.model.ProcessingRecord;
 import com.bugly.system.model.ServiceLog;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.vo.CommonResult;
-import com.bugly.system.vo.PageResult;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,12 @@ import static com.bugly.system.vo.CommonResult.success;
  */
 @Service
 public class ExceptionServiceImpl implements ExceptionService {
-    private static final String webhookUrl = "";
 
     @Autowired
     private ServiceLogDao serviceLogDao;
+
+    @Autowired
+    private AlarmConfigDao alarmConfigDao;
 
     @Autowired
     private ExceptionTypeDao exceptionTypeDao;
@@ -46,13 +49,20 @@ public class ExceptionServiceImpl implements ExceptionService {
     private ProcessingRecordDao processingRecordDao;
 
 
+    /**
+     * 1.save 不同的异常类型
+     * 2.save 每条异常记录
+     * 是不是每次都得去数据库查询配置地址？？？优化??
+     * @param content
+     * @return
+     */
     @Override
     public CommonResult<Boolean> saveServiceLog(JSONObject content) {
         ServiceLog serviceLog = getData(JSONObject.fromObject(content));
         serviceLog.setExceptionTypeId(exceptionTypeAction(content));
         serviceLogDao.insert(serviceLog);
-        //TODO 传过来的参数格式注意一下
-        DingTalkSender.sendDingTalk(content.toString(), webhookUrl);
+        AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
+        DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         return success(true);
     }
 
@@ -154,37 +164,40 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     private ServiceLog getData(JSONObject jsonObject) {
         ServiceLog serviceLog = new ServiceLog();
+        try {
+            if (jsonObject.containsKey("currentCluster")) {
+                serviceLog.setCurrentCluster((String) jsonObject.get("currentCluster"));
+            }
+            if (jsonObject.containsKey("serviceName")) {
+                serviceLog.setServiceName((String) jsonObject.get("serviceName"));
+            }
+            if (jsonObject.containsKey("machineAddress")) {
+                serviceLog.setMachineAddress((String) jsonObject.get("machineAddress"));
+            }
+            if (jsonObject.containsKey("triggerTime")) {
+                String triggerTime = (String) jsonObject.get("triggerTime");
+                serviceLog.setTriggerTime(new Date(Long.valueOf(triggerTime)));
+            }
 
-        if (jsonObject.containsKey("currentCluster")) {
-            serviceLog.setCurrentCluster((String) jsonObject.get("currentCluster"));
-        }
-        if (jsonObject.containsKey("serviceName")) {
-            serviceLog.setServiceName((String) jsonObject.get("serviceName"));
-        }
-        if (jsonObject.containsKey("machineAddress")) {
-            serviceLog.setMachineAddress((String) jsonObject.get("machineAddress"));
-        }
-        if (jsonObject.containsKey("triggerTime")) {
-            Long triggerTime = (Long) jsonObject.get("triggerTime");
-            serviceLog.setTriggerTime(new Date(triggerTime));
-        }
+            if (jsonObject.containsKey("threadId")) {
+                serviceLog.setThreadId(Integer.parseInt(jsonObject.get("threadId").toString()));
+            }
+            if (jsonObject.containsKey("level")) {
+                serviceLog.setLevel((String) jsonObject.get("level"));
+            }
 
-        if (jsonObject.containsKey("threadId")) {
-            serviceLog.setThreadId((int) jsonObject.get("threadId"));
-        }
-        if (jsonObject.containsKey("level")) {
-            serviceLog.setLevel((String) jsonObject.get("level"));
-        }
-
-        if (jsonObject.containsKey("errorMessage")) {
-            serviceLog.setErrorMessage((String) jsonObject.get("errorMessage"));
-        }
-        if (jsonObject.containsKey("errorException")) {
-            serviceLog.setErrorException((String) jsonObject.get("errorException"));
+            if (jsonObject.containsKey("errorMessage")) {
+                serviceLog.setErrorMessage((String) jsonObject.get("errorMessage"));
+            }
+            if (jsonObject.containsKey("errorException")) {
+                serviceLog.setErrorException((String) jsonObject.get("errorException"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Date day = new Date();
-        //todo 目前这个类型不知道填什么东西暂时先放着
-        serviceLog.setType(0).setDeleted(0).setCtime(day).setMtime(day);
+        //todo 目前这个type类型不知道填什么东西暂时先放着
+        serviceLog.setId(UUIDUtils.getUUID()).setType(0).setDeleted(0).setCtime(day).setMtime(day);
         return serviceLog;
     }
 
@@ -193,26 +206,23 @@ public class ExceptionServiceImpl implements ExceptionService {
      * @param jsonObject
      * @return
      */
-    private Long exceptionTypeAction(JSONObject jsonObject) {
-        Long id = Long.valueOf(UUIDUtils.getUUID());
+    private String exceptionTypeAction(JSONObject jsonObject) {
         if (jsonObject.containsKey("errorLocation")) {
             String location = (String) jsonObject.get("errorLocation");
             Date day = new Date();
             ExceptionType e = exceptionTypeDao.findByLocal(location);
             if (null == e) {
                 e = new ExceptionType();
-                e.setId(id).setDeleted(0).setCtime(day).setMtime(day);
+                e.setId(UUIDUtils.getUUID()).setErrorLocation(location).setState(0).setDeleted(0).setCtime(day).setMtime(day);
                 e.setNum(1);
                 exceptionTypeDao.insert(e);
             } else {
-
                 e.setNum(e.getNum() + 1).setMtime(day);
-                exceptionTypeDao.update(e);
+                exceptionTypeDao.updateById(e);
             }
-
             return e.getId();
         }
-        return id;
+        return "0";
     }
 
     private String stateString(int state) {

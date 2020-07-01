@@ -4,6 +4,7 @@ import com.bugly.common.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,9 +13,11 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class ExceptionType extends DeletableDO {
+public class ExceptionType extends DeletableDO implements Serializable {
 
-    private Long id;
+    static final long serialVersionUID = 1L;
+
+    private String id;
     private String errorLocation;
     private Integer num;
     private Integer state;
