@@ -15,10 +15,10 @@ spring:
     username: root
     password: zxcv1234
     type: com.alibaba.druid.pool.DruidDataSource
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    timeout: 5000
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    timeout: 5000
 logging:
   config: classpath:log4j2/log4j2-spring-dev.xml

@@ -1,11 +1,7 @@
 package com.bugly.system.config.filter;
 
-import com.bugly.common.base.Constants;
-import com.bugly.system.config.exception.ValidateCodeException;
 import com.bugly.system.config.security.handler.AuthenticationFailureHandler;
-import com.bugly.system.service.RedisService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -28,7 +24,7 @@ import java.io.IOException;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-    private final RedisService redisService;
+//    private final RedisService redisService;
 
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -53,20 +49,20 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
      * 暂时去掉验证码功能 不需要
      * @param request
      */
-    private void codeValidate(HttpServletRequest request) {
-        //获取传入的验证码
-        String code = request.getParameter("code");
-        String uuidCode = request.getParameter("uuidCode");
-        if (StringUtils.isEmpty(code)){
-            throw new ValidateCodeException("验证码的值不能为空");
-        }
-        String codeVal = redisService.getCodeVal(uuidCode);
-        if (StringUtils.isEmpty(codeVal)) {
-            throw new ValidateCodeException("验证码已过期");
-        }
-        if (!StringUtils.equals(codeVal,code)) {
-            throw new ValidateCodeException("验证码不匹配");
-        }
-    }
+//    private void codeValidate(HttpServletRequest request) {
+//        //获取传入的验证码
+//        String code = request.getParameter("code");
+//        String uuidCode = request.getParameter("uuidCode");
+//        if (StringUtils.isEmpty(code)){
+//            throw new ValidateCodeException("验证码的值不能为空");
+//        }
+//        String codeVal = redisService.getCodeVal(uuidCode);
+//        if (StringUtils.isEmpty(codeVal)) {
+//            throw new ValidateCodeException("验证码已过期");
+//        }
+//        if (!StringUtils.equals(codeVal,code)) {
+//            throw new ValidateCodeException("验证码不匹配");
+//        }
+//    }
 }
 

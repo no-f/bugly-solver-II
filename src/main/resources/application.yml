@@ -37,7 +37,7 @@ loginCode:
 # security 配置
 security:
   #同一账号，最大登录数
-  max-session: 10
+  max-session: 100
   # 超出最大登录数，是否阻止登录
   prevents-login: false
   # 放行url
