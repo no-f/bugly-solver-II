@@ -13,8 +13,8 @@
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    访问量
-                    <span class="layui-badge layui-bg-red layuiadmin-badge">日</span>
+                    异常总量
+                    <span class="layui-badge layui-bg-red layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
                     <p class="layuiadmin-big-font">92378</p>
@@ -24,7 +24,7 @@
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    用户量
+                    异常种类量
                     <span class="layui-badge layui-bg-cyan layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
@@ -35,8 +35,8 @@
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    新用户
-                    <span class="layui-badge layui-bg-blue layuiadmin-badge">周</span>
+                    异常量
+                    <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
                     <p class="layuiadmin-big-font">2305</p>
@@ -46,8 +46,8 @@
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    接口调用量
-                    <span class="layui-badge layui-bg-orange layuiadmin-badge">月</span>
+                    待解决异常量
+                    <span class="layui-badge layui-bg-orange layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
                     <p class="layuiadmin-big-font">56,866</p>
@@ -81,24 +81,24 @@
         el: '#app',
         data: {
             chartData: {
-                columns: ['日期', '用户访问量', '接口调用量'],
+                columns: ['日期', '异常总量', '待解救异常量'],
                 rows: [
-                    {'日期': '1月', '用户访问量': 1393, '接口调用量': 345},
-                    {'日期': '2月', '用户访问量': 3530, '接口调用量': 6789},
-                    {'日期': '3月', '用户访问量': 2923, '接口调用量': 2345},
-                    {'日期': '4月', '用户访问量': 1723, '接口调用量': 1423},
-                    {'日期': '5月', '用户访问量': 3792, '接口调用量': 7890},
-                    {'日期': '6月', '用户访问量': 4593, '接口调用量': 4293},
-                    {'日期': '7月', '用户访问量': 3678, '接口调用量': 1093},
-                    {'日期': '8月', '用户访问量': 789, '接口调用量': 3456},
-                    {'日期': '9月', '用户访问量': 5689, '接口调用量': 7890},
-                    {'日期': '10月', '用户访问量': 3241, '接口调用量': 8907},
-                    {'日期': '11月', '用户访问量': 8765, '接口调用量': 9012},
-                    {'日期': '12月', '用户访问量': 6543, '接口调用量': 1023}
+                    {'日期': '1月', '异常总量': 1393, '待解救异常量': 345},
+                    {'日期': '2月', '异常总量': 3530, '待解救异常量': 6789},
+                    {'日期': '3月', '异常总量': 2923, '待解救异常量': 2345},
+                    {'日期': '4月', '异常总量': 1723, '待解救异常量': 1423},
+                    {'日期': '5月', '异常总量': 3792, '待解救异常量': 7890},
+                    {'日期': '6月', '异常总量': 4593, '待解救异常量': 4293},
+                    {'日期': '7月', '异常总量': 3678, '待解救异常量': 1093},
+                    {'日期': '8月', '异常总量': 789, '待解救异常量': 3456},
+                    {'日期': '9月', '异常总量': 5689, '待解救异常量': 7890},
+                    {'日期': '10月', '异常总量': 3241, '待解救异常量': 8907},
+                    {'日期': '11月', '异常总量': 8765, '待解救异常量': 9012},
+                    {'日期': '12月', '异常总量': 6543, '待解救异常量': 1023}
                 ]
             },
             chartSettings: {
-                metrics: ['用户访问量', '接口调用量'],
+                metrics: ['异常总量', '待解救异常量'],
                 dimension: ['日期']
             }
         }
