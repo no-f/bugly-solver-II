@@ -151,6 +151,18 @@
             <version>1.2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-ses</artifactId>
+            <version>1.11.160</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sns</artifactId>
+            <version>1.11.160</version>
+        </dependency>
+
         <!-- okHttp -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>

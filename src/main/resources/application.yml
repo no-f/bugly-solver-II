@@ -41,4 +41,11 @@ security:
   # 超出最大登录数，是否阻止登录
   prevents-login: false
   # 放行url
-
+#发送者邮箱
+email:
+  sender: xxxx@xxx.com
+#aws 相关配置
+aws:
+  sns:
+    accessKey: xxxxxxxxxx
+    secretKey: xxxxxxxxxxx
