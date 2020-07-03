@@ -19,6 +19,7 @@ public class ExceptionType extends DeletableDO implements Serializable {
 
     private String id;
     private String errorLocation;
+    private String tag;
     private Integer num;
     private Integer state;
 

@@ -3,6 +3,7 @@ package com.bugly;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * @author no_f
  * @ClassName SecurityMvcConfigurer
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date
  */
 @SpringBootApplication
+@EnableScheduling
 @MapperScan("com.bugly.*.dao")
 public class BuglyBootApplication {
 

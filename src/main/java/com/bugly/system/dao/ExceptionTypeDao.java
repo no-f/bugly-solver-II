@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,12 @@ public interface ExceptionTypeDao extends BaseMapper<ExceptionType> {
 
     @Select("SELECT count(id) FROM `exception_type`")
     int findAllNum();
+
+    @Select("SELECT count(id) FROM `exception_type` where mtime >=#{startTime} and mtime <=#{endTime}")
+    int findAllNumByTime(Date startTime, Date endTime);
+
+    @Select("SELECT count(id) FROM `exception_type` where `state`=0 and mtime >=#{startTime} and mtime <=#{endTime}")
+    int findUnSolveNumByTime(Date startTime, Date endTime);
 
     @SelectProvider(type = ExceptionTypeProvider.class, method = "findByCondition")
     List<ExceptionType> findByCondition(BuglySearchVo buglySearchVo);

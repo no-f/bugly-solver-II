@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +36,9 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
 
     @Select("SELECT count(id) FROM `service_log`")
     int findAllNum();
+
+    @Select("SELECT count(id) FROM `service_log` where mtime >=#{startTime} and mtime <=#{endTime}")
+    int findAllNumByTime(Date startTime, Date endTime);
 
     @SelectProvider(type = ServiceLogProvider.class, method = "countCondition")
     int countCondition(GetServerLogDto getServerLogDto);

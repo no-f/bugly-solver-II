@@ -2,6 +2,7 @@ package com.bugly.system.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
@@ -19,8 +20,12 @@ public class DealWithServerLogDto implements Serializable {
 
     private String nickName;
 
+    @Length(max = 20, message = "tag 长度不能超过20")
+    private String tag;
+
     private Integer state;
 
+    @Length(max = 20, message = "备注 长度不能超过20")
     private String remark;
 
 }

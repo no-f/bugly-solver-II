@@ -12,34 +12,24 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
+                <input id="list_exception" name="list_exception" th:value="${list_exception}" type="hidden">
                 <div class="layui-card-header">
                     异常总量
                     <span class="layui-badge layui-bg-red layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">92378</p>
+                    <p th:text="${exception_total}" class="layuiadmin-big-font">0</p>
                 </div>
             </div>
         </div>
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    异常种类量
+                    异常种类数
                     <span class="layui-badge layui-bg-cyan layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">13902</p>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-sm6 layui-col-md3">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    异常量
-                    <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
-                </div>
-                <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">2305</p>
+                    <p th:text="${exception_type_total}" class="layuiadmin-big-font">0</p>
                 </div>
             </div>
         </div>
@@ -50,7 +40,18 @@
                     <span class="layui-badge layui-bg-orange layuiadmin-badge">总</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">56,866</p>
+                    <p th:text="${unsolved_exception}" class="layuiadmin-big-font">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    异常量
+                    <span class="layui-badge layui-bg-blue layuiadmin-badge">月</span>
+                </div>
+                <div class="layui-card-body layuiadmin-card-list">
+                    <p th:text="${exception_month}" class="layuiadmin-big-font">0</p>
                 </div>
             </div>
         </div>
@@ -72,33 +73,46 @@
         </div>
     </div>
 </div>
+<script th:src="@{static/js/jquery.1.12.4.min.js}"></script>
 <script th:src="@{/static/js/layui/layui.js}"></script>
 <script th:src="@{/static/js/vue.2.6.11.js}"></script>
 <script th:src="@{/static/js/v-charts/v-charts.min.js}"></script>
 <script th:src="@{/static/js/v-charts/index.min.js}"></script>
 <script type="text/javascript">
+    function StringBuilder() {
+        this._stringArray = new Array();
+    }
+    StringBuilder.prototype.append = function(str){
+        this._stringArray.push(str);
+    }
+    StringBuilder.prototype.toString = function(joinGap){
+        return this._stringArray.join(joinGap);
+    }
+
+    var stringBuilder = new StringBuilder();
+    var json = $('#list_exception').val();
+    var le = JSON.parse(json);
+    console.log(le)
+
+    for (i = 0; i < le.length; i++) {
+         var month = (i+1).toString()+"月";
+         if(i == (le.length - 1)) {
+         stringBuilder.append("{\"日期\": \""+month+"\", \"异常总量\":"+le[i].exceptionTotal+", \"未解决异常量\": "+ le[i].unsolvedExceptionNum+"}")
+         } else(
+         stringBuilder.append("{\"日期\": \""+month+"\", \"异常总量\":"+le[i].exceptionTotal+", \"未解决异常量\": "+ le[i].unsolvedExceptionNum+"},")
+         )
+    }
+         console.log(stringBuilder.toString(""))
+
     var vm = new Vue({
         el: '#app',
         data: {
             chartData: {
-                columns: ['日期', '异常总量', '待解救异常量'],
-                rows: [
-                    {'日期': '1月', '异常总量': 1393, '待解救异常量': 345},
-                    {'日期': '2月', '异常总量': 3530, '待解救异常量': 6789},
-                    {'日期': '3月', '异常总量': 2923, '待解救异常量': 2345},
-                    {'日期': '4月', '异常总量': 1723, '待解救异常量': 1423},
-                    {'日期': '5月', '异常总量': 3792, '待解救异常量': 7890},
-                    {'日期': '6月', '异常总量': 4593, '待解救异常量': 4293},
-                    {'日期': '7月', '异常总量': 3678, '待解救异常量': 1093},
-                    {'日期': '8月', '异常总量': 789, '待解救异常量': 3456},
-                    {'日期': '9月', '异常总量': 5689, '待解救异常量': 7890},
-                    {'日期': '10月', '异常总量': 3241, '待解救异常量': 8907},
-                    {'日期': '11月', '异常总量': 8765, '待解救异常量': 9012},
-                    {'日期': '12月', '异常总量': 6543, '待解救异常量': 1023}
-                ]
+                columns: ['日期', '异常总量', '未解决异常量'],
+                rows: JSON.parse('['+stringBuilder.toString(" ")+']')
             },
             chartSettings: {
-                metrics: ['异常总量', '待解救异常量'],
+                metrics: ['异常总量', '未解决异常量'],
                 dimension: ['日期']
             }
         }

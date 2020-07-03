@@ -17,6 +17,7 @@ var app = new Vue({
                          'id':update_bugly.exceptionTypeId.value,
                          'state':update_bugly.state.value,
                          'nickName':update_bugly.nickName.value,
+                         'tag':update_bugly.tag.value,
                          'remark':update_bugly.remark.value
                      };
 
