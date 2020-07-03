@@ -2,6 +2,7 @@ package com.bugly.system.service;
 
 import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
+import com.bugly.system.dto.UpdateAlarmConfigDto;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
@@ -52,6 +53,20 @@ public interface ExceptionService {
      * @return
      */
     ApiResponse dealWith(DealWithServerLogDto dealWithServerLogDto);
+
+
+    /**
+     * 获取所有服务类型列表
+     * @return
+     */
+    ApiResponse findAllServiceType(int page, int pageSize);
+
+    /**
+     * 配置更新
+     * @param updateAlarmConfigDto
+     * @return
+     */
+    ApiResponse updateAlarmConfig(UpdateAlarmConfigDto updateAlarmConfigDto);
 
 
 

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bugly.common.base.ApiResponse;
 import com.bugly.common.base.Constants;
 import com.bugly.common.utils.UUIDUtils;
+import com.bugly.system.dao.SysUserDao;
 import com.bugly.system.entity.SysUser;
 import com.bugly.system.entity.SysUserRole;
 import com.bugly.system.service.SysRoleService;
@@ -36,6 +37,8 @@ public class UserRestController {
     private final SysRoleService sysRoleService;
 
     private final SysUserRoleService sysUserRoleService;
+
+    private final SysUserDao sysUserDao;
 
     @GetMapping("/getUserInfo")
     public ApiResponse getUserInfo(@RequestParam("page") int page,
@@ -145,6 +148,14 @@ public class UserRestController {
         JSONObject jsonObject = new JSONObject();
         List<String> allRoleName = sysRoleService.getAllRoleName();
         jsonObject.put("allRoleName", allRoleName);
+        return ApiResponse.ofSuccess(jsonObject);
+    }
+
+    @GetMapping("/getAllUserName")
+    public ApiResponse getAllUserName(){
+        JSONObject jsonObject = new JSONObject();
+        List<String> allUserNickname = sysUserDao.findAllNickame();
+        jsonObject.put("allUserNickname", allUserNickname);
         return ApiResponse.ofSuccess(jsonObject);
     }
 

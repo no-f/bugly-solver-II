@@ -13,6 +13,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AlarmConfigDao extends BaseMapper<AlarmConfig> {
 
-    @Select("SELECT * FROM `alarm_config` where type=0 limit 1")
+    @Select("SELECT * FROM `alarm_config` where type=0 and `service_type_id` is null limit 1")
     AlarmConfig findDingDingConfig();
+
+    @Select("SELECT * FROM `alarm_config` where `service_type_id`=#{serviceTypeId} limit 1")
+    AlarmConfig findByServiceTypeId(String serviceTypeId);
 }

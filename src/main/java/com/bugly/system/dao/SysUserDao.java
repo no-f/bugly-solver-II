@@ -7,6 +7,8 @@ import com.bugly.system.entity.SysUser;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author no_f
  * @ClassName SysUserDao
@@ -23,6 +25,12 @@ public interface SysUserDao extends BaseMapper<SysUser> {
      */
     @Select("SELECT * FROM sys_user WHERE name= #{name}")
     SysUser findByName(@Param("name") String name);
+
+    @Select("SELECT * FROM sys_user WHERE nick_name= #{nickame}")
+    SysUser findByNickame(@Param("nickame") String nickame);
+
+    @Select("SELECT nick_name FROM sys_user ")
+    List<String> findAllNickame();
 
     /**
      * 查询所有用户

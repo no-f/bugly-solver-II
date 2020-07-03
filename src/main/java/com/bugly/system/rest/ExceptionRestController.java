@@ -2,6 +2,7 @@ package com.bugly.system.rest;
 
 import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
+import com.bugly.system.dto.UpdateAlarmConfigDto;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import com.bugly.system.vo.BuglySearchVo;
@@ -55,6 +56,17 @@ public class ExceptionRestController {
     @ResponseBody
     public ApiResponse detailSearch(@RequestBody BuglyDetailSearchVo buglyDetailSearchVo) {
         return exceptionService.getDetailsByCondition(buglyDetailSearchVo);
+    }
+
+    @GetMapping("/findAllServiceType")
+    public ApiResponse findAllServiceType(int page, int pageSize) {
+        return exceptionService.findAllServiceType(page, pageSize);
+    }
+
+    @PostMapping("/update_alarm_config")
+    @ResponseBody
+    public ApiResponse updateAlarmConfig(@RequestBody UpdateAlarmConfigDto updateAlarmConfigDto) {
+        return exceptionService.updateAlarmConfig(updateAlarmConfigDto);
     }
 
 

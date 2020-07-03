@@ -1,9 +1,11 @@
 package com.bugly.system.controller;
 
 import com.bugly.common.utils.SecurityUtils;
-import com.bugly.system.dao.ServiceLogDao;
+import com.bugly.system.dao.*;
+import com.bugly.system.entity.AlarmConfig;
 import com.bugly.system.entity.SysUser;
 import com.bugly.system.model.ServiceLog;
+import com.bugly.system.model.ServiceType;
 import com.bugly.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,15 @@ public class ExceptionController {
 
     private final SysUserService sysUserService;
 
+    private final SysUserDao sysUserDao;
+
     private final ServiceLogDao serviceLogDao;
+
+    private final ServiceTypeUserDao serviceTypeUserDao;
+
+    private final ServiceTypeDao serviceTypeDao;
+
+    private final AlarmConfigDao alarmConfigDao;
 
     @GetMapping("/list")
     public String index(){
@@ -64,4 +74,20 @@ public class ExceptionController {
         model.addAttribute("serviceException", stringBuffer.toString());
         return "module/bugly/detailShow";
     }
+
+    @GetMapping("/alarmConfig")
+    public String listAlarmConfig(){
+        return "module/bugly/buglyConfig";
+    }
+
+    @GetMapping("/updateAlarmConfig")
+    public String updateAlarmConfig(String id, Model model){
+        model.addAttribute("id", id);
+        ServiceType serviceType = serviceTypeDao.selectById(id);
+        AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId(id);
+        model.addAttribute("serviceName", serviceType.getServiceName());
+        model.addAttribute("webhookUrl", alarmConfig == null ? "" : alarmConfig.getWebhookUrl());
+        return "module/bugly/updateAlarmConfig";
+    }
+
 }

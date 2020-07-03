@@ -47,6 +47,25 @@ public class DeleteExceptionTask {
         exceptionReportDao.updateById(exceptionReport);
     }
 
+
+    @Scheduled(cron="0 0/3 * * * ?")
+    public void day() {
+        //发送邮件聚合数据邮件每天早上
+        Date startTime = TimeUtils.getFirstDay();
+        Date endTime = TimeUtils.getLastDay();
+        int exceptionTotal = serviceLogDao.findAllNumByTime(startTime, endTime);
+        int exceptionTypeNum = exceptionTypeDao.findAllNumByTime(startTime, endTime);
+        int unsolvedExceptionNum = exceptionTypeDao.findUnSolveNumByTime(startTime, endTime);
+
+        ExceptionReport exceptionReport = new ExceptionReport();
+        exceptionReport.setId(getId());
+        exceptionReport.setExceptionTotal(exceptionTotal);
+        exceptionReport.setExceptionTypeNum(exceptionTypeNum);
+        exceptionReport.setUnsolvedExceptionNum(unsolvedExceptionNum);
+        exceptionReport.setMtime(new Date());
+        exceptionReportDao.updateById(exceptionReport);
+    }
+
     private String getId() {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         String a = sf.format(TimeUtils.getFirstDay());

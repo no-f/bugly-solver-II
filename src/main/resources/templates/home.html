@@ -92,7 +92,7 @@
     var stringBuilder = new StringBuilder();
     var json = $('#list_exception').val();
     var le = JSON.parse(json);
-    console.log(le)
+
 
     for (i = 0; i < le.length; i++) {
          var month = (i+1).toString()+"月";
@@ -102,7 +102,7 @@
          stringBuilder.append("{\"日期\": \""+month+"\", \"异常总量\":"+le[i].exceptionTotal+", \"未解决异常量\": "+ le[i].unsolvedExceptionNum+"},")
          )
     }
-         console.log(stringBuilder.toString(""))
+
 
     var vm = new Vue({
         el: '#app',

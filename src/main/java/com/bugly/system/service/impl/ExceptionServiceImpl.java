@@ -5,20 +5,21 @@ import com.bugly.common.logrobot.DingTalkSender;
 import com.bugly.common.utils.UUIDUtils;
 import com.bugly.system.bo.ExceptionTypeBo;
 import com.bugly.system.bo.ServiceExceptionBo;
+import com.bugly.system.bo.ServiceTypeBo;
 import com.bugly.system.dao.*;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.GetServerLogDto;
+import com.bugly.system.dto.UpdateAlarmConfigDto;
 import com.bugly.system.entity.AlarmConfig;
 import com.bugly.system.entity.SysUser;
-import com.bugly.system.model.ExceptionType;
-import com.bugly.system.model.ExceptionTypeUser;
-import com.bugly.system.model.ServiceLog;
+import com.bugly.system.model.*;
 import com.bugly.system.service.ExceptionService;
 import com.bugly.system.service.SysUserService;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,15 @@ public class ExceptionServiceImpl implements ExceptionService {
     private ServiceLogDao serviceLogDao;
 
     @Autowired
+    private ServiceTypeDao serviceTypeDao;
+
+    @Autowired
+    private SysUserDao sysUserDao;
+
+    @Autowired
+    private ServiceTypeUserDao serviceTypeUserDao;
+
+    @Autowired
     private AlarmConfigDao alarmConfigDao;
 
     @Autowired
@@ -65,6 +75,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     public CommonResult<Boolean> saveServiceLog(JSONObject content) {
         ServiceLog serviceLog = getData(JSONObject.fromObject(content));
         serviceLog.setExceptionTypeId(exceptionTypeAction(content));
+        saveServiceNameType(content);
         serviceLogDao.insert(serviceLog);
         AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
@@ -236,6 +247,69 @@ public class ExceptionServiceImpl implements ExceptionService {
         return ApiResponse.ofSuccess(jsonObject);
     }
 
+
+    @Override
+    public ApiResponse findAllServiceType(int page, int pageSize) {
+        List<ServiceType> serviceTypes = serviceTypeDao.findAll((page-1)*pageSize, pageSize);
+        List<ServiceTypeBo> serviceTypeBos = new ArrayList<>();
+
+        serviceTypes.forEach(e -> {
+            ServiceTypeBo serviceTypeBo = new ServiceTypeBo();
+            BeanUtils.copyProperties(e, serviceTypeBo);
+            List<String> nicknames = serviceTypeUserDao.findByServiceTypeId(e.getId());
+            Optional.ofNullable(nicknames).ifPresent(n-> serviceTypeBo.setNickNames(StringUtils.join(n, ",")));
+            AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId(e.getId());
+            Optional.ofNullable(alarmConfig).ifPresent(a-> serviceTypeBo.setWebhookUrl(a.getWebhookUrl()));
+            serviceTypeBos.add(serviceTypeBo);
+        });
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",serviceTypeUserDao.findAllNum());
+        jsonObject.put("page",page);
+        jsonObject.put("page_size",pageSize);
+        jsonObject.put("sysUserList",serviceTypeBos);
+        return ApiResponse.ofSuccess(jsonObject);
+    }
+
+    @Override
+    public ApiResponse updateAlarmConfig(UpdateAlarmConfigDto dto) {
+        Date day = new Date();
+
+        //webhook_url
+        if (null != dto.getWebhookUrl() && !dto.getWebhookUrl().isEmpty()) {
+            AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId(dto.getId());
+            if (null == alarmConfigDao.findByServiceTypeId(dto.getId())) {
+                alarmConfig = new AlarmConfig();
+                alarmConfig.setId(UUIDUtils.getUUID()).setMtime(day).setCtime(day).setDeleted(0).setType(0)
+                        .setWebhookUrl(dto.getWebhookUrl()).setServiceTypeId(dto.getId());
+                alarmConfigDao.insert(alarmConfig);
+            } else {
+                alarmConfig.setMtime(day).setWebhookUrl(dto.getWebhookUrl());
+                alarmConfigDao.updateById(alarmConfig);
+            }
+        }
+        //user
+        SysUser sysUser = sysUserDao.findByNickame(dto.getNickname());
+        JSONObject jsonObject = new JSONObject();
+        if (null == sysUser) {
+            jsonObject.put("code",500);
+            return ApiResponse.ofSuccess(jsonObject);
+        }
+
+        ServiceTypeUser serviceTypeUser = serviceTypeUserDao.findByServiceTypeIdAndUserId(dto.getId(), sysUser.getId());
+        if (null != serviceTypeUser) {
+            jsonObject.put("code",200);
+            return ApiResponse.ofSuccess(jsonObject);
+        }
+
+        serviceTypeUser = new ServiceTypeUser();
+        serviceTypeUser.setId(UUIDUtils.getUUID()).setCtime(day).setMtime(day).setDeleted(0).setServiceTypeId(dto.getId()).setUserId(sysUser.getId());
+        serviceTypeUserDao.insert(serviceTypeUser);
+
+        jsonObject.put("code",200);
+        return ApiResponse.ofSuccess(jsonObject);
+    }
+
     private ServiceLog getData(JSONObject jsonObject) {
         ServiceLog serviceLog = new ServiceLog();
         try {
@@ -297,6 +371,25 @@ public class ExceptionServiceImpl implements ExceptionService {
             return e.getId();
         }
         return "0";
+    }
+
+    /**
+     * 保存服务类型
+     * @param jsonObject
+     */
+    private void saveServiceNameType(JSONObject jsonObject) {
+        if (!jsonObject.containsKey("serviceName")) {
+            return;
+        }
+        String serviceName = (String) jsonObject.get("serviceName");
+        ServiceType serviceType = serviceTypeDao.findByName(serviceName);
+        if (null != serviceType) {
+            return;
+        }
+        Date day = new Date();
+        serviceType = new ServiceType();
+        serviceType.setId(UUIDUtils.getUUID()).setServiceName(serviceName).setDeleted(0).setCtime(day).setMtime(day);
+        serviceTypeDao.insert(serviceType);
     }
 
     private String stateString(int state) {

@@ -1,7 +1,7 @@
 package com.bugly.system.entity;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.Date;
  * @since 2020-06-30
  */
 @Data
-@Builder
+@Accessors(chain = true)
 public class AlarmConfig implements Serializable {
 
     static final long serialVersionUID = 1L;
@@ -24,9 +24,9 @@ public class AlarmConfig implements Serializable {
     private Integer type;
 
     /**
-     * 服务名称
+     * 服务名称ID
      */
-    private String serviceName;
+    private String serviceTypeId;
 
     private String webhookUrl;
 
