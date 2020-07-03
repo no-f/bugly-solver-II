@@ -36,8 +36,6 @@ var app = new Vue({
                                  'webhookUrl':$('#webhookUrl').val()
                              };
 
-                             console.log("test"+JSON.stringify(updateConfigParam))
-
                              $.ajax({
                                  cache : true,
                                  type : "POST",
