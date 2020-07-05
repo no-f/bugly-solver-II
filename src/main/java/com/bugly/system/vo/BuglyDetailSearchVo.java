@@ -9,7 +9,8 @@ import lombok.Data;
 @Data
 public class BuglyDetailSearchVo {
 
-    private String machinneAddress;
+    private String currentCluster;
+    private String serviceName;
     private String errorMessage;
     private String errorException;
     private String startTime;

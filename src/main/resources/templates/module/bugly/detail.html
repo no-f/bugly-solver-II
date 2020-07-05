@@ -23,8 +23,17 @@
 <!--                    <li class="layui-nav-item b-li" style="line-height: 36px;">-->
 <!--                        <input name="search_threadId" class="b-input" placeholder="线程ID">-->
 <!--                    </li>-->
+<!--                    <li class="layui-nav-item b-li" style="line-height: 36px;">-->
+<!--                        <input name="search_currentCluster" class="b-input" placeholder="集群名称">-->
+<!--                    </li>-->
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
-                        <input name="search_machinneAddress" class="b-input" placeholder="机器地址">
+                        <select name="search_currentCluster" class="b-input b-s">
+                            <option value="blue" selected="selected">blue</option>
+                            <option value="green">green</option>
+                        </select>
+                    </li>
+                    <li class="layui-nav-item b-li" style="line-height: 36px;">
+                        <input name="search_serviceName" class="b-input" placeholder="服务名称">
                     </li>
                     <li class="layui-nav-item b-li" style="line-height: 36px;">
                         <input name="search_errorMessage" class="b-input" placeholder="错误信息关键字">
@@ -58,8 +67,13 @@
                                 align="center">
                         </el-table-column>
                         <el-table-column
-                                prop="machineAddress"
-                                label="机器地址"
+                                prop="currentCluster"
+                                label="集群地址"
+                                align="center">
+                        </el-table-column>
+                        <el-table-column
+                                prop="serviceName"
+                                label="服务名称"
                                 align="center">
                         </el-table-column>
                         <el-table-column

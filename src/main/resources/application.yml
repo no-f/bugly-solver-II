@@ -13,8 +13,8 @@ spring:
   # thymeleaf配置
   thymeleaf:
     cache: false
-  session:
-    store-type: redis
+#  session:
+#    store-type: redis
   datasource:
     druid:
       stat-view-servlet:

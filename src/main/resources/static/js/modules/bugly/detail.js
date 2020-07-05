@@ -53,7 +53,8 @@ $().ready(function(){
                 var searchBuglyDatail = {
                        'pageSize':this.page_size,
                        'page':this.current_page,
-                       'machinneAddress':bugly_detail_search.search_machinneAddress.value,
+                       'currentCluster':bugly_detail_search.search_currentCluster.value,
+                       'serviceName':bugly_detail_search.search_serviceName.value,
                        'errorMessage':bugly_detail_search.search_errorMessage.value,
                        'errorException':bugly_detail_search.search_errorException.value,
                        'startTime':this.time[0],

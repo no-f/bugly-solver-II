@@ -19,8 +19,16 @@ public class ServiceLogProvider {
             sb.append(" AND locate(#{errorMessage}, `error_message`)>0 ");
         }
 
+        if (StringUtils.isNotBlank(getServerLogDto.getServiceName())) {
+            sb.append(" AND locate(#{serviceName}, `service_name`)>0 ");
+        }
+
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {
-            sb.append(" AND locate(#{machinneAddress}, `machine_address`)>0 ");
+            sb.append(" AND locate(#{machinneAddress}, `machinne_address`)>0 ");
+        }
+
+        if (StringUtils.isNotBlank(getServerLogDto.getCurrentCluster())) {
+            sb.append(" AND locate(#{currentCluster}, `current_cluster`)>0 ");
         }
 
         if (getServerLogDto.getStartTime() != null) {

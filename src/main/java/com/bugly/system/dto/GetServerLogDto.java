@@ -19,7 +19,11 @@ public class GetServerLogDto extends BaseDto {
 
     private String errorException;
 
+    private String serviceName;
+
     private String machinneAddress;
+
+    private String currentCluster;
 
     private Date startTime;
 

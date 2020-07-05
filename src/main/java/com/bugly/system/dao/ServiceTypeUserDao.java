@@ -24,7 +24,7 @@ public interface ServiceTypeUserDao extends BaseMapper<ServiceTypeUser> {
     @Select("SELECT * FROM `service_type_user` where user_id = #{userId} and service_type_id =#{serviceTypeId}")
     ServiceTypeUser findByServiceTypeIdAndUserId(String serviceTypeId, String userId);
 
-    @Select("SELECT su.id FROM `service_type_user` stu, `sys_user` su where stu.user_id = su.id and stu.service_type_id =#{serviceTypeId}")
-    List<String> findUserIdByServiceTypeId(String serviceTypeId);
+    @Select("SELECT su.email FROM `service_type_user` stu, `sys_user` su where stu.user_id = su.id and stu.service_type_id =#{serviceTypeId}")
+    List<String> findUserEmailByServiceTypeId(String serviceTypeId);
 
 }

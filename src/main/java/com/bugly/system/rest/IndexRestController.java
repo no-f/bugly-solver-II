@@ -68,7 +68,7 @@ public class IndexRestController {
         //获取用户
         Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
         String username = (String)authentication.getPrincipal();
-        String usernameRedisKey = Constants.PASSWORD_UPDATE + username;
+//        String usernameRedisKey = Constants.PASSWORD_UPDATE + username;
         // 校验用户是否被锁定
         // 考虑到目前先不用redis
 //        if (redisUtils.exists(usernameRedisKey)) {
