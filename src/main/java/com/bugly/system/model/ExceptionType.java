@@ -18,6 +18,7 @@ public class ExceptionType extends DeletableDO implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String id;
+    private String serviceName;
     private String errorLocation;
     private String tag;
     private Integer num;

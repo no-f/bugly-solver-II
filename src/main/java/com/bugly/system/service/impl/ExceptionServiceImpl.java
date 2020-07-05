@@ -357,15 +357,17 @@ public class ExceptionServiceImpl implements ExceptionService {
     private String exceptionTypeAction(JSONObject jsonObject) {
         if (jsonObject.containsKey("errorLocation")) {
             String location = (String) jsonObject.get("errorLocation");
+            String serviceName = (String) jsonObject.get("serviceName");
             Date day = new Date();
             ExceptionType e = exceptionTypeDao.findByLocal(location);
             if (null == e) {
                 e = new ExceptionType();
                 e.setId(UUIDUtils.getUUID()).setErrorLocation(location).setState(0).setDeleted(0).setCtime(day).setMtime(day);
-                e.setNum(1);
+                e.setNum(1).setServiceName(serviceName);
                 exceptionTypeDao.insert(e);
             } else {
                 e.setNum(e.getNum() + 1).setMtime(day);
+                e.setServiceName(serviceName);
                 exceptionTypeDao.updateById(e);
             }
             return e.getId();

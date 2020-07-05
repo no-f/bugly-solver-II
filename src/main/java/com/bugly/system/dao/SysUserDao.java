@@ -32,6 +32,9 @@ public interface SysUserDao extends BaseMapper<SysUser> {
     @Select("SELECT nick_name FROM sys_user ")
     List<String> findAllNickame();
 
+    @Select("SELECT * FROM sys_user")
+    List<SysUser> findAllBy();
+
     /**
      * 查询所有用户
      * @param page 分页数据
