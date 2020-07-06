@@ -7,6 +7,7 @@ import com.bugly.system.provider.ServiceLogProvider;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -42,4 +43,7 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
 
     @SelectProvider(type = ServiceLogProvider.class, method = "countCondition")
     int countCondition(GetServerLogDto getServerLogDto);
+
+    @Update("DELETE FROM `service_log` WHERE ctime < date_add(curdate(),INTERVAL -1 month)")
+    int deleteServiceLog();
 }

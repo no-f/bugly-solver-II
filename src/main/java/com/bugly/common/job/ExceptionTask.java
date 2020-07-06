@@ -72,7 +72,7 @@ public class ExceptionTask {
      * 每天发送邮件
      */
     //todo 时间得修改
-    @Scheduled(cron="0/10 * * * * ?")
+    @Scheduled(cron="0/30 * * * * ?")
     public void day() {
         List<SysUser> sysUsers = sysUserDao.findAllBy();
 
@@ -82,14 +82,15 @@ public class ExceptionTask {
 
         String today = TimeUtils.theDayBefore();
         sysUsers.forEach(sysUser -> {
-            if (sysUser.getName().equals("admin")) {
+            //测试数据
+            if (!sysUser.getName().equals("jiangbenli")) {
                 return;
             }
             List<ServiceType> serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());
             if (null == serviceTypes || serviceTypes.isEmpty()) {
                 return;
             }
-            StringBuffer stringBuffer = new StringBuffer("<div style='background-color: crimson;'>" + today + "-异常位置:<br/>");
+            StringBuffer stringBuffer = new StringBuffer("<div>" + today + "-异常位置:<br/>");
 
             serviceTypes.forEach(serviceType -> {
                 List<ExceptionType> exceptionTypes = exceptionTypeDao
