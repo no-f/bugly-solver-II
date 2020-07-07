@@ -4,10 +4,13 @@ import com.bugly.common.utils.SecurityUtils;
 import com.bugly.system.dao.*;
 import com.bugly.system.entity.AlarmConfig;
 import com.bugly.system.entity.SysUser;
+import com.bugly.system.model.ExceptionType;
+import com.bugly.system.model.ExceptionTypeUser;
 import com.bugly.system.model.ServiceLog;
 import com.bugly.system.model.ServiceType;
 import com.bugly.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,8 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Optional;
 
+import static com.bugly.system.service.impl.ExceptionServiceImpl.DATE_Y_M_DDHHMMSS;
 import static org.apache.commons.lang3.CharUtils.LF;
 
 
@@ -32,15 +38,19 @@ public class ExceptionController {
 
     private final SysUserService sysUserService;
 
-    private final SysUserDao sysUserDao;
-
     private final ServiceLogDao serviceLogDao;
-
-    private final ServiceTypeUserDao serviceTypeUserDao;
 
     private final ServiceTypeDao serviceTypeDao;
 
     private final AlarmConfigDao alarmConfigDao;
+
+    private final ExceptionTypeDao exceptionTypeDao;
+
+    private final ExceptionTypeUserDao exceptionTypeUserDao;
+
+    private final ServiceTypeUserDao serviceTypeUserDao;
+
+    private final SysUserDao sysUserDao;
 
     @GetMapping("/list")
     public String index(){
@@ -61,6 +71,59 @@ public class ExceptionController {
     public String detail(String id, Model model){
         model.addAttribute("exceptionTypeId", id);
         return "module/bugly/detail";
+    }
+
+    @GetMapping("/out_solve")
+    public String outSolve(String localtion, Model model){
+
+        ExceptionType exceptionType = exceptionTypeDao.findByLocal(localtion);
+        if (null == exceptionType) {
+            model.addAttribute("exceptionTypeId", 0);
+            model.addAttribute("time", 0);
+            model.addAttribute("nickName", 0);
+            model.addAttribute("state", 0);
+            model.addAttribute("tag", "");
+            model.addAttribute("remark", "");
+        } else {
+
+            List<ExceptionTypeUser> exceptionTypeUsers = exceptionTypeUserDao.findByExceptionTypeId(exceptionType.getId());
+            if (null != exceptionTypeUsers && exceptionTypeUsers.size() > 0) {
+                SimpleDateFormat sf = new SimpleDateFormat(DATE_Y_M_DDHHMMSS);
+                ExceptionTypeUser exceptionTypeUser = exceptionTypeUsers.get(0);
+                SysUser sysUser = sysUserDao.selectById(exceptionTypeUser.getUserId());
+                model.addAttribute("nickName", sysUser == null ? "" : sysUser.getNickName());
+                model.addAttribute("time", sf.format(exceptionTypeUser.getMtime()));
+                model.addAttribute("remark", exceptionTypeUser.getRemark());
+            }
+            model.addAttribute("exceptionTypeId", exceptionType.getId());
+            model.addAttribute("state", exceptionType.getState());
+            model.addAttribute("tag", exceptionType.getTag());
+        }
+        return "module/bugly/outDealBug";
+    }
+
+    @GetMapping("/out_detail")
+    public String outDetail(String localtion, String serviceName, String currentCluster, Model model){
+        model.addAttribute("localtion", localtion);
+        model.addAttribute("serviceName", serviceName);
+        model.addAttribute("currentCluster", currentCluster);
+
+        ExceptionType exceptionType = exceptionTypeDao.findByLocal(localtion);
+        if (null == exceptionType) {
+            model.addAttribute("errorException", " ");
+            model.addAttribute("level", " ");
+            model.addAttribute("localtion", localtion);
+        } else {
+            ServiceLog serviceLog =  serviceLogDao.findOneByExceptionTypeIdAndOther(exceptionType.getId(), currentCluster, serviceName);
+            model.addAttribute("errorException", serviceLog == null ? "" : serviceLog.getErrorException());
+            model.addAttribute("errorMessage", serviceLog == null ? "" : serviceLog.getErrorMessage());
+            model.addAttribute("level", serviceLog.getLevel());
+            model.addAttribute("localtion", localtion);
+            ServiceType serviceType = serviceTypeDao.findByName(serviceLog.getServiceName());
+            List<String> nickNames = serviceTypeUserDao.findByServiceTypeId(serviceType.getId());
+            Optional.ofNullable(nickNames).ifPresent(n-> model.addAttribute("name", StringUtils.join(n, ",")));
+        }
+        return "module/bugly/outBugDetail";
     }
 
     @GetMapping("/detail_show")

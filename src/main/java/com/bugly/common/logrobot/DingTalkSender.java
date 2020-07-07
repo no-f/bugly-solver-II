@@ -23,6 +23,18 @@ public class DingTalkSender {
         DingTalkTool.send(message);
     }
 
+    public static void sendCommonDingTalk(String webHookUrl) {
+        if (null == webHookUrl || webHookUrl.isEmpty()) {
+            return;
+        }
+        TextMessage message = new TextMessage(null);
+        message.setUrl(webHookUrl);
+        message.setAtAll(true);
+        DingTalkTool.sendCommon(message);
+    }
+
+
+
     private static Boolean localVerify(JSONObject content, String webHookUrl) {
         if (null == webHookUrl || webHookUrl.isEmpty()) {
             return true;

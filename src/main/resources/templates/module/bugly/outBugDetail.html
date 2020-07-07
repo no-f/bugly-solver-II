@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/static/css/layui/layui.css}" rel="stylesheet">
+    <style type="text/css">
+        .site-doc-icon{margin-bottom: 50px; font-size: 0;}
+        .site-doc-icon li{display: inline-block; vertical-align: middle; width: 127px; height: 105px; line-height: 25px; padding: 20px 0; margin-right: -1px; margin-bottom: -1px; border: 1px solid #e2e2e2; font-size: 14px; text-align: center; color: #666; transition: all .3s; -webkit-transition: all .3s;}
+        .site-doc-anim li{height: auto;}
+        .site-doc-icon li .layui-icon{display: inline-block; font-size: 36px;}
+
+        .site-doc-icon li .doc-icon-name,
+        .site-doc-icon li .doc-icon-code{color: #c2c2c2;}
+        .site-doc-icon li .doc-icon-fontclass{height: 40px; line-height: 20px; padding: 0 5px; font-size: 13px; color: #333; }
+        .site-doc-icon li:hover{background-color: #f2f2f2; color: #000;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid" id="app">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div id="o_name" class="layui-card-header">
+                </div>
+                <input id="currentCluster" name="currentCluster" th:value="${currentCluster}" type="hidden">
+                <input id="serviceName" name="serviceName" th:value="${serviceName}" type="hidden">
+                <input id="level" name="level" th:value="${level}" type="hidden">
+                <input id="errorException" name="level" th:value="${errorException}" type="hidden">
+                <input id="errorMessage" name="level" th:value="${errorMessage}" type="hidden">
+                <input id="localtion" name="level" th:value="${localtion}" type="hidden">
+                <input id="name" name="level" th:value="${name}" type="hidden">
+                <div class="layui-card-body">
+
+                    <ul class="site-doc-icon" style="margin-bottom: 10px;">
+                        <li>
+                            <i class="layui-icon layui-icon-app"></i>
+                            <div class="doc-icon-name">集群名称</div>
+                            <div id="o_currentCluster" class="doc-icon-code"></div>
+                        </li>
+                        <li>
+                            <i class="layui-icon layui-icon-face-cry"></i>
+                            <div class="doc-icon-name">服务名称</div>
+                            <div id="o_serviceName" class="doc-icon-code" ></div>
+                        </li>
+
+                        <li>
+                            <i class="layui-icon layui-icon-diamond"></i>
+                            <div class="doc-icon-name">异常级别</div>
+                            <div id="o_level" class="doc-icon-code" ></div>
+                        </li>
+                    </ul>
+                    <ul id="out_errorException" style="font-size:20%;word-wrap:break-word;">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/static/js/layui/layui.js}"></script>
+<script th:src="@{/static/js/jquery.1.12.4.min.js}"></script>
+<script type="text/javascript">
+    var currentCluster = $('#currentCluster').val();
+    var serviceName = $('#serviceName').val();
+    var level = $('#level').val();
+    var errorException = $('#errorException').val();
+    var errorMessage = $('#errorMessage').val();
+    var localtion = $('#localtion').val();
+    var name = $('#name').val();
+    $('#o_currentCluster').html(currentCluster);
+    $('#o_serviceName').html(serviceName);
+    $('#o_level').html(level);
+    $('#o_name').html(" 异常详情-责任人-" +name);
+
+    var str = "<font color=dodgerblue>位置</font> : " + localtion + "<br/><font color=dodgerblue>信息</font> : " +errorMessage
+    +"<br/><font color=dodgerblue>异常</font> : " +errorException;
+    var newstr = str.replace(/(Connection reset by peer)/g, "<font color=red>$1</font>")
+    .replace(/(Caused by)/g, "<font color=red>$1</font>")
+    .replace(/(com.bullyun)/g, "<font color=red>$1</font>")
+    .replace(/(Exception)/g, "<font color=red>$1</font>");
+    $('#out_errorException').html(newstr);
+</script>
+</body>
+</html>

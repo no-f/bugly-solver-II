@@ -71,8 +71,7 @@ public class ExceptionTask {
     /**
      * 每天发送邮件
      */
-    //todo 时间得修改
-    @Scheduled(cron="0/30 * * * * ?")
+    @Scheduled(cron="0 0 10 * * ?")
     public void day() {
         List<SysUser> sysUsers = sysUserDao.findAllBy();
 
@@ -82,8 +81,7 @@ public class ExceptionTask {
 
         String today = TimeUtils.theDayBefore();
         sysUsers.forEach(sysUser -> {
-            //测试数据
-            if (!sysUser.getName().equals("jiangbenli")) {
+            if (sysUser.getName().equals("admin")) {
                 return;
             }
             List<ServiceType> serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());

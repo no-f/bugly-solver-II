@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.model.ServiceLog;
 import com.bugly.system.provider.ServiceLogProvider;
-import com.bugly.system.vo.BuglyDetailSearchVo;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
@@ -25,6 +24,10 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
 
     @Select("SELECT machine_address FROM `service_log` WHERE exception_type_id=#{id} LIMIT 1")
     ServiceLog findOneByExceptionTypeId(String id);
+
+    @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{id} "
+            +"and current_cluster=#{currentCluster}  and service_name=#{serviceName} ORDER BY ctime DESC LIMIT 1")
+    ServiceLog findOneByExceptionTypeIdAndOther(String id, String currentCluster, String serviceName);
 
     @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{exceptionTypeId} ORDER BY ctime DESC LIMIT #{no},#{pageSize}")
     List<ServiceLog> findByExceptionTypeId(String exceptionTypeId, Integer no, Integer pageSize);

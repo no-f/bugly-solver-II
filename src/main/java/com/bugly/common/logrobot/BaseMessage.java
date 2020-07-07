@@ -19,6 +19,8 @@ public abstract class BaseMessage {
 
     public abstract String toRequestBody();
 
+    public abstract String toCommonRequestBody();
+
     public void addAtMobile(String atMobile) {
         if (atMobiles == null) {
             atMobiles = new ArrayList<>(1);

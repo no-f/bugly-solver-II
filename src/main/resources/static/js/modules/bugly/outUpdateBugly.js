@@ -4,43 +4,43 @@ var app = new Vue({
     data:{
     exceptionTypeId:"",
     state:"",
-    nickName:"",
     remark:""
 
 
     },
     methods:{
 
+    outDealBug :function(){
 
-    updateBugly :function(){
-                     var updateBugly = {
-                         'id':update_bugly.exceptionTypeId.value,
+                     var outDealBug = {
+                         'id':$('#to_exceptionTypeId').val(),
                          'state':Number($('#state option:selected') .val()),
-                         'nickName':update_bugly.nickName.value,
-                         'tag':update_bugly.tag.value,
-                         'remark':update_bugly.remark.value
+                         'nickName':"admin",
+                         'tag':update_deal_bug.tag.value,
+                         'remark':update_deal_bug.remark.value
                      };
 
                      $.ajax({
                          cache : true,
                          type : "POST",
                          url : context + 'exception/deal_with',
-                         data :JSON.stringify(updateBugly),
+                         data :JSON.stringify(outDealBug),
                          dataType : 'json',
                          contentType:'application/json',
                          error : function(request) {
-                             parent.layer.alert("Connection error");
+                               console.log(request);
                          },
                          success : function(data) {
-                         var index = parent.layer.getFrameIndex(window.name);
+                         var str = "";
                              if (data.code === 200) {
                                  if (data.data.code === 200){
-                                     parent.layer.msg("操作成功");
+                                     str = "<font color=green>操作成功</font>"
+                                     $('#result').html(str);
                                  } else if(data.data.code === 200){
-                                     parent.layer.msg("操作失败");
+                                      str = "<font color=red>操作失败</font>"
+                                      $('#result').html(str);
                                  }
-                                 var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-                                 parent.layer.close(index);
+
                              }
                          }
                      });

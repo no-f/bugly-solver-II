@@ -31,7 +31,7 @@ public interface ExceptionTypeDao extends BaseMapper<ExceptionType> {
     @Select("SELECT count(id) FROM `exception_type` where `state`=0 and mtime >=#{startTime} and mtime <=#{endTime}")
     int findUnSolveNumByTime(Date startTime, Date endTime);
 
-    @Select("SELECT * FROM `exception_type` where mtime >=#{startTime} and mtime <=#{endTime} and service_name =#{serviceName} order by num")
+    @Select("SELECT * FROM `exception_type` where mtime >=#{startTime} and mtime <=#{endTime} and service_name =#{serviceName} order by num desc")
     List<ExceptionType> findByToday(Date startTime, Date endTime, String serviceName);
 
     @SelectProvider(type = ExceptionTypeProvider.class, method = "findByCondition")

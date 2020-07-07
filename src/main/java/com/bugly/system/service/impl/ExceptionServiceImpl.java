@@ -74,11 +74,20 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Override
     public CommonResult<Boolean> saveServiceLog(JSONObject content) {
         ServiceLog serviceLog = getData(JSONObject.fromObject(content));
-        serviceLog.setExceptionTypeId(exceptionTypeAction(content));
+        ExceptionType exceptionType = exceptionTypeAction(content);
+        if (null == exceptionType) {
+            return success(true);
+        }
+        serviceLog.setExceptionTypeId(exceptionType.getId());
         saveServiceNameType(content);
         serviceLogDao.insert(serviceLog);
+        if (exceptionType.getState() == 1) {
+            return success(true);
+        }
         AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
+        //通知所有用户
+        DingTalkSender.sendCommonDingTalk(alarmConfig.getWebhookUrl());
         return success(true);
     }
 
@@ -156,10 +165,10 @@ public class ExceptionServiceImpl implements ExceptionService {
             ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
             BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
             serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
-            if (null != serviceLog.getErrorException()) {
+            if (null != serviceLog.getErrorException() && serviceLog.getErrorException().length() > 101) {
                 serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,100) + "......");
             }
-            if (null != serviceLog.getErrorMessage()) {
+            if (null != serviceLog.getErrorMessage() && serviceLog.getErrorMessage().length() > 101) {
                 serviceExceptionBo.setErrorMessage(serviceLog.getErrorMessage().substring(0,100) + "......");
             }
             serviceExceptionBos.add(serviceExceptionBo);
@@ -354,25 +363,25 @@ public class ExceptionServiceImpl implements ExceptionService {
      * @param jsonObject
      * @return
      */
-    private String exceptionTypeAction(JSONObject jsonObject) {
-        if (jsonObject.containsKey("errorLocation")) {
-            String location = (String) jsonObject.get("errorLocation");
-            String serviceName = (String) jsonObject.get("serviceName");
-            Date day = new Date();
-            ExceptionType e = exceptionTypeDao.findByLocal(location);
-            if (null == e) {
-                e = new ExceptionType();
-                e.setId(UUIDUtils.getUUID()).setErrorLocation(location).setState(0).setDeleted(0).setCtime(day).setMtime(day);
-                e.setNum(1).setServiceName(serviceName);
-                exceptionTypeDao.insert(e);
-            } else {
-                e.setNum(e.getNum() + 1).setMtime(day);
-                e.setServiceName(serviceName);
-                exceptionTypeDao.updateById(e);
-            }
-            return e.getId();
+    private ExceptionType exceptionTypeAction(JSONObject jsonObject) {
+        if (!jsonObject.containsKey("errorLocation")) {
+            return null;
         }
-        return "0";
+        String location = (String) jsonObject.get("errorLocation");
+        String serviceName = (String) jsonObject.get("serviceName");
+        Date day = new Date();
+        ExceptionType e = exceptionTypeDao.findByLocal(location);
+        if (null == e) {
+            e = new ExceptionType();
+            e.setId(UUIDUtils.getUUID()).setErrorLocation(location).setState(0).setDeleted(0).setCtime(day).setMtime(day);
+            e.setNum(1).setServiceName(serviceName);
+            exceptionTypeDao.insert(e);
+        } else {
+            e.setNum(e.getNum() + 1).setMtime(day);
+            e.setServiceName(serviceName);
+            exceptionTypeDao.updateById(e);
+        }
+        return e;
     }
 
     /**
