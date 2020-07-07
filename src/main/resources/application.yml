@@ -43,9 +43,12 @@ security:
   # 放行url
 #发送者邮箱
 email:
-  sender: xxxx@xxx.com
+  sender: support@bullyun.com
 #aws 相关配置
 aws:
   sns:
-    accessKey: xxxxxxxxxx
-    secretKey: xxxxxxxxxxx
+    accessKey: AKIAJFUHOJJX3YSHTW6A
+    secretKey: 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
+bugly:
+#  httpUrl: http://bugly-admin.bugly.svc.cluster.local:8080
+  httpUrl: http://127.0.0.1:8080
