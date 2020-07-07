@@ -50,5 +50,5 @@ aws:
     accessKey: AKIAJFUHOJJX3YSHTW6A
     secretKey: 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
 bugly:
-#  httpUrl: http://bugly-admin.bugly.svc.cluster.local:8080
   httpUrl: http://127.0.0.1:8080
+  #  httpUrl: http://bugly-admin.bugly.svc.cluster.local:8080

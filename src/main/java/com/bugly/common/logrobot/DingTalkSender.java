@@ -23,11 +23,12 @@ public class DingTalkSender {
         DingTalkTool.send(message);
     }
 
-    public static void sendCommonDingTalk(String webHookUrl) {
+    public static void sendCommonDingTalk(JSONObject content, String webHookUrl) {
         if (null == webHookUrl || webHookUrl.isEmpty()) {
             return;
         }
-        TextMessage message = new TextMessage(null);
+        content.put("common", true);
+        TextMessage message = new TextMessage(content);
         message.setUrl(webHookUrl);
         message.setAtAll(true);
         DingTalkTool.sendCommon(message);

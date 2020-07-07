@@ -22,6 +22,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -63,6 +64,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Autowired
     private ExceptionTypeUserDao exceptionTypeUserDao;
 
+    @Value("${bugly.httpUrl}")
+    private String buglyHttpUrl;
+
 
     /**
      * 1.save 不同的异常类型
@@ -85,9 +89,10 @@ public class ExceptionServiceImpl implements ExceptionService {
             return success(true);
         }
         AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
+        content.put("buglyHttpUrl", buglyHttpUrl);
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户
-        DingTalkSender.sendCommonDingTalk(alarmConfig.getWebhookUrl());
+        DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl());
         return success(true);
     }
 

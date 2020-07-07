@@ -1,12 +1,8 @@
 package com.bugly.common.logrobot;
 
-import com.bugly.system.config.BaseConfig;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.*;
-
-import static org.apache.commons.lang3.CharUtils.LF;
 
 /**
  * 文本消息
@@ -25,9 +21,12 @@ public class TextMessage extends BaseMessage {
 
     private final String currentCluste;
 
+    private final String buglyHttpUrl;
+
     public TextMessage(JSONObject content) {
         super();
-        if (null != content) {
+        this.buglyHttpUrl = (String) content.get("buglyHttpUrl");
+        if (!content.containsKey("common")) {
             this.content = createDingTemplate(content);
             this.localtion =  !content.containsKey("errorLocation") ? "" : (String) content.get("errorLocation");
             this.serviceName = !content.containsKey("serviceName") ?  "" : (String) content.get("serviceName");
@@ -46,12 +45,12 @@ public class TextMessage extends BaseMessage {
 
         Btns btns1 = new Btns();
         btns1.setTitle("去解决");
-        btns1.setActionURL(BaseConfig.httpUrl + "/bugly/bugly/exception/out_solve?localtion=" + localtion);
+        btns1.setActionURL(buglyHttpUrl + "/bugly/bugly/exception/out_solve?localtion=" + localtion);
         btns.add(btns1);
 
         Btns btns2 = new Btns();
         btns2.setTitle("详细信息");
-        btns2.setActionURL(BaseConfig.httpUrl + "/bugly/bugly/exception/out_detail?localtion=" + localtion
+        btns2.setActionURL(buglyHttpUrl + "/bugly/bugly/exception/out_detail?localtion=" + localtion
                 + "&serviceName="+ serviceName +"&currentCluster=" + currentCluste);
 
         btns.add(btns2);
