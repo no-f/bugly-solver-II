@@ -21,11 +21,14 @@ public class TextMessage extends BaseMessage {
 
     private final String currentCluste;
 
-    private final String buglyHttpUrl;
+//    private final String buglyHttpUrl;
+
+    private final String environment;
 
     public TextMessage(JSONObject content) {
         super();
-        this.buglyHttpUrl = (String) content.get("buglyHttpUrl");
+//        this.buglyHttpUrl = (String) content.get("buglyHttpUrl");
+        this.environment = (String) content.get("environment");
         if (!content.containsKey("common")) {
             this.content = createDingTemplate(content);
             this.localtion =  !content.containsKey("errorLocation") ? "" : (String) content.get("errorLocation");
@@ -45,18 +48,18 @@ public class TextMessage extends BaseMessage {
 
         Btns btns1 = new Btns();
         btns1.setTitle("去解决");
-        btns1.setActionURL(buglyHttpUrl + "/bugly/bugly/exception/out_solve?localtion=" + localtion);
+        btns1.setActionURL(environment + "/bugly/bugly/exception/out_solve?localtion=" + localtion);
         btns.add(btns1);
 
         Btns btns2 = new Btns();
         btns2.setTitle("详细信息");
-        btns2.setActionURL(buglyHttpUrl + "/bugly/bugly/exception/out_detail?localtion=" + localtion
+        btns2.setActionURL(environment + "/bugly/bugly/exception/out_detail?localtion=" + localtion
                 + "&serviceName="+ serviceName +"&currentCluster=" + currentCluste);
 
         btns.add(btns2);
 
         Map<String, Object> actionCardMap = new HashMap<>(2);
-        actionCardMap.put("title", "");
+        actionCardMap.put("title", serviceName);
         actionCardMap.put("text", content);
         actionCardMap.put("btnOrientation", 1);
         actionCardMap.put("btns", btns);
@@ -131,9 +134,9 @@ public class TextMessage extends BaseMessage {
         if (jsonObject.containsKey("errorException")) {
             String errorException = (String) jsonObject.get("errorException");
             if (errorException.length() > 100) {
-                content.append("信息：").append(errorException.substring(0,100) + "...").append("\n").append("\n");
+                content.append("异常：").append(errorException.substring(0,100) + "...").append("\n").append("\n");
             } else {
-                content.append("信息：").append(errorException).append("\n").append("\n");
+                content.append("异常：").append(errorException).append("\n").append("\n");
             }
         }
 

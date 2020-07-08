@@ -78,6 +78,7 @@
     var newstr = str.replace(/(Connection reset by peer)/g, "<font color=red>$1</font>")
     .replace(/(Caused by)/g, "<font color=red>$1</font>")
     .replace(/(com.bullyun)/g, "<font color=red>$1</font>")
+    .replace(/(manniu)/g, "<font color=red>$1</font>")
     .replace(/(Exception)/g, "<font color=red>$1</font>");
     $('#out_errorException').html(newstr);
 </script>
