@@ -2,6 +2,7 @@ package com.bugly.common.logrobot;
 
 import net.sf.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -108,7 +109,8 @@ public class TextMessage extends BaseMessage {
         }
         if (jsonObject.containsKey("triggerTime")) {
             String triggerTime = (String) jsonObject.get("triggerTime");
-            content.append("触发时间：").append(new Date(Long.valueOf(triggerTime))).append("\n").append("\n");
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            content.append("触发时间：").append(sf.format(Long.valueOf(triggerTime))).append("\n").append("\n");
         }
 
         if (jsonObject.containsKey("threadId")) {
