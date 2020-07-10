@@ -298,13 +298,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('37069fb9c0be4c5d9f8626c4b378bfd4', 'yanyan', '$2a$10$CdMPQXBOPf33qmXqgJZYu.1Z36Hpf6P1C9kbBWHlAURiGWGPVm7b2', '闫岩', '男', '15757111111', 'yanyan@bullyun.com', '2020-07-21', '1', '1', '2020-07-03 14:16:45', NULL);
-INSERT INTO `sys_user` VALUES ('4c3372fc21f54e1cad16f757cf987f9d', 'jiangbenli', '$2a$10$doARZ9cAGXoYLENg0PF9AOR7IZy..s2nITl4nUSpJGncVlDaff8dS', '蒋本立', '男', '15757179782', 'jiangbenli@bullyun.com', '2020-07-22', '1', '1', '2020-07-03 14:20:01', '2020-07-03 14:20:09');
 INSERT INTO `sys_user` VALUES ('64c40c54ef21495da322901107a7ad00', 'admin', '$2a$10$OgVXB6JzNxeGBVd2iAtRP.6JbKL/1WAwu2GuV91OkXfwqVemKwcWa', 'admin', '男', '15757179782', '245175616@qq.com', '1994-02-10', 'zz', 'zz', '2019-12-12 21:41:53', '2020-07-01 14:39:23');
-INSERT INTO `sys_user` VALUES ('7d6f12100e3d4d1ab1c26ad38c243719', 'yangrusheng', '$2a$10$o151A5PCSNx8XnQwJvE6lO49UfhVrF90BUhumekW4dvjHF62dYay2', '杨汝生', '男', '15757179712', 'yangrusheng@bullyun.com', '2020-08-04', '1', '1', '2020-07-03 14:13:08', NULL);
-INSERT INTO `sys_user` VALUES ('92379fdd62dd46169b2f569c6f7248e4', 'jiangwei', '$2a$10$xBSxtzS8p3Im.XlrVK85muE1RYTvoddt/sBMWcR7SanemnbMi5pzy', '姜维', '男', '15757179781', 'jiangwei@bullyun.com', '2020-07-28', '1', '1', '2020-07-03 14:08:33', '2020-07-03 14:19:01');
-INSERT INTO `sys_user` VALUES ('a4a9df8732754f9aad534d896f8f1779', 'yeyun', '$2a$10$xCRl1tk43I8WcnZtcHCW9.XWU.JNJLZm6FQTPSVgdKKPPN8kysJi2', '叶赟', '男', '15757179789', 'yeyun@bullyun.com', '2020-07-28', '1', '1', '2020-07-03 14:14:51', NULL);
-INSERT INTO `sys_user` VALUES ('f93e9fd7854641dbb3e597ab5772d313', 'majiaping', '$2a$10$4B6u.p/f33/ophReJKwoy.qoO/VsPSXwAv.UhT83dpMBWsek7W43.', '马佳平', '男', '15757178211', 'majiaping@bullyun.com', '2020-07-27', '1', '1', '2020-07-03 14:14:09', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
