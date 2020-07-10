@@ -43,24 +43,34 @@ bugly-boot 服务异常展示，分析，通知用户的平台
 4. 打开运行BuglyBootApplication.java
 5. 打开浏览器，输入 http://127.0.0.1:8600/bugly/（默认账户 admin/123456）
 
+# 效果图
 <p align="center" >
     <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/favicon.ico" width="150">
     <h3 align="center">BUGLY</h3>
     <p align="center">    
         <br>
+            <h3 align="center">异常位置类型</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%9E%8B.png" >
         <br>
+            <h3 align="center">异常信息列表</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95.png" >
         <br>    
+            <h3 align="center">异常详情</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
         <br>   
+            <h3 align="center">异常配置</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E9%85%8D%E7%BD%AE.png" >
         <br>
+            <h3 align="center">钉钉群报警通知</h3>
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E9%80%9A%E7%9F%A5.png" >
+        <br>    
+            <h3 align="center">钉钉群报警信息详情</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3.png" >
         <br>
+            <h3 align="center">钉钉群报警处理</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
         <br>
-            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E9%80%9A%E7%9F%A5.png" >
+            
     </p>
 </p>
 
