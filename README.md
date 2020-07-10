@@ -59,10 +59,10 @@ bugly-boot 服务异常展示，分析，通知用户的平台
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95.png" >
         </a>
         <a href="https://github.com/xuxueli/xxl-job/releases">
-         <img src="https://img.shields.io/github/release/xuxueli/xxl-job.svg" >
+         <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
         </a>
         <a href="https://github.com/xuxueli/xxl-job/">
-            <img src="https://img.shields.io/github/stars/xuxueli/xxl-job" >
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E9%85%8D%E7%BD%AE.png" >
         </a>
         <a href="https://hub.docker.com/r/xuxueli/xxl-job-admin/">
             <img src="https://img.shields.io/docker/pulls/xuxueli/xxl-job-admin" >
