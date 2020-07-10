@@ -39,7 +39,7 @@ bugly-boot 服务异常展示，分析，通知用户的平台
 # 环境部署
 1. 导入开发工具中(开发工具需要安装lombok插件)
 2. 创建数据库 并导入数据脚本/db/init.sql 文件
-3. 修改application-dev.yml文件中的 mysql和redis的连接信息
+3. 修改application-dev.yml文件中的 mysql的连接信息
 4. 打开运行BuglyBootApplication.java
 5. 打开浏览器，输入 http://127.0.0.1:8600/bugly/（默认账户 admin/123456）
 
