@@ -53,7 +53,7 @@ bugly-boot 服务异常展示，分析，通知用户的平台
         <br>
         <br>
         <a href="https://github.com/xuxueli/xxl-job/actions">
-            <img src="https://github.com/xuxueli/xxl-job/workflows/Java%20CI/badge.svg" >
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%9E%8B.png" >
         </a>
         <a href="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job/">
             <img src="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job/badge.svg" >
