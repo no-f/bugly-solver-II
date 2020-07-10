@@ -49,25 +49,18 @@ bugly-boot 服务异常展示，分析，通知用户的平台
     <p align="center">    
         <br>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%9E%8B.png" >
-       
-        <a href="">
+        <br>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95.png" >
-        </a>
-        <a href="">
-         <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
-        </a>
-        <a href="">
+        <br>    
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
+        <br>   
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E9%85%8D%E7%BD%AE.png" >
-        </a>
-        <a href="">
+        <br>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3.png" >
-        </a>
-        <a href="">
-         <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
-        </a>
-        <a href="">
-           <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E9%80%9A%E7%9F%A5.png" >
-        </a>
+        <br>
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%AF%A6%E6%83%85.png" >
+        <br>
+            <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E9%80%9A%E7%9F%A5.png" >
     </p>
 </p>
 
