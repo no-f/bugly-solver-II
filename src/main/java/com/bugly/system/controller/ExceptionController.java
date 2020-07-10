@@ -113,6 +113,7 @@ public class ExceptionController {
             model.addAttribute("errorException", " ");
             model.addAttribute("level", " ");
             model.addAttribute("localtion", localtion);
+            model.addAttribute("exceptionTypeId", 0);
         } else {
             ServiceLog serviceLog =  serviceLogDao.findOneByExceptionTypeIdAndOther(exceptionType.getId(), currentCluster, serviceName);
             model.addAttribute("errorException", serviceLog == null ? "" : serviceLog.getErrorException());
@@ -122,6 +123,7 @@ public class ExceptionController {
             ServiceType serviceType = serviceTypeDao.findByName(serviceLog.getServiceName());
             List<String> nickNames = serviceTypeUserDao.findByServiceTypeId(serviceType.getId());
             Optional.ofNullable(nickNames).ifPresent(n-> model.addAttribute("name", StringUtils.join(n, ",")));
+            model.addAttribute("exceptionTypeId", exceptionType.getId());
         }
         return "module/bugly/outBugDetail";
     }
