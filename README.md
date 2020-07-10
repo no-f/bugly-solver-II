@@ -48,9 +48,8 @@ bugly-boot 服务异常展示，分析，通知用户的平台
     <h3 align="center">BUGLY</h3>
     <p align="center">    
         <br>
-        <a href="">
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%9E%8B.png" >
-        </a>
+       
         <a href="">
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E5%BC%82%E5%B8%B8%E8%AE%B0%E5%BD%95.png" >
         </a>
