@@ -44,8 +44,8 @@ bugly-boot 服务异常展示，分析，通知用户的平台
 5. 打开浏览器，输入 http://127.0.0.1:8600/bugly/（默认账户 admin/123456）
 
 <p align="center" >
-    <img src="https://www.xuxueli.com/doc/static/xxl-job/images/xxl-logo.jpg" width="150">
-    <h3 align="center">XXL-JOB</h3>
+    <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/favicon.ico" width="150">
+    <h3 align="center">BUGLY</h3>
     <p align="center">    
         <br>
         <a href="">
