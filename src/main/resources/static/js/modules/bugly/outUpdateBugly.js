@@ -36,7 +36,7 @@ var app = new Vue({
                                  if (data.data.code === 200){
                                      str = "<font color=green>操作成功</font>"
                                      $('#result').html(str);
-                                 } else if(data.data.code === 200){
+                                 } else if(data.data.code === 500){
                                       str = "<font color=red>操作失败</font>"
                                       $('#result').html(str);
                                  }

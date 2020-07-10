@@ -30,14 +30,16 @@
             <div class="layui-card">
                 <div id="o_name" class="layui-card-header">
                 </div>
-                <input id="to_exceptionTypeId" name="exceptionTypeId" th:value="${exceptionTypeId}" type="hidden">
-                <input id="currentCluster" name="currentCluster" th:value="${currentCluster}" type="hidden">
-                <input id="serviceName" name="serviceName" th:value="${serviceName}" type="hidden">
-                <input id="level" name="level" th:value="${level}" type="hidden">
-                <input id="errorException" name="level" th:value="${errorException}" type="hidden">
-                <input id="errorMessage" name="level" th:value="${errorMessage}" type="hidden">
-                <input id="localtion" name="level" th:value="${localtion}" type="hidden">
-                <input id="name" name="level" th:value="${name}" type="hidden">
+                <input id="to_exceptionTypeId"  th:value="${exceptionTypeId}" type="hidden">
+                <input id="currentCluster" th:value="${currentCluster}" type="hidden">
+                <input id="serviceName"  th:value="${serviceName}" type="hidden">
+                <input id="level" th:value="${level}" type="hidden">
+                <input id="errorException"  th:value="${errorException}" type="hidden">
+                <input id="errorMessage" th:value="${errorMessage}" type="hidden">
+                <input id="localtion" th:value="${localtion}" type="hidden">
+                <input id="name" th:value="${name}" type="hidden">
+                <input id="state" value="1" type="hidden">
+                <input id="remark" value="1" type="hidden">
                 <div class="layui-card-body">
 
                     <ul class="site-doc-icon" style="margin-bottom: 10px;">
@@ -99,5 +101,9 @@
     $('#out_errorException').html(newstr);
 </script>
 <script th:src="@{/static/js/modules/bugly/solveBugly.js}"></script>
+<!--<script src="https://unpkg.com/vconsole@3.3.4/dist/vconsole.min.js"></script>-->
+<!--<script>var vConsole = new VConsole();-->
+<!--  console.log('Hello world');-->
+<!--</script></script>-->
 </body>
 </html>
