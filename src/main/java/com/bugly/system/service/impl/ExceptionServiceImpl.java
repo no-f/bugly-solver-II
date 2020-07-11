@@ -196,10 +196,18 @@ public class ExceptionServiceImpl implements ExceptionService {
 
             SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",Locale.ENGLISH);
             if (null != buglyDetailSearchVo.getStartTime()) {
-                getServerLogDto.setStartTime(dff.parse(buglyDetailSearchVo.getStartTime()));
+                Calendar rightStart = Calendar.getInstance();
+                rightStart.setTime(dff.parse(buglyDetailSearchVo.getStartTime()));
+                rightStart.add(Calendar.HOUR, +8);
+                getServerLogDto.setStartTime(rightStart.getTime());
             }
             if (null != buglyDetailSearchVo.getEndTime()) {
-                getServerLogDto.setEndTime(dff.parse(buglyDetailSearchVo.getEndTime()));
+                Calendar rightEnd = Calendar.getInstance();
+                rightEnd.setTime(dff.parse(buglyDetailSearchVo.getEndTime()));
+                rightEnd.add(Calendar.HOUR, +31);
+                rightEnd.add(Calendar.MINUTE, +59);
+                rightEnd.add(Calendar.SECOND, +59);
+                getServerLogDto.setEndTime(rightEnd.getTime());
             }
 
         } catch (Exception e) {

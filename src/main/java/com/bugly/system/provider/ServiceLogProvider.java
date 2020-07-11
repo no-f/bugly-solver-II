@@ -28,7 +28,7 @@ public class ServiceLogProvider {
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getCurrentCluster())) {
-            sb.append(" AND locate(#{currentCluster}, `current_cluster`)>0 ");
+            sb.append(" AND `current_cluster`=#{currentCluster} ");
         }
 
         if (getServerLogDto.getStartTime() != null) {
