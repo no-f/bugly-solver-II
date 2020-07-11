@@ -70,9 +70,8 @@ bugly-boot-admin 服务异常展示，分析，通知用户的平台
         <br>
             <h3 align="center">钉钉群报警处理</h3>
             <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/%E9%92%89%E9%92%89%E7%BE%A4%E5%BC%82%E5%B8%B8%E8%A7%A3%E5%86%B3.png" >
-        <br>
-            
+        <br>   
     </p>
-
+</p>
 
 
