@@ -36,7 +36,7 @@ public class TextMessage extends BaseMessage {
             this.serviceName = !content.containsKey("serviceName") ?  "" : (String) content.get("serviceName");
             this.currentCluste = !content.containsKey("currentCluster") ?  "" :(String) content.get("currentCluster");
         } else {
-            this.content = "请及时处理 ～";
+            this.content = "请及时处理 ～" + "\n" + environment + "/bugly/login" + "\n" ;
             this.localtion =  "";
             this.serviceName = "";
             this.currentCluste = "";
