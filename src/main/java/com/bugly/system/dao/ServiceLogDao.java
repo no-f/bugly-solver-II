@@ -35,6 +35,9 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     @Select("SELECT count(id) FROM `service_log` WHERE exception_type_id=#{exceptionTypeId}")
     int findCountByExceptionTypeId(String exceptionTypeId);
 
+    @Select("SELECT count(id) FROM `service_log` WHERE exception_type_id=#{exceptionTypeId} and TO_DAYS(ctime) = TO_DAYS(NOW())")
+    int findNumByToday(String exceptionTypeId);
+
     @Select("SELECT * FROM `service_log` ORDER BY ctime DESC LIMIT #{no}, #{pageSize}")
     List<ServiceLog> findAll(Integer no, Integer pageSize);
 

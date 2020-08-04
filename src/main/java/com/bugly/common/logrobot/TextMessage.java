@@ -113,6 +113,10 @@ public class TextMessage extends BaseMessage {
             content.append("触发时间：").append(sf.format(Long.valueOf(triggerTime))).append("\n").append("\n");
         }
 
+        if (jsonObject.containsKey("num")) {
+            content.append("今日异常次数：").append(jsonObject.get("num")).append("\n").append("\n");
+        }
+
         if (jsonObject.containsKey("threadId")) {
             content.append("线程ID：").append(jsonObject.get("threadId")).append("\n").append("\n");
         }

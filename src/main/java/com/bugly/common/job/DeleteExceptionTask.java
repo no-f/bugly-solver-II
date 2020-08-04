@@ -19,7 +19,7 @@ public class DeleteExceptionTask {
     /**
      * 删除异常记录
      */
-    @Scheduled(cron="0 15 10 ? * MON")
+    @Scheduled(cron="0 0 0 * * ?")
     private void deleteData() {
         serviceLogDao.deleteServiceLog();
     }

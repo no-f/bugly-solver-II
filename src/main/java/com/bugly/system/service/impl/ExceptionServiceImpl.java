@@ -90,6 +90,9 @@ public class ExceptionServiceImpl implements ExceptionService {
         }
         AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
         content.put("buglyHttpUrl", buglyHttpUrl);
+
+        int num = serviceLogDao.findNumByToday(exceptionType.getId());
+        content.put("num",num);
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户
         DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl());
