@@ -264,7 +264,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         exceptionTypeUser.setId(UUIDUtils.getUUID()).setExceptionTypeId(dto.getId());
         exceptionTypeUser.setDeleted(0).setMtime(day).setCtime(day);
         exceptionTypeUser.setRemark(dto.getRemark());
-        SysUser sysUser = sysUserService.findByName(dto.getNickName());
+        SysUser sysUser = sysUserDao.findByNickame(dto.getNickName());
         Optional.ofNullable(sysUser).ifPresent(u -> exceptionTypeUser.setUserId(u.getId()));
         exceptionTypeUserDao.insert(exceptionTypeUser);
 
