@@ -71,7 +71,7 @@ public class ExceptionTask {
     /**
      * 每天发送邮件
      */
-    @Scheduled(cron="0/5 * * * * ?")
+    @Scheduled(cron="0 0 2 * * ?")
     public void day() {
         List<SysUser> sysUsers = sysUserDao.findAllBy();
 
