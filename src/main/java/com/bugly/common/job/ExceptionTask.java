@@ -71,7 +71,7 @@ public class ExceptionTask {
     /**
      * 每天发送邮件
      */
-    @Scheduled(cron="0 0 2 * * ?")
+    @Scheduled(cron="0/5 * * * * ?")
     public void day() {
         List<SysUser> sysUsers = sysUserDao.findAllBy();
 
@@ -131,7 +131,7 @@ public class ExceptionTask {
                 "\t\t\t\t\t\t\t\t\t\t\t\t<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" border=\"0\">\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t\t<tr>\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td align=\"left\" valign=\"top\" style=\"padding:20px;\" width=\"150\" lsm:grid lsm:image>\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src=\"https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture\" width=\"150\" alt=\"\" />\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src=\"https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture&_t="+ new Date().getTime() +"\" width=\"150\" alt=\"\" />\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td>\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td align=\"left\" valign=\"top\" style=\"word-wrap:break-word;word-break:break-all;font-size:14px; padding:20px; font-family:'open sans'; color:#666\" width=\"450\" lsm:grid lsm:content>\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h4 style=\"color:#333; font-size:16px;\">" + serviceName + "</h4> <br />\n";
