@@ -48,7 +48,6 @@ public class DingTalkTool {
      * @param message 消息
      */
     public static void sendCommon(BaseMessage message) {
-        message.setAtAll(true);
         CompletableFuture.completedFuture(message)
                 .thenAcceptAsync(DingTalkTool::sendSyncCommon);
     }

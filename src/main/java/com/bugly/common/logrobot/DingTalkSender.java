@@ -2,6 +2,8 @@ package com.bugly.common.logrobot;
 
 import net.sf.json.JSONObject;
 
+import java.util.List;
+
 /**
  * @author bbb
  * @since 2020-05-26
@@ -23,14 +25,19 @@ public class DingTalkSender {
         DingTalkTool.send(message);
     }
 
-    public static void sendCommonDingTalk(JSONObject content, String webHookUrl) {
+    public static void sendCommonDingTalk(JSONObject content, String webHookUrl, List<String> mobiels) {
         if (null == webHookUrl || webHookUrl.isEmpty()) {
             return;
         }
         content.put("common", true);
         TextMessage message = new TextMessage(content);
         message.setUrl(webHookUrl);
-        message.setAtAll(true);
+        if (null == mobiels || mobiels.size() == 0) {
+            message.setAtAll(true);
+        } else {
+            message.setAtAll(false);
+            mobiels.forEach(phone -> message.addAtMobile(phone));
+        }
         DingTalkTool.sendCommon(message);
     }
 

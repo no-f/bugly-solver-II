@@ -1,7 +1,9 @@
 package com.bugly.system.service.impl;
 
 import com.bugly.common.base.ApiResponse;
+import com.bugly.common.job.CacheTask;
 import com.bugly.common.logrobot.DingTalkSender;
+import com.bugly.common.utils.CacheUtil;
 import com.bugly.common.utils.UUIDUtils;
 import com.bugly.system.bo.ExceptionTypeBo;
 import com.bugly.system.bo.ServiceExceptionBo;
@@ -64,6 +66,12 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Autowired
     private ExceptionTypeUserDao exceptionTypeUserDao;
 
+    @Autowired
+    private CacheUtil cacheUtil;
+
+    @Autowired
+    private CacheTask cacheTask;
+
     @Value("${bugly.httpUrl}")
     private String buglyHttpUrl;
 
@@ -83,19 +91,20 @@ public class ExceptionServiceImpl implements ExceptionService {
             return success(true);
         }
         serviceLog.setExceptionTypeId(exceptionType.getId());
-        saveServiceNameType(content);
+        List<String> mobiels = saveServiceNameType(content);
         serviceLogDao.insert(serviceLog);
         if (exceptionType.getState() == 1) {
             return success(true);
         }
-        AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
+        AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
         content.put("buglyHttpUrl", buglyHttpUrl);
 
         int num = serviceLogDao.findNumByToday(exceptionType.getId());
         content.put("num",num);
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
-        //通知所有用户
-        DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl());
+        //通知所有用户  单独通知责任人
+
+        DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl(), mobiels);
         return success(true);
     }
 
@@ -404,19 +413,20 @@ public class ExceptionServiceImpl implements ExceptionService {
      * 保存服务类型
      * @param jsonObject
      */
-    private void saveServiceNameType(JSONObject jsonObject) {
+    private List<String> saveServiceNameType(JSONObject jsonObject) {
         if (!jsonObject.containsKey("serviceName")) {
-            return;
+            return null;
         }
         String serviceName = (String) jsonObject.get("serviceName");
         ServiceType serviceType = serviceTypeDao.findByName(serviceName);
         if (null != serviceType) {
-            return;
+            return cacheTask.getServerNamePhoneMap(serviceName);
         }
         Date day = new Date();
         serviceType = new ServiceType();
         serviceType.setId(UUIDUtils.getUUID()).setServiceName(serviceName).setDeleted(0).setCtime(day).setMtime(day);
         serviceTypeDao.insert(serviceType);
+        return null;
     }
 
     private String stateString(int state) {

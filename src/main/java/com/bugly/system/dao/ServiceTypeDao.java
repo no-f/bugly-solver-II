@@ -21,6 +21,10 @@ public interface ServiceTypeDao extends BaseMapper<ServiceType> {
     @Select("SELECT * FROM `service_type` order by mtime desc limit #{no}, #{pageSize}")
     List<ServiceType> findAll(Integer no, Integer pageSize);
 
+    @Select("SELECT su.mobile FROM sys_user su, service_type_user stu, service_type st  WHERE su.id = stu.user_id and st.id = stu.service_type_id "
+            + "AND st.service_name=#{serviceName}")
+    List<String> findMobilesByServiceName(String serviceName);
+
     @Select("SELECT st.* FROM `service_type` st, `service_type_user` stu where st.id=stu.`service_type_id` and "
             +" stu.user_id=#{userId} GROUP BY st.id" )
     List<ServiceType> findByUserId(String userId);
