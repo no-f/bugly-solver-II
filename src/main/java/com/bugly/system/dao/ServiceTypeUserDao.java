@@ -2,6 +2,7 @@ package com.bugly.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bugly.system.model.ServiceTypeUser;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,9 @@ public interface ServiceTypeUserDao extends BaseMapper<ServiceTypeUser> {
 
     @Select("SELECT count(id) FROM `service_type_user`")
     int findAllNum();
+
+    @Delete("delete FROM `service_type_user` where service_type_id =#{serviceTypeId}")
+    int deleteByServiceTypeId(String serviceTypeId);
 
     @Select("SELECT * FROM `service_type_user` where user_id = #{userId} and service_type_id =#{serviceTypeId}")
     ServiceTypeUser findByServiceTypeIdAndUserId(String serviceTypeId, String userId);

@@ -155,6 +155,7 @@ public class UserRestController {
     public ApiResponse getAllUserName(){
         JSONObject jsonObject = new JSONObject();
         List<String> allUserNickname = sysUserDao.findAllNickame();
+        allUserNickname.add("clear");
         jsonObject.put("allUserNickname", allUserNickname);
         return ApiResponse.ofSuccess(jsonObject);
     }

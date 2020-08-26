@@ -202,6 +202,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     @Override
     public ApiResponse getDetailsByCondition(BuglyDetailSearchVo buglyDetailSearchVo) {
+        Long startTime = System.currentTimeMillis();
         GetServerLogDto getServerLogDto = new GetServerLogDto();
         BeanUtils.copyProperties(buglyDetailSearchVo, getServerLogDto);
         try {
@@ -241,19 +242,26 @@ public class ExceptionServiceImpl implements ExceptionService {
             ServiceExceptionBo serviceExceptionBo = new ServiceExceptionBo();
             BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
             serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
-            if (null != serviceLog.getErrorException()) {
-                serviceExceptionBo.setErrorException(serviceLog.getErrorException().substring(0,100) + "......");
-            }
-            if (null != serviceLog.getErrorMessage()) {
-                serviceExceptionBo.setErrorMessage(serviceLog.getErrorMessage().substring(0,100) + "......");
-            }
+
+            int errorExceptionSize = serviceLog.getErrorException().length();
+            serviceExceptionBo.setErrorException(errorExceptionSize > 100 ? serviceLog.getErrorException().substring(0,100) + "......"
+                    : serviceLog.getErrorException());
+
+            int errorMessageSize = serviceLog.getErrorMessage().length();
+            serviceExceptionBo.setErrorMessage(errorMessageSize > 100 ? serviceLog.getErrorMessage().substring(0,100) + "......"
+                    : serviceLog.getErrorMessage());
             serviceExceptionBos.add(serviceExceptionBo);
         });
+        Long cc = System.currentTimeMillis();
+        System.out.println("第一阶段消耗时间 ：" + (cc - startTime));
 
         jsonObject.put("total",serviceLogDao.countCondition(getServerLogDto));
         jsonObject.put("page",buglyDetailSearchVo.getPage());
         jsonObject.put("page_size",buglyDetailSearchVo.getPageSize());
         jsonObject.put("sysUserList",serviceExceptionBos);
+
+        System.out.println("第二阶段消耗时间 ：" + (System.currentTimeMillis() - cc));
+
         return ApiResponse.ofSuccess(jsonObject);
     }
 
@@ -323,22 +331,25 @@ public class ExceptionServiceImpl implements ExceptionService {
             }
         }
         //user
-        SysUser sysUser = sysUserDao.findByNickame(dto.getNickname());
+
         JSONObject jsonObject = new JSONObject();
-        if (null == sysUser) {
-            jsonObject.put("code",500);
-            return ApiResponse.ofSuccess(jsonObject);
+        if (dto.getNickname().equals("clear")) {
+            serviceTypeUserDao.deleteByServiceTypeId(dto.getId());
+        } else {
+            SysUser sysUser = sysUserDao.findByNickame(dto.getNickname());
+            if (null == sysUser) {
+                jsonObject.put("code",500);
+                return ApiResponse.ofSuccess(jsonObject);
+            }
+            ServiceTypeUser serviceTypeUser = serviceTypeUserDao.findByServiceTypeIdAndUserId(dto.getId(), sysUser.getId());
+            if (null != serviceTypeUser) {
+                jsonObject.put("code",200);
+                return ApiResponse.ofSuccess(jsonObject);
+            }
+            serviceTypeUser = new ServiceTypeUser();
+            serviceTypeUser.setId(UUIDUtils.getUUID()).setCtime(day).setMtime(day).setDeleted(0).setServiceTypeId(dto.getId()).setUserId(sysUser.getId());
+            serviceTypeUserDao.insert(serviceTypeUser);
         }
-
-        ServiceTypeUser serviceTypeUser = serviceTypeUserDao.findByServiceTypeIdAndUserId(dto.getId(), sysUser.getId());
-        if (null != serviceTypeUser) {
-            jsonObject.put("code",200);
-            return ApiResponse.ofSuccess(jsonObject);
-        }
-
-        serviceTypeUser = new ServiceTypeUser();
-        serviceTypeUser.setId(UUIDUtils.getUUID()).setCtime(day).setMtime(day).setDeleted(0).setServiceTypeId(dto.getId()).setUserId(sysUser.getId());
-        serviceTypeUserDao.insert(serviceTypeUser);
 
         jsonObject.put("code",200);
         return ApiResponse.ofSuccess(jsonObject);
