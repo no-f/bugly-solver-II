@@ -12,19 +12,19 @@ public class ServiceLogProvider {
     public String findByCondition(GetServerLogDto getServerLogDto) {
         StringBuilder sb = new StringBuilder("SELECT * FROM service_log WHERE deleted=0 ");
         if (StringUtils.isNotBlank(getServerLogDto.getErrorException())) {
-            sb.append(" AND locate(#{errorException}, `error_exception`)>0 ");
+            sb.append(" AND `error_exception` LIKE  '" + getServerLogDto.getErrorException() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getErrorMessage())) {
-            sb.append(" AND locate(#{errorMessage}, `error_message`)>0 ");
+            sb.append(" AND `error_message` LIKE  '" + getServerLogDto.getErrorMessage() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getServiceName())) {
-            sb.append(" AND locate(#{serviceName}, `service_name`)>0 ");
+            sb.append(" AND `service_name` LIKE  '" + getServerLogDto.getServiceName() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {
-            sb.append(" AND locate(#{machinneAddress}, `machinne_address`)>0 ");
+            sb.append(" AND `machine_address` LIKE  '" + getServerLogDto.getMachinneAddress() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getCurrentCluster())) {
@@ -47,15 +47,19 @@ public class ServiceLogProvider {
     public String countCondition(GetServerLogDto getServerLogDto) {
         StringBuilder sb = new StringBuilder("SELECT count(id) FROM service_log WHERE deleted=0 ");
         if (StringUtils.isNotBlank(getServerLogDto.getErrorException())) {
-            sb.append(" AND locate(#{errorException}, `error_exception`)>0 ");
+            sb.append(" AND `error_exception` LIKE  '" + getServerLogDto.getErrorException() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getErrorMessage())) {
-            sb.append(" AND locate(#{errorMessage}, `error_message`)>0 ");
+            sb.append(" AND `error_message` LIKE  '" + getServerLogDto.getErrorMessage() + "%'");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {
-            sb.append(" AND locate(#{machinneAddress}, `machine_address`)>0 ");
+            sb.append(" AND `machine_address` LIKE  '" + getServerLogDto.getMachinneAddress() + "%'");
+        }
+
+        if (StringUtils.isNotBlank(getServerLogDto.getServiceName())) {
+            sb.append(" AND `service_name` LIKE  '" + getServerLogDto.getServiceName() + "%'");
         }
 
         if (getServerLogDto.getStartTime() != null) {

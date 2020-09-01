@@ -80,8 +80,13 @@ public class TextMessage extends BaseMessage {
         contentMap.put("content", content);
 
         Map<String, Object> atMap = new HashMap<>(2);
-        atMap.put("isAtAll", isAtAll());
-        atMap.put("atMobiles", getAtMobiles());
+        if (null != getAtMobiles() && getAtMobiles().size() > 0) {
+            atMap.put("atMobiles", getAtMobiles());
+            atMap.put("isAtAll", false);
+        } else {
+            atMap.put("atMobiles", getAtMobiles());
+            atMap.put("isAtAll", true);
+        }
 
         Map<String, Object> reqMap = new HashMap<>(3);
         reqMap.put("msgtype", "text");

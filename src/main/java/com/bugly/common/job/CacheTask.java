@@ -42,9 +42,9 @@ public class CacheTask {
         if (serverNamePhoneMap.size() == 0 || !serverNamePhoneMap.containsKey(serviceName)) {
             List<String> phones = serviceTypeDao.findMobilesByServiceName(serviceName);
             serverNamePhoneMap.put(serviceName, phones);
+            return phones;
         } else {
             return serverNamePhoneMap.get(serviceName);
         }
-        return null;
     }
 }

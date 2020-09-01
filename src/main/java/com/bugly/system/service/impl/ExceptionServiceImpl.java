@@ -243,24 +243,25 @@ public class ExceptionServiceImpl implements ExceptionService {
             BeanUtils.copyProperties(serviceLog, serviceExceptionBo);
             serviceExceptionBo.setTriggerTime(sf.format(serviceLog.getTriggerTime()));
 
-            int errorExceptionSize = serviceLog.getErrorException().length();
-            serviceExceptionBo.setErrorException(errorExceptionSize > 100 ? serviceLog.getErrorException().substring(0,100) + "......"
-                    : serviceLog.getErrorException());
+            if (null != serviceLog.getErrorException()) {
+                int errorExceptionSize = serviceLog.getErrorException().length();
+                serviceExceptionBo.setErrorException(errorExceptionSize > 100 ? serviceLog.getErrorException().substring(0,100) + "......"
+                        : serviceLog.getErrorException());
 
-            int errorMessageSize = serviceLog.getErrorMessage().length();
-            serviceExceptionBo.setErrorMessage(errorMessageSize > 100 ? serviceLog.getErrorMessage().substring(0,100) + "......"
-                    : serviceLog.getErrorMessage());
+                int errorMessageSize = serviceLog.getErrorMessage().length();
+                serviceExceptionBo.setErrorMessage(errorMessageSize > 100 ? serviceLog.getErrorMessage().substring(0,100) + "......"
+                        : serviceLog.getErrorMessage());
+
+            }
             serviceExceptionBos.add(serviceExceptionBo);
         });
         Long cc = System.currentTimeMillis();
-        System.out.println("第一阶段消耗时间 ：" + (cc - startTime));
+
 
         jsonObject.put("total",serviceLogDao.countCondition(getServerLogDto));
         jsonObject.put("page",buglyDetailSearchVo.getPage());
         jsonObject.put("page_size",buglyDetailSearchVo.getPageSize());
         jsonObject.put("sysUserList",serviceExceptionBos);
-
-        System.out.println("第二阶段消耗时间 ：" + (System.currentTimeMillis() - cc));
 
         return ApiResponse.ofSuccess(jsonObject);
     }
