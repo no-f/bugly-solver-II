@@ -307,7 +307,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         });
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("total",serviceTypeUserDao.findAllNum());
+        jsonObject.put("total",serviceTypeDao.findAllNum());
         jsonObject.put("page",page);
         jsonObject.put("page_size",pageSize);
         jsonObject.put("sysUserList",serviceTypeBos);

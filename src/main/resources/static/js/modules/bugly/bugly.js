@@ -30,11 +30,11 @@ $().ready(function(){
 
             handleSizeChange: function (val) {
                 vm.page_size = val;
-                this.getDifferentExceptionList();
+                this.search();
             },
             handleCurrentChange: function (val) {
                 vm.current_page = val;
-                this.getDifferentExceptionList();
+                this.search();
             },
 
             getDifferentExceptionList: function () {
@@ -86,7 +86,7 @@ $().ready(function(){
 
         },
         mounted: function () {
-            this.getDifferentExceptionList();
+            this.search();
         }
     });
 });

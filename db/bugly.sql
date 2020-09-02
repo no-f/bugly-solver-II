@@ -321,3 +321,7 @@ INSERT INTO `sys_user_role` VALUES ('92379fdd62dd46169b2f569c6f7248e4', '38ab528
 INSERT INTO `sys_user_role` VALUES ('4c3372fc21f54e1cad16f757cf987f9d', 'b8174920f33f4b17ad5f415c700aacd2');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE `bugly`.`service_log`
+ADD INDEX `idx_error_message`(`error_message`(10)) USING BTREE,
+ADD INDEX `idx_error_exceptionn`(`error_exception`(10)) USING BTREE;
