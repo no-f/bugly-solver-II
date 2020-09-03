@@ -64,10 +64,11 @@
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
-                    <li v-for="menuVo in menuList" :data-name="menuVo.code" class="layui-nav-item">
+                    <li v-for="menuVo in menuList" :data-name="menuVo.code" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;" :lay-tips="menuVo.name" lay-direction="2">
                             <i :class="menuVo.icon"></i>
                             <cite>{{menuVo.name}}</cite>
+                            <span class="layui-nav-more"></span>
                         </a>
                         <dl class="layui-nav-child">
                             <dd  v-for="menu in menuVo.sysMenus"  :data-name="menu.menuCode">

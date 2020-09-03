@@ -33,8 +33,9 @@ public class SysLogServiceImpl implements SysLogService {
         try {
             // 获取ip地址
             String ipAddr = IpInfoUtils.getIpAddr(request);
-            // 获取ip来源
-            String ipSource = IpInfoUtils.getipSource(ipAddr);
+            // 获取ip来源 目前不需要
+//            String ipSource = IpInfoUtils.getipSource(ipAddr);
+            String ipSource = "";
             //获取浏览器信息
             String browser = IpInfoUtils.getBrowser(request);
             // 获取系统名称
