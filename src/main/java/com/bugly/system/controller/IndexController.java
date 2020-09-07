@@ -1,5 +1,6 @@
 package com.bugly.system.controller;
 
+import com.bugly.common.job.CacheTask;
 import com.bugly.common.utils.TimeUtils;
 import com.bugly.system.dao.ExceptionReportDao;
 import com.bugly.system.entity.ExceptionReport;
@@ -15,9 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author no_f
@@ -34,6 +33,9 @@ public class IndexController {
 
     @Autowired
     private ExceptionReportDao exceptionReportDao;
+
+    @Autowired
+    private CacheTask cacheTask;
 
     @RequestMapping("/")
     public String index(){
@@ -65,6 +67,7 @@ public class IndexController {
         model.addAttribute("exception_month", exceptionMonth == -1 ? 0 : exceptionMonth);
 
         model.addAttribute("list_exception", JSONArray.fromObject(exceptionReports).toString());
+        model.addAttribute("list_service_num", JSONArray.fromObject(cacheTask.getServiceExcNum()).toString());
         return "home";
     }
 

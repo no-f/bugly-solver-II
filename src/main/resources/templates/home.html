@@ -13,6 +13,7 @@
         <div class="layui-col-sm6 layui-col-md3">
             <div class="layui-card">
                 <input id="list_exception" name="list_exception" th:value="${list_exception}" type="hidden">
+                <input id="list_service_num" name="list_service_num" th:value="${list_service_num}" type="hidden">
                 <div class="layui-card-header">
                     异常总量
                     <span class="layui-badge layui-bg-red layuiadmin-badge">总</span>
@@ -62,9 +63,14 @@
                 </div>
                 <div class="layui-card-body">
                     <div class="layui-row">
-                        <div class="layui-col-sm12">
+                        <div class="layui-card-body" style="width: 47%; float:left">
                             <template>
                                 <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+                            </template>
+                        </div>
+                        <div class="layui-card-body" style="width: 47%; float:right">
+                            <template>
+                                <ve-pie :data="pieChartData" :settings="pieChartSettings"></ve-pie>
                             </template>
                         </div>
                     </div>
@@ -103,6 +109,19 @@
          )
     }
 
+    var serverStr = new StringBuilder();
+    var list_service_num = $('#list_service_num').val();
+    var lc = JSON.parse(list_service_num);
+
+
+    for (i = 0; i < lc.length; i++) {
+         if(i == (lc.length -1)) {
+         serverStr.append("{\"服务名\": \""+lc[i].name+"\", \"异常数\":"+lc[i].num+"}")
+         } else(
+         serverStr.append("{\"服务名\": \""+lc[i].name+"\", \"异常数\":"+lc[i].num+"},")
+         )
+    }
+
 
     var vm = new Vue({
         el: '#app',
@@ -114,6 +133,11 @@
             chartSettings: {
                 metrics: ['异常总量', '未解决异常量'],
                 dimension: ['日期']
+            },
+
+            pieChartData: {
+            columns: ['服务名', '异常数'],
+            rows: JSON.parse('['+serverStr.toString(" ")+']')
             }
         }
     });
