@@ -1,5 +1,6 @@
 package com.bugly.system.service.impl;
 
+import cn.hutool.cache.impl.TimedCache;
 import com.bugly.common.base.ApiResponse;
 import com.bugly.common.job.CacheTask;
 import com.bugly.common.logrobot.DingTalkSender;
@@ -75,6 +76,8 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Value("${bugly.httpUrl}")
     private String buglyHttpUrl;
 
+    public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(4);
+
 
     /**
      * 1.save 不同的异常类型
@@ -101,6 +104,9 @@ public class ExceptionServiceImpl implements ExceptionService {
 
         int num = serviceLogDao.findNumByToday(exceptionType.getId());
         content.put("num",num);
+        if (sendOrNot(exceptionType.getId(), content)) {
+            return success(true);
+        }
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户  单独通知责任人
 
@@ -451,5 +457,20 @@ public class ExceptionServiceImpl implements ExceptionService {
                 return "处理中";
             default: return "待处理";
         }
+    }
+
+    /**
+     * 30秒内相同的报警，只发送钉钉一次
+     * @param excId
+     * @param content
+     * @return
+     */
+    private Boolean sendOrNot(String excId, JSONObject content) {
+        if (null != timedCache.get(excId)) {
+            return true;
+        }
+        timedCache.put(excId, content, 30000); //30秒过期
+        timedCache.schedulePrune(5);
+        return false;
     }
 }
