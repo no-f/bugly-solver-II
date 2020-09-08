@@ -60,6 +60,7 @@ $().ready(function(){
 //                           'nickName':bugly_search.search_nickName.value,
                            'pageSize':this.page_size,
                            'page':this.current_page,
+                           'serviceName':bugly_search.s_name.value,
                            'errorLocaltion':bugly_search.search_errorLocaltion.value,
                            'state':bugly_search.search_state.value
                            };

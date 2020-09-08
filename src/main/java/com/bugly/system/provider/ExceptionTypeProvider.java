@@ -18,6 +18,9 @@ public class ExceptionTypeProvider {
         if (StringUtils.isNotBlank(buglySearchVo.getErrorLocaltion())) {
             sb.append(" AND `error_location` LIKE  '" + buglySearchVo.getErrorLocaltion() + "%'");
         }
+        if (StringUtils.isNotBlank(buglySearchVo.getServiceName())) {
+            sb.append(" AND `service_name` LIKE  '" + buglySearchVo.getServiceName() + "%'");
+        }
         sb.append(" order by mtime desc ");
         sb.append(" Limit ").append((buglySearchVo.getPage()-1) * buglySearchVo.getPageSize())
                 .append(",").append(buglySearchVo.getPageSize());
@@ -32,6 +35,10 @@ public class ExceptionTypeProvider {
 
         if (StringUtils.isNotBlank(buglySearchVo.getErrorLocaltion())) {
             sb.append(" AND `error_location` LIKE  '" + buglySearchVo.getErrorLocaltion() + "%'");
+        }
+
+        if (StringUtils.isNotBlank(buglySearchVo.getServiceName())) {
+            sb.append(" AND `service_name` LIKE  '" + buglySearchVo.getServiceName() + "%'");
         }
         return sb.toString();
     }

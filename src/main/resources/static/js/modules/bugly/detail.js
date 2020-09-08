@@ -50,13 +50,22 @@ $().ready(function(){
                         },
 
             searchdetail: function () {
+                var exceptionTypeId = $('#exceptionTypeId').val();
+                var currentCluster = null;
+
+                if(null == exceptionTypeId) {
+                 currentCluster = $('#search_currentCluster').val();
+                 exceptionTypeId = null;
+                }
+
                 var searchBuglyDatail = {
                        'pageSize':this.page_size,
                        'page':this.current_page,
-                       'currentCluster':bugly_detail_search.search_currentCluster.value,
+                       'currentCluster':currentCluster,
                        'serviceName':bugly_detail_search.search_serviceName.value,
                        'errorMessage':bugly_detail_search.search_errorMessage.value,
                        'errorException':bugly_detail_search.search_errorException.value,
+                       'exceptionTypeId':exceptionTypeId,
                        'startTime':this.time[0],
                        'endTime':this.time[1]
                        };

@@ -11,6 +11,7 @@ public class BuglySearchVo {
 
     private Integer state;
     private String nickName;
+    private String serviceName;
     private String errorLocaltion;
     private String machinneAddress;
     private Integer pageSize;

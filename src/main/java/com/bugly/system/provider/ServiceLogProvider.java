@@ -19,6 +19,10 @@ public class ServiceLogProvider {
             sb.append(" AND `error_message` LIKE  '" + getServerLogDto.getErrorMessage() + "%'");
         }
 
+        if (StringUtils.isNotBlank(getServerLogDto.getExceptionTypeId())) {
+            sb.append(" AND `exception_type_id`=#{exceptionTypeId}");
+        }
+
         if (StringUtils.isNotBlank(getServerLogDto.getServiceName())) {
             sb.append(" AND `service_name` LIKE  '" + getServerLogDto.getServiceName() + "%'");
         }
@@ -52,6 +56,10 @@ public class ServiceLogProvider {
 
         if (StringUtils.isNotBlank(getServerLogDto.getErrorMessage())) {
             sb.append(" AND `error_message` LIKE  '" + getServerLogDto.getErrorMessage() + "%'");
+        }
+
+        if (StringUtils.isNotBlank(getServerLogDto.getExceptionTypeId())) {
+            sb.append(" AND `exception_type_id`=#{exceptionTypeId}");
         }
 
         if (StringUtils.isNotBlank(getServerLogDto.getMachinneAddress())) {

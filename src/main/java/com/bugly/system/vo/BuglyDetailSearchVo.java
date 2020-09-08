@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class BuglyDetailSearchVo {
 
+    private String exceptionTypeId;
     private String currentCluster;
     private String serviceName;
     private String errorMessage;

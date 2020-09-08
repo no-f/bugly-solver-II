@@ -40,6 +40,9 @@ public interface ExceptionTypeDao extends BaseMapper<ExceptionType> {
     @Select("SELECT * FROM `exception_type` WHERE error_location=#{location} LIMIT 1")
     ExceptionType findByLocal(@Param("location") String location);
 
+    @Select("SELECT * FROM `exception_type` WHERE error_location=#{location} and service_name=#{serviceName} LIMIT 1")
+    ExceptionType findByLocalAndServiceName(@Param("location") String location, @Param("serviceName") String serviceName);
+
     @SelectProvider(type = ExceptionTypeProvider.class, method = "countCondition")
     int countCondition(BuglySearchVo buglySearchVo);
 }

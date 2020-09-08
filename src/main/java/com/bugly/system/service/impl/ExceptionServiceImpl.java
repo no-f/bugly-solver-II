@@ -407,7 +407,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         String location = (String) jsonObject.get("errorLocation");
         String serviceName = (String) jsonObject.get("serviceName");
         Date day = new Date();
-        ExceptionType e = exceptionTypeDao.findByLocal(location);
+        ExceptionType e = exceptionTypeDao.findByLocalAndServiceName(location, serviceName);
         if (null == e) {
             e = new ExceptionType();
             e.setId(UUIDUtils.getUUID()).setErrorLocation(location).setState(0).setDeleted(0).setCtime(day).setMtime(day);

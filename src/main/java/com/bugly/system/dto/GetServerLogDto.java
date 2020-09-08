@@ -19,6 +19,8 @@ public class GetServerLogDto extends BaseDto {
 
     private String errorException;
 
+    private String exceptionTypeId;
+
     private String serviceName;
 
     private String machinneAddress;
