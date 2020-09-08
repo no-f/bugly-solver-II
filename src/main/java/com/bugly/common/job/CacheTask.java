@@ -94,6 +94,10 @@ public class CacheTask {
     }
 
     private String serviceAbbreviation(String serviceName) {
+        if (serviceName.contains("traffic")) {
+            return "tfc";
+        }
+
         String[] strings = serviceName.split("-");
         StringBuffer stringBuffer = new StringBuffer();
         for (String str: strings) {
