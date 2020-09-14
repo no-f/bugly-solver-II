@@ -49,7 +49,7 @@ public class ExceptionTask {
     /**
      * 首页统计
      */
-    @Scheduled(cron="0 0/3 * * * ?")
+    @Scheduled(cron="0 0/10 * * * ?")
     public void statusCheck() {
         //获取当月的 异常总数
         Date startTime = TimeUtils.getFirstDay();
