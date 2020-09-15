@@ -104,9 +104,9 @@ public class ExceptionServiceImpl implements ExceptionService {
 
         int num = serviceLogDao.findNumByToday(exceptionType.getId());
         content.put("num",num);
-        if (sendOrNot(exceptionType.getId(), content)) {
-            return success(true);
-        }
+//        if (sendOrNot(exceptionType.getId(), content)) {
+//            return success(true);
+//        }
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户  单独通知责任人
 
@@ -470,7 +470,7 @@ public class ExceptionServiceImpl implements ExceptionService {
             return true;
         }
         timedCache.put(excId, content, 30000); //30秒过期
-        timedCache.schedulePrune(5);
+        timedCache.schedulePrune(10000);
         return false;
     }
 }

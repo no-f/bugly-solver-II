@@ -108,7 +108,7 @@ public class ExceptionController {
         model.addAttribute("serviceName", serviceName);
         model.addAttribute("currentCluster", currentCluster);
 
-        ExceptionType exceptionType = exceptionTypeDao.findByLocal(localtion);
+        ExceptionType exceptionType = exceptionTypeDao.findByLocalAndServiceName(localtion, serviceName);
         if (null == exceptionType) {
             model.addAttribute("errorException", " ");
             model.addAttribute("level", " ");
@@ -118,7 +118,7 @@ public class ExceptionController {
             ServiceLog serviceLog =  serviceLogDao.findOneByExceptionTypeIdAndOther(exceptionType.getId(), currentCluster, serviceName);
             model.addAttribute("errorException", serviceLog == null ? "" : serviceLog.getErrorException());
             model.addAttribute("errorMessage", serviceLog == null ? "" : serviceLog.getErrorMessage());
-            model.addAttribute("level", serviceLog.getLevel());
+            model.addAttribute("level",  serviceLog == null ? "" : serviceLog.getLevel());
             model.addAttribute("localtion", localtion);
             ServiceType serviceType = serviceTypeDao.findByName(serviceLog.getServiceName());
             List<String> nickNames = serviceTypeUserDao.findByServiceTypeId(serviceType.getId());
