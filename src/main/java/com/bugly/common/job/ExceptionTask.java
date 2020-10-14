@@ -118,7 +118,7 @@ public class ExceptionTask {
     private String getId() {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         String a = sf.format(TimeUtils.getFirstDay());
-        return a.substring(5,7).replace("0","");
+        return a.substring(a.indexOf("-") + 1, a.lastIndexOf("-"));
     }
 
     private String getServiceTdHeader(String serviceName) {
