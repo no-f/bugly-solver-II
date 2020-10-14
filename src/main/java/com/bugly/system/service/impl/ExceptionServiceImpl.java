@@ -76,7 +76,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Value("${bugly.httpUrl}")
     private String buglyHttpUrl;
 
-    public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(4);
+    public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(30000);
 
 
     /**

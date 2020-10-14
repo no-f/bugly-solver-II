@@ -1,5 +1,6 @@
 package com.bugly.system.rest;
 
+import com.bugly.common.annotation.RateLimitAspect;
 import com.bugly.common.base.ApiResponse;
 import com.bugly.system.dto.DealWithServerLogDto;
 import com.bugly.system.dto.UpdateAlarmConfigDto;
@@ -26,6 +27,7 @@ public class ExceptionRestController {
     private final ExceptionService exceptionService;
 
     @PostMapping("/save")
+    @RateLimitAspect
     public CommonResult<Boolean> saveServiceLog(@RequestBody JSONObject jsonParam) {
         return exceptionService.saveServiceLog(jsonParam);
     }

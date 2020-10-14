@@ -169,6 +169,16 @@
             <artifactId>okhttp</artifactId>
             <version>3.14.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.6.0</version>
+        </dependency>
 
 
     </dependencies>
