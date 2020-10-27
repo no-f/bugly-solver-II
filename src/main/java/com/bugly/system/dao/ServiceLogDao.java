@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.model.ServiceLog;
 import com.bugly.system.provider.ServiceLogProvider;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
@@ -52,4 +53,10 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
 
     @Update("DELETE FROM `service_log` WHERE ctime < date_add(curdate(),INTERVAL -1 month)")
     int deleteServiceLog();
+
+    @Select("SELECT count(id) FROM `service_log` ")
+    int findAllEexNum();
+
+    @Delete("delete FROM `service_log` ORDER BY trigger_time LIMIT 10000")
+    void deleteData();
 }

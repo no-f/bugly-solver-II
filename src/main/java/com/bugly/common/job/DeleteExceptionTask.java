@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeleteExceptionTask {
 
+    private static final Integer MAX_RECORD_NUM = 500000;
+
     @Autowired
     private ServiceLogDao serviceLogDao;
 
@@ -22,6 +24,17 @@ public class DeleteExceptionTask {
     @Scheduled(cron="0 0 3 1/1 * ?")
     private void deleteData() {
         serviceLogDao.deleteServiceLog();
+    }
+
+    /**
+     * 删除异常记录
+     */
+    @Scheduled(cron="0 0 0/3 * * ?")
+    private void deleteRecord() {
+        int num = serviceLogDao.findAllEexNum();
+        if (num > MAX_RECORD_NUM) {
+            serviceLogDao.deleteData();
+        }
     }
 
 }

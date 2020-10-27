@@ -17,7 +17,6 @@ import com.bugly.system.entity.AlarmConfig;
 import com.bugly.system.entity.SysUser;
 import com.bugly.system.model.*;
 import com.bugly.system.service.ExceptionService;
-import com.bugly.system.service.SysUserService;
 import com.bugly.system.vo.BuglyDetailSearchVo;
 import com.bugly.system.vo.BuglySearchVo;
 import com.bugly.system.vo.CommonResult;
@@ -42,9 +41,6 @@ import static com.bugly.system.vo.CommonResult.success;
 public class ExceptionServiceImpl implements ExceptionService {
 
     public static String DATE_Y_M_DDHHMMSS = "yyyy-MM-dd HH:mm:ss";
-
-    @Autowired
-    private SysUserService sysUserService;
 
     @Autowired
     private ServiceLogDao serviceLogDao;
