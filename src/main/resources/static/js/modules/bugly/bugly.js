@@ -14,7 +14,7 @@ $().ready(function(){
                     title: '状态变更',
                     maxmin: true,
                     shadeClose: false, // 点击遮罩关闭层
-                    area: ['800px', '700px'],
+                    area: ['800px', '500px'],
                     content: context + 'bugly/exception/update?id='+row.id,
                     end: function () {
                         vm.getDifferentExceptionList();

@@ -15,7 +15,7 @@ $().ready(function(){
                     title: '查看完整异常',
                     maxmin: true,
                     shadeClose: false,
-                    area: ['800px', '700px'],
+                    area: ['1000px', '500px'],
                     content: context + 'bugly/exception/detail_show?id='+row.id,
                     end: function () {
                         vm.getExceptionDatailList();
