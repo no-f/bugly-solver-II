@@ -22,6 +22,10 @@ public interface ServiceTypeDao extends BaseMapper<ServiceType> {
             +" where 1 = 1  group by service_name) limit #{no}, #{pageSize}")
     List<ServiceType> findAll(Integer no, Integer pageSize);
 
+    @Select("select * from `service_type` where id in (select min(id) from `service_type` "
+            +" where 1 = 1  group by service_name)")
+    List<ServiceType> findAllService();
+
     @Select("SELECT su.mobile FROM sys_user su, service_type_user stu, service_type st  WHERE su.id = stu.user_id and st.id = stu.service_type_id "
             + "AND st.service_name=#{serviceName}")
     List<String> findMobilesByServiceName(String serviceName);
