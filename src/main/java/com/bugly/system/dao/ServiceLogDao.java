@@ -23,7 +23,7 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     @SelectProvider(type = ServiceLogProvider.class, method = "findByCondition")
     List<ServiceLog> findByCondition(GetServerLogDto getServerLogDto);
 
-    @Select("SELECT machine_address FROM `service_log` WHERE exception_type_id=#{id} LIMIT 1")
+    @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{id} LIMIT 1")
     ServiceLog findOneByExceptionTypeId(String id);
 
     @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{id} "

@@ -162,6 +162,18 @@ public class ExceptionController {
         return "module/bugly/detailShow";
     }
 
+    @GetMapping("/detail_show_1")
+    public String detailShowI(String id, Model model){
+        ServiceLog serviceLog = serviceLogDao.findOneByExceptionTypeId(id);
+        StringBuffer stringBuffer = new StringBuffer(" ");
+        Optional.ofNullable(serviceLog).ifPresent(s->{
+            stringBuffer.append("信息:").append(LF).append(serviceLog.getErrorMessage()).append(LF)
+                    .append("异常：").append(LF).append(serviceLog.getErrorException());
+        });
+        model.addAttribute("serviceException", stringBuffer.toString());
+        return "module/bugly/detailShow";
+    }
+
     @GetMapping("/alarmConfig")
     public String listAlarmConfig(){
         return "module/bugly/buglyConfig";

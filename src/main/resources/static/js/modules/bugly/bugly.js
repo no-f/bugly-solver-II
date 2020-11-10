@@ -23,9 +23,17 @@ $().ready(function(){
             },
 
             handleDetail:function(row) {
-            //todo 这里还需要优化一下
-                 var id = row.id;
-                 window.location.href = context + "bugly/exception/detail?id="+id;
+            var id = row.id;
+            layer.open({
+                        type: 2,
+                        title: '查看完整异常',
+                        maxmin: true,
+                        shadeClose: false,
+                        area: ['1000px', '500px'],
+                        content: context + 'bugly/exception/detail_show_1?id='+row.id,
+                        end: function () {
+                        }
+                    });
             },
 
             handleSizeChange: function (val) {
