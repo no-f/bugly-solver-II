@@ -10,6 +10,7 @@ import com.bugly.system.model.ServiceLog;
 import com.bugly.system.model.ServiceType;
 import com.bugly.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +55,17 @@ public class ExceptionController {
     private final SysUserDao sysUserDao;
 
     @GetMapping("/list")
-    public String index(){
+    public String index(Model model){
+        Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
+        String username = (String)authentication.getPrincipal();
+        List<ServiceType> serviceTypes;
+        if (username.equals("admin")) {
+            serviceTypes = serviceTypeDao.findAllService();
+        } else {
+            SysUser sysUser = sysUserDao.findByName(username);
+            serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());
+        }
+        model.addAttribute("serviceTypes", JSONArray.fromObject(serviceTypes).toString());
         return "module/bugly/bugly";
     }
 
@@ -69,6 +81,16 @@ public class ExceptionController {
 
     @GetMapping("/detail")
     public String detail(String id, Model model){
+        Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
+        String username = (String)authentication.getPrincipal();
+        List<ServiceType> serviceTypes;
+        if (username.equals("admin")) {
+            serviceTypes = serviceTypeDao.findAllService();
+        } else {
+            SysUser sysUser = sysUserDao.findByName(username);
+            serviceTypes =  serviceTypeDao.findByUserId(sysUser.getId());
+        }
+        model.addAttribute("serviceTypes", JSONArray.fromObject(serviceTypes).toString());
         model.addAttribute("exceptionTypeId", id);
         return "module/bugly/detail";
     }
