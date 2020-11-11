@@ -155,8 +155,10 @@ public class ExceptionController {
         ServiceLog serviceLog = serviceLogDao.selectById(id);
         StringBuffer stringBuffer = new StringBuffer(" ");
         Optional.ofNullable(serviceLog).ifPresent(s->{
-            stringBuffer.append("信息:").append(LF).append(serviceLog.getErrorMessage()).append(LF)
-                    .append("异常：").append(LF).append(serviceLog.getErrorException());
+            stringBuffer.append("信息:").append(LF).append(serviceLog.getErrorMessage() == null ? "无信息"
+                    : serviceLog.getErrorMessage()).append(LF)
+                    .append("异常：").append(LF).append(serviceLog.getErrorException() == null ? "无异常信息"
+                    : serviceLog.getErrorException());
         });
         model.addAttribute("serviceException", stringBuffer.toString());
         return "module/bugly/detailShow";
@@ -167,8 +169,10 @@ public class ExceptionController {
         ServiceLog serviceLog = serviceLogDao.findOneByExceptionTypeId(id);
         StringBuffer stringBuffer = new StringBuffer(" ");
         Optional.ofNullable(serviceLog).ifPresent(s->{
-            stringBuffer.append("信息:").append(LF).append(serviceLog.getErrorMessage()).append(LF)
-                    .append("异常：").append(LF).append(serviceLog.getErrorException());
+            stringBuffer.append("信息:").append(LF).append(serviceLog.getErrorMessage() == null ? "无信息"
+                    : serviceLog.getErrorMessage()).append(LF)
+                    .append("异常：").append(LF).append(serviceLog.getErrorException() == null ? "无异常信息"
+                    : serviceLog.getErrorException());
         });
         model.addAttribute("serviceException", stringBuffer.toString());
         return "module/bugly/detailShow";
