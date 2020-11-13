@@ -5,6 +5,7 @@ import com.bugly.common.base.ApiResponse;
 import com.bugly.common.job.CacheTask;
 import com.bugly.common.logrobot.DingTalkSender;
 import com.bugly.common.utils.CacheUtil;
+import com.bugly.common.utils.TimeUtils;
 import com.bugly.common.utils.UUIDUtils;
 import com.bugly.system.bo.ExceptionTypeBo;
 import com.bugly.system.bo.ServiceExceptionBo;
@@ -98,7 +99,10 @@ public class ExceptionServiceImpl implements ExceptionService {
         AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
         content.put("buglyHttpUrl", buglyHttpUrl);
 
-        int num = serviceLogDao.findNumByToday(exceptionType.getId());
+        Date endTime = new Date();
+        Date startTime = TimeUtils.getOneDayBefore(endTime);
+
+        int num = serviceLogDao.findNumByToday(exceptionType.getId(), startTime, endTime);
         content.put("num",num);
 //        if (sendOrNot(exceptionType.getId(), content)) {
 //            return success(true);

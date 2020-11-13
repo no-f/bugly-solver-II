@@ -119,7 +119,7 @@ public class TextMessage extends BaseMessage {
         }
 
         if (jsonObject.containsKey("num")) {
-            content.append("今日异常次数：").append(jsonObject.get("num")).append("\n").append("\n");
+            content.append("最近24h异常次数：").append(jsonObject.get("num")).append("\n").append("\n");
         }
 
         if (jsonObject.containsKey("threadId")) {

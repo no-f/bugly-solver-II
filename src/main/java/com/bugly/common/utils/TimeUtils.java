@@ -31,6 +31,18 @@ public class TimeUtils {
         return cal.getTime();
     }
 
+    /**
+     * 获取当前时间过去24小时
+     * @param dateEnd
+     * @return
+     */
+    public static Date getOneDayBefore(Date dateEnd){
+        Calendar date = Calendar.getInstance();
+        date.setTime(dateEnd);
+        date.set(Calendar.DATE, date.get(Calendar.DATE) - 1);
+        return date.getTime();
+    }
+
     public static Boolean compare(Date date) {
       return date.before(getLastDay()) && date.after(getFirstDay());
     }
