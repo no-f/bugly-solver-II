@@ -75,7 +75,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(30000);
 
-    private final static String DUBBO_TIME_OUT = "org.apache.dubbo.remoting.TimeoutException";
+    private final static String DUBBO_TIME_OUT = "TimeoutException";
 
     private final static String DUBBO_TIME_OUT_I = "The timeout response";
 
@@ -498,11 +498,12 @@ public class ExceptionServiceImpl implements ExceptionService {
         }
 
         if (StringUtils.isNotBlank(errorMessage) && StringUtils.isBlank(errorException)) {
-            return errorMessage.contains(DUBBO_TIME_OUT_I);
+            return errorMessage.contains(DUBBO_TIME_OUT_I) || errorMessage.contains("invoke time out");
         }
 
         if (StringUtils.isNotBlank(errorMessage) && StringUtils.isNotBlank(errorException)) {
-            return errorMessage.contains(DUBBO_TIME_OUT_I) || errorException.contains(DUBBO_TIME_OUT);
+            return errorMessage.contains(DUBBO_TIME_OUT_I) || errorMessage.contains("invoke time out")
+                    || errorException.contains(DUBBO_TIME_OUT);
         }
         return false;
     }

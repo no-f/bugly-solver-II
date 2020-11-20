@@ -17,7 +17,7 @@ $().ready(function(){
                     area: ['800px', '500px'],
                     content: context + 'bugly/exception/update?id='+row.id,
                     end: function () {
-                        vm.getDifferentExceptionList();
+//                        vm.getDifferentExceptionList();
                     }
                 });
             },
