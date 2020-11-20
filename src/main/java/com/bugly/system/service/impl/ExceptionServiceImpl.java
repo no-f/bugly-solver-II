@@ -75,6 +75,10 @@ public class ExceptionServiceImpl implements ExceptionService {
 
     public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(30000);
 
+    private final static String DUBBO_TIME_OUT = "org.apache.dubbo.remoting.TimeoutException";
+
+    private final static String DUBBO_TIME_OUT_I = "The timeout response";
+
 
     /**
      * 1.save 不同的异常类型
@@ -96,7 +100,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         if (exceptionType.getState() == 1) {
             return success(true);
         }
-        AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
+
         content.put("buglyHttpUrl", buglyHttpUrl);
 
         Date endTime = new Date();
@@ -107,6 +111,13 @@ public class ExceptionServiceImpl implements ExceptionService {
 //        if (sendOrNot(exceptionType.getId(), content)) {
 //            return success(true);
 //        }
+
+        AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
+        AlarmConfig dubboAlarmConfig = cacheUtil.getDubboAlarmConfig();
+        if (dubboTimeOut(content)) {
+            alarmConfig = (dubboAlarmConfig == null) ? alarmConfig : dubboAlarmConfig;
+        }
+
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户  单独通知责任人
 
@@ -473,4 +484,27 @@ public class ExceptionServiceImpl implements ExceptionService {
         timedCache.schedulePrune(10000);
         return false;
     }
+
+    private Boolean dubboTimeOut(JSONObject content) {
+        String errorMessage = (String) content.get("errorMessage");
+        String errorException = (String) content.get("errorException");
+
+        if (StringUtils.isBlank(errorMessage) && StringUtils.isBlank(errorException)) {
+            return false;
+        }
+
+        if (StringUtils.isBlank(errorMessage) && StringUtils.isNotBlank(errorException)) {
+            return errorException.contains(DUBBO_TIME_OUT);
+        }
+
+        if (StringUtils.isNotBlank(errorMessage) && StringUtils.isBlank(errorException)) {
+            return errorMessage.contains(DUBBO_TIME_OUT_I);
+        }
+
+        if (StringUtils.isNotBlank(errorMessage) && StringUtils.isNotBlank(errorException)) {
+            return errorMessage.contains(DUBBO_TIME_OUT_I) || errorException.contains(DUBBO_TIME_OUT);
+        }
+        return false;
+    }
+
 }

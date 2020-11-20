@@ -20,6 +20,8 @@ public class CacheUtil {
 
     Map<String, AlarmConfig> alarmConfigMap = new HashMap<>(1);
 
+    Map<String, AlarmConfig> dubboAlarmConfigMap = new HashMap<>(1);
+
 
     public AlarmConfig getAlarmConfig() {
         if (alarmConfigMap.size() == 0 || !alarmConfigMap.containsKey("config")) {
@@ -28,6 +30,16 @@ public class CacheUtil {
            return alarmConfig;
         } else {
             return alarmConfigMap.get("config");
+        }
+    }
+
+    public AlarmConfig getDubboAlarmConfig() {
+        if (dubboAlarmConfigMap.size() == 0 || !dubboAlarmConfigMap.containsKey("config")) {
+            AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId("1");
+            dubboAlarmConfigMap.put("config", alarmConfig);
+            return alarmConfig;
+        } else {
+            return dubboAlarmConfigMap.get("config");
         }
     }
 
