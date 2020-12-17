@@ -160,11 +160,13 @@ public class ExceptionController {
             model.addAttribute("localtion", " ");
             model.addAttribute("exceptionTypeId", 0);
         } else {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             ExceptionType exceptionType = exceptionTypeDao.findById(serviceLog.getExceptionTypeId());
-            model.addAttribute("errorException", serviceLog == null ? "" : serviceLog.getErrorException());
-            model.addAttribute("errorMessage", serviceLog == null ? "" : serviceLog.getErrorMessage());
-            model.addAttribute("level",  serviceLog == null ? "" : serviceLog.getLevel());
+            model.addAttribute("errorException", serviceLog.getErrorException() == null ? "无异常信息" : serviceLog.getErrorException());
+            model.addAttribute("errorMessage", serviceLog.getErrorMessage() == null ? "无" : serviceLog.getErrorMessage());
+            model.addAttribute("level",  serviceLog.getLevel() == null ? "无" : serviceLog.getLevel());
             model.addAttribute("localtion", exceptionType.getErrorLocation());
+            model.addAttribute("time", sf.format(serviceLog.getCtime().getTime()));
             ServiceType serviceType = serviceTypeDao.findByName(serviceLog.getServiceName());
             List<String> nickNames = serviceTypeUserDao.findByServiceTypeId(serviceType.getId());
             Optional.ofNullable(nickNames).ifPresent(n-> model.addAttribute("name", StringUtils.join(n, ",")));

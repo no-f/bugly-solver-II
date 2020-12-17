@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" th:href="@{favicon.ico}">
     <link th:href="@{/static/css/layui/layui.css}" rel="stylesheet">
     <style type="text/css">
         .site-doc-icon{margin-bottom: 50px; font-size: 0;}
@@ -35,37 +36,39 @@
                 <input id="serviceName"  th:value="${serviceName}" type="hidden">
                 <input id="level" th:value="${level}" type="hidden">
                 <input id="errorException"  th:value="${errorException}" type="hidden">
+                <input id="time"  th:value="${time}" type="hidden">
                 <input id="errorMessage" th:value="${errorMessage}" type="hidden">
                 <input id="localtion" th:value="${localtion}" type="hidden">
                 <input id="name" th:value="${name}" type="hidden">
                 <input id="state" value="1" type="hidden">
                 <input id="remark" value="1" type="hidden">
-                <div class="layui-card-body">
-
-                    <ul class="site-doc-icon" style="margin-bottom: 10px;">
-                        <li>
-                            <i class="layui-icon layui-icon-app"></i>
-                            <div class="doc-icon-name">集群名称</div>
-                            <div id="o_currentCluster" class="doc-icon-code"></div>
-<!--                            <span @click="solveBug()" class="span" style="">解决</span>-->
+                <div class="layui-card-body" style="width: 67.5%;left: 15%;background-color: #3f53b5;
+                font-family: Arial;border-radius: 20px;padding: 30px 30px;margin-top: 3%;" >
+                    <img src="https://www.bullyun.com/_nuxt/img/bcae00c.svg" style="width: 100%;height: 100px;">
+                </div>
+                <div class="layui-card-body" style="width: 67.5%;left: 15%;border: 1px solid rgb(95 87 84);
+                font-family: Arial;border-radius: 20px;padding: 30px 30px; height: 90%;font-family: Verdana;font-size: large;">
+                    <ul >
+                        <li style="display: inline-block;">
+                            <font color=dodgerblue>集群名称: </font>
+                            <span id="o_currentCluster"></span>
+                            <br/>
                         </li>
-                        <li>
-                            <i class="layui-icon layui-icon-face-cry"></i>
-                            <div class="doc-icon-name">服务名称</div>
-                            <div id="o_serviceName" class="doc-icon-code" ></div>
+                        <li style="display: inline-block;margin-left: 10%;">
+                            <font color=dodgerblue>服务名称: </font>
+                            <span id="o_serviceName"></span><br/>
                         </li>
-
-                        <li>
-                            <i class="layui-icon layui-icon-diamond"></i>
-                            <div class="doc-icon-name">异常级别</div>
-                            <div id="o_level" class="doc-icon-code" ></div>
+                        <li style="display: inline-block;margin-left: 10%;">
+                            <font color=dodgerblue>异常级别: </font>
+                            <span id="o_level"></span><br/>
+                        </li>
+                        <li style="display: inline-block;margin-left: 10%;">
+                            <font color=dodgerblue>时间: </font>
+                            <span id="o_time"></span><br/>
                         </li>
                     </ul>
-                    <div id="result" >
-                    </div>
-                    <ul id="out_errorException" style="font-size:20%;word-wrap:break-word;">
-
-                    </ul>
+                    <div id="result"/></div><br/>
+                    <ul id="out_errorException" style="word-wrap:break-word;"></ul><br/>
                 </div>
             </div>
         </div>
@@ -85,14 +88,15 @@
     var errorException = $('#errorException').val();
     var errorMessage = $('#errorMessage').val();
     var localtion = $('#localtion').val();
+    var xtime = $('#time').val();
     var name = $('#name').val();
     $('#o_currentCluster').html(currentCluster);
     $('#o_serviceName').html(serviceName);
     $('#o_level').html(level);
-    $('#o_name').html(" 异常详情-责任人-" +name);
+    $('#o_time').html(xtime);
 
-    var str = "<font color=dodgerblue>位置</font> : " + localtion + "<br/><font color=dodgerblue>信息</font> : " +errorMessage
-    +"<br/><font color=dodgerblue>异常</font> : " +errorException;
+    var str = "<font color=dodgerblue>位置</font> : " + localtion + "<br/><br/><font color=dodgerblue>信息</font> : " +errorMessage
+    +"<br/><br/><font color=dodgerblue>异常</font> : " +errorException;
     var newstr = str.replace(/(Connection reset by peer)/g, "<font color=red>$1</font>")
     .replace(/(Caused by)/g, "<font color=red>$1</font>")
     .replace(/(com.bullyun)/g, "<font color=red>$1</font>")
