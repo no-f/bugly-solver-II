@@ -73,7 +73,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Value("${bugly.httpUrl}")
     private String buglyHttpUrl;
 
-    public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(30000);
+    public static TimedCache<String, JSONObject> timedCache = cn.hutool.cache.CacheUtil.newTimedCache(60000);
 
     private final static String DUBBO_TIME_OUT = "TimeoutException";
 
@@ -478,11 +478,13 @@ public class ExceptionServiceImpl implements ExceptionService {
      * @return
      */
     private Boolean sendOrNot(String excId, JSONObject content) {
+        if (timedCache.isEmpty()) {
+            timedCache.schedulePrune(86400);
+        }
         if (null != timedCache.get(excId)) {
             return true;
         }
         timedCache.put(excId, content, 60000); //30秒过期
-        timedCache.schedulePrune(10000);
         return false;
     }
 
