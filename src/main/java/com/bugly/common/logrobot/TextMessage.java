@@ -14,7 +14,7 @@ public class TextMessage extends BaseMessage {
     /**
      * 消息内容
      */
-    private final String content;
+    private String content;
 
     private final String localtion;
 
@@ -30,16 +30,13 @@ public class TextMessage extends BaseMessage {
         super();
 //        this.buglyHttpUrl = (String) content.get("buglyHttpUrl");
         this.environment = (String) content.get("environment");
+        this.localtion =  !content.containsKey("errorLocation") ? "" : (String) content.get("errorLocation");
+        this.serviceName = !content.containsKey("serviceName") ?  "" : (String) content.get("serviceName");
+        this.currentCluste = !content.containsKey("currentCluster") ?  "" :(String) content.get("currentCluster");
         if (!content.containsKey("common")) {
             this.content = createDingTemplate(content);
-            this.localtion =  !content.containsKey("errorLocation") ? "" : (String) content.get("errorLocation");
-            this.serviceName = !content.containsKey("serviceName") ?  "" : (String) content.get("serviceName");
-            this.currentCluste = !content.containsKey("currentCluster") ?  "" :(String) content.get("currentCluster");
         } else {
             this.content = "请及时处理 ～" + "\n" + environment + "/bugly/login" + "\n" ;
-            this.localtion =  "";
-            this.serviceName = "";
-            this.currentCluste = "";
         }
     }
 
@@ -127,6 +124,9 @@ public class TextMessage extends BaseMessage {
         }
         if (jsonObject.containsKey("level")) {
             content.append("级别：").append(jsonObject.get("level")).append("\n").append("\n");
+        }
+        if (jsonObject.containsKey("reason")) {
+            content.append("常见原因：").append(jsonObject.get("reason")).append("\n").append("\n");
         }
 
         if (jsonObject.containsKey("errorLocation")) {

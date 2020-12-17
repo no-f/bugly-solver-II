@@ -60,6 +60,11 @@ public class ExceptionRestController {
         return exceptionService.getDetailsByCondition(buglyDetailSearchVo);
     }
 
+//    @GetMapping("/detail_search")
+//    public ApiResponse dingDingDetailSearch(@RequestBody BuglyDetailSearchVo buglyDetailSearchVo) {
+//        return exceptionService.getDetailsByCondition(buglyDetailSearchVo);
+//    }
+
     @GetMapping("/findAllServiceType")
     public ApiResponse findAllServiceType(int page, int pageSize) {
         return exceptionService.findAllServiceType(page, pageSize);

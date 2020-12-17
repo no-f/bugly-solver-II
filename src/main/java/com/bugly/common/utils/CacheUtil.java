@@ -5,8 +5,8 @@ import com.bugly.system.entity.AlarmConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author no_f
@@ -18,9 +18,9 @@ public class CacheUtil {
     @Autowired
     private AlarmConfigDao alarmConfigDao;
 
-    Map<String, AlarmConfig> alarmConfigMap = new HashMap<>(1);
+    Map<String, AlarmConfig> alarmConfigMap = new ConcurrentHashMap<>(1);
 
-    Map<String, AlarmConfig> dubboAlarmConfigMap = new HashMap<>(1);
+    Map<String, AlarmConfig> dubboAlarmConfigMap = new ConcurrentHashMap<>(1);
 
 
     public AlarmConfig getAlarmConfig() {
@@ -34,12 +34,12 @@ public class CacheUtil {
     }
 
     public AlarmConfig getDubboAlarmConfig() {
-        if (dubboAlarmConfigMap.size() == 0 || !dubboAlarmConfigMap.containsKey("config")) {
+        if (dubboAlarmConfigMap.size() == 0 || !dubboAlarmConfigMap.containsKey("timeConfig")) {
             AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId("1");
-            dubboAlarmConfigMap.put("config", alarmConfig);
+            dubboAlarmConfigMap.put("timeConfig", alarmConfig);
             return alarmConfig;
         } else {
-            return dubboAlarmConfigMap.get("config");
+            return dubboAlarmConfigMap.get("timeConfig");
         }
     }
 

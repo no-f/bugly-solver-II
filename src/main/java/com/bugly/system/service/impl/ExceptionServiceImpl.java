@@ -108,14 +108,15 @@ public class ExceptionServiceImpl implements ExceptionService {
 
         int num = serviceLogDao.findNumByToday(exceptionType.getId(), startTime, endTime);
         content.put("num",num);
-//        if (sendOrNot(exceptionType.getId(), content)) {
-//            return success(true);
-//        }
+        if (sendOrNot(exceptionType.getId(), content)) {
+            return success(true);
+        }
 
         AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
         AlarmConfig dubboAlarmConfig = cacheUtil.getDubboAlarmConfig();
         if (dubboTimeOut(content)) {
             alarmConfig = (dubboAlarmConfig == null) ? alarmConfig : dubboAlarmConfig;
+            content.put("reason","调用超时");
         }
 
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
@@ -471,7 +472,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     }
 
     /**
-     * 30秒内相同的报警，只发送钉钉一次
+     * 60秒内相同的报警，只发送钉钉一次
      * @param excId
      * @param content
      * @return
@@ -480,7 +481,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         if (null != timedCache.get(excId)) {
             return true;
         }
-        timedCache.put(excId, content, 30000); //30秒过期
+        timedCache.put(excId, content, 60000); //30秒过期
         timedCache.schedulePrune(10000);
         return false;
     }
@@ -506,6 +507,14 @@ public class ExceptionServiceImpl implements ExceptionService {
                     || errorException.contains(DUBBO_TIME_OUT);
         }
         return false;
+    }
+
+    /**
+     * 获取异常常见的原因
+     * @return
+     */
+    private String getReason(String exception) {
+        return "";
     }
 
 }
