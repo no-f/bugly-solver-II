@@ -26,6 +26,9 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{id} ORDER BY ctime DESC LIMIT 1")
     ServiceLog findOneByExceptionTypeId(String id);
 
+    @Select("SELECT * FROM `service_log` WHERE id=#{id}")
+    ServiceLog findById(String id);
+
     @Select("SELECT * FROM `service_log` WHERE exception_type_id=#{id} "
             +"and current_cluster=#{currentCluster}  and service_name=#{serviceName} ORDER BY ctime DESC LIMIT 1")
     ServiceLog findOneByExceptionTypeIdAndOther(String id, String currentCluster, String serviceName);

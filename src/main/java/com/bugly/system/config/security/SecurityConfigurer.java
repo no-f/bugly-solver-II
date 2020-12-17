@@ -79,7 +79,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 //放行所有的 css和js文件
                 .antMatchers("/static/**","/favicon.ico","/actuator/**",
                         "/code","/invalid_session","/expired","/logout","/exception/save","/exception/deal_with",
-                        "/bugly/exception/out_solve","/bugly/exception/out_detail","/403").permitAll()
+                        "/bugly/exception/out_solve","/bugly/exception/out_detail","/bugly/exception/webShow","/403").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

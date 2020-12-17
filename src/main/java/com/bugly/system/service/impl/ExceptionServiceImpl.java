@@ -104,7 +104,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
         content.put("num",num);
         content.put("buglyHttpUrl", buglyHttpUrl);
-        content.put("id", exceptionType.getId());
+        content.put("id", serviceLog.getId());
 
         //1分钟内相同的异常不需要重复通知
         if (sendOrNot(exceptionType.getId(), content)) {

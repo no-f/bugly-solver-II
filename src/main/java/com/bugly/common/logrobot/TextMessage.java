@@ -22,6 +22,8 @@ public class TextMessage extends BaseMessage {
 
     private final String currentCluste;
 
+    private final String id;
+
 //    private final String buglyHttpUrl;
 
     private final String environment;
@@ -33,10 +35,11 @@ public class TextMessage extends BaseMessage {
         this.localtion =  !content.containsKey("errorLocation") ? "" : (String) content.get("errorLocation");
         this.serviceName = !content.containsKey("serviceName") ?  "" : (String) content.get("serviceName");
         this.currentCluste = !content.containsKey("currentCluster") ?  "" :(String) content.get("currentCluster");
+        this.id = !content.containsKey("id") ?  "" :(String) content.get("id");
         if (!content.containsKey("common")) {
             this.content = createDingTemplate(content);
         } else {
-            this.content = "请及时处理 ～" + "\n" + environment + "/bugly/login" + "\n" ;
+            this.content = environment + "/bugly/bugly/exception/webShow?id=" + id + "\n\n";
         }
     }
 

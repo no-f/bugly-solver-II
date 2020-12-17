@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,6 +147,30 @@ public class ExceptionController {
             model.addAttribute("exceptionTypeId", exceptionType.getId());
         }
         return "module/bugly/outBugDetail";
+    }
+
+    @GetMapping("/webShow")
+    public String webShow(String id, Model model){
+        ServiceLog serviceLog =  serviceLogDao.findById(id);
+        if (null == serviceLog) {
+            model.addAttribute("serviceName", " ");
+            model.addAttribute("currentCluster", " ");
+            model.addAttribute("errorException", " ");
+            model.addAttribute("level", " ");
+            model.addAttribute("localtion", " ");
+            model.addAttribute("exceptionTypeId", 0);
+        } else {
+            ExceptionType exceptionType = exceptionTypeDao.findById(serviceLog.getExceptionTypeId());
+            model.addAttribute("errorException", serviceLog == null ? "" : serviceLog.getErrorException());
+            model.addAttribute("errorMessage", serviceLog == null ? "" : serviceLog.getErrorMessage());
+            model.addAttribute("level",  serviceLog == null ? "" : serviceLog.getLevel());
+            model.addAttribute("localtion", exceptionType.getErrorLocation());
+            ServiceType serviceType = serviceTypeDao.findByName(serviceLog.getServiceName());
+            List<String> nickNames = serviceTypeUserDao.findByServiceTypeId(serviceType.getId());
+            Optional.ofNullable(nickNames).ifPresent(n-> model.addAttribute("name", StringUtils.join(n, ",")));
+            model.addAttribute("exceptionTypeId", exceptionType.getId());
+        }
+        return "module/bugly/pcOutBugDetail";
     }
 
     @GetMapping("/detail_show")
