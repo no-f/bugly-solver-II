@@ -5,6 +5,7 @@ import com.bugly.system.entity.AlarmConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,31 +19,49 @@ public class CacheUtil {
     @Autowired
     private AlarmConfigDao alarmConfigDao;
 
-    Map<String, AlarmConfig> alarmConfigMap = new ConcurrentHashMap<>(1);
+    Map<String, AlarmConfig> alarmConfigMap = new ConcurrentHashMap<>(2);
+    private final static String COMMON = "common";
+    private final static String TIME_OUT = "timeOut";
 
-    Map<String, AlarmConfig> dubboAlarmConfigMap = new ConcurrentHashMap<>(1);
-
-
-    public AlarmConfig getAlarmConfig() {
-        if (alarmConfigMap.size() == 0 || !alarmConfigMap.containsKey("config")) {
-            AlarmConfig alarmConfig = alarmConfigDao.findDingDingConfig();
-            alarmConfigMap.put("config", alarmConfig);
-           return alarmConfig;
-        } else {
-            return alarmConfigMap.get("config");
+    public AlarmConfig getAlarmConfig(String key) {
+        if (key.equals(COMMON)) {
+            if (alarmConfigMap.size() == 0 || !alarmConfigMap.containsKey("config")) {
+                List<AlarmConfig> alarmConfig = alarmConfigDao.findDingDingConfigs();
+                if (!alarmConfig.isEmpty()) {
+                    alarmConfig.forEach(c-> {
+                        if ("1".equals(c.getServiceTypeId())) {
+                            alarmConfigMap.put("timeOut", c);
+                        } else {
+                            alarmConfigMap.put("config", c);
+                        }
+                    });
+                    return alarmConfigMap.get("config");
+                }
+            } else {
+                return alarmConfigMap.get("config");
+            }
         }
-    }
 
-    public AlarmConfig getDubboAlarmConfig() {
-        if (dubboAlarmConfigMap.size() == 0 || !dubboAlarmConfigMap.containsKey("timeConfig")) {
-            AlarmConfig alarmConfig = alarmConfigDao.findByServiceTypeId("1");
-            dubboAlarmConfigMap.put("timeConfig", alarmConfig);
-            return alarmConfig;
-        } else {
-            return dubboAlarmConfigMap.get("timeConfig");
+        if (key.equals(TIME_OUT)) {
+            if (alarmConfigMap.size() == 0 || !alarmConfigMap.containsKey("timeOut")) {
+                List<AlarmConfig> alarmConfig = alarmConfigDao.findDingDingConfigs();
+                if (!alarmConfig.isEmpty()) {
+                    alarmConfig.forEach(c-> {
+                        if ("1".equals(c.getServiceTypeId())) {
+                            alarmConfigMap.put("timeOut", c);
+                        } else {
+                            alarmConfigMap.put("config", c);
+                        }
+                    });
+                }
+                return alarmConfigMap.get("timeOut");
+            } else {
+                return alarmConfigMap.get("timeOut");
+            }
         }
-    }
+        return alarmConfigDao.findDingDingConfig();
 
+    }
 
 
 }

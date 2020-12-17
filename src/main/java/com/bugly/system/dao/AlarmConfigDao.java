@@ -5,6 +5,8 @@ import com.bugly.system.entity.AlarmConfig;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * @author no_f
@@ -15,6 +17,9 @@ public interface AlarmConfigDao extends BaseMapper<AlarmConfig> {
 
     @Select("SELECT * FROM `alarm_config` where type=0 and `service_type_id` is null limit 1")
     AlarmConfig findDingDingConfig();
+
+    @Select("SELECT * FROM `alarm_config` where type=0 ")
+    List<AlarmConfig> findDingDingConfigs();
 
     @Select("SELECT * FROM `alarm_config` where `service_type_id`=#{serviceTypeId} limit 1")
     AlarmConfig findByServiceTypeId(String serviceTypeId);

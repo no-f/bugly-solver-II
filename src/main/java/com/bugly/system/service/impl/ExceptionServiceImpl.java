@@ -84,6 +84,8 @@ public class ExceptionServiceImpl implements ExceptionService {
      * 1.save 不同的异常类型
      * 2.save 每条异常记录
      * 是不是每次都得去数据库查询配置地址？？？优化??
+     * read 4
+     * write 2
      * @param content
      * @return
      */
@@ -95,25 +97,23 @@ public class ExceptionServiceImpl implements ExceptionService {
             return success(true);
         }
         serviceLog.setExceptionTypeId(exceptionType.getId());
-        List<String> mobiels = saveServiceNameType(content);
         serviceLogDao.insert(serviceLog);
-        if (exceptionType.getState() == 1) {
-            return success(true);
-        }
 
-        content.put("buglyHttpUrl", buglyHttpUrl);
-
+        //最近24h发生异常
         Date endTime = new Date();
-        Date startTime = TimeUtils.getOneDayBefore(endTime);
-
-        int num = serviceLogDao.findNumByToday(exceptionType.getId(), startTime, endTime);
+        int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
         content.put("num",num);
+        content.put("buglyHttpUrl", buglyHttpUrl);
+        content.put("id", exceptionType.getId());
+
+        //1分钟内相同的异常不需要重复通知
         if (sendOrNot(exceptionType.getId(), content)) {
             return success(true);
         }
 
-        AlarmConfig alarmConfig = cacheUtil.getAlarmConfig();
-        AlarmConfig dubboAlarmConfig = cacheUtil.getDubboAlarmConfig();
+        //超时的异常单独群通知
+        AlarmConfig alarmConfig = cacheUtil.getAlarmConfig("common");
+        AlarmConfig dubboAlarmConfig = cacheUtil.getAlarmConfig("timeOut");
         if (dubboTimeOut(content)) {
             alarmConfig = (dubboAlarmConfig == null) ? alarmConfig : dubboAlarmConfig;
             content.put("reason","调用超时");
@@ -121,7 +121,7 @@ public class ExceptionServiceImpl implements ExceptionService {
 
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
         //通知所有用户  单独通知责任人
-
+        List<String> mobiels = saveServiceNameType(content);
         DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl(), mobiels);
         return success(true);
     }
