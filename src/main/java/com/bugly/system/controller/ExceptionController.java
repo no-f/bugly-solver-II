@@ -162,6 +162,8 @@ public class ExceptionController {
         } else {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             ExceptionType exceptionType = exceptionTypeDao.findById(serviceLog.getExceptionTypeId());
+            model.addAttribute("serviceName", serviceLog.getServiceName());
+            model.addAttribute("currentCluster", serviceLog.getCurrentCluster());
             model.addAttribute("errorException", serviceLog.getErrorException() == null ? "无异常信息" : serviceLog.getErrorException());
             model.addAttribute("errorMessage", serviceLog.getErrorMessage() == null ? "无" : serviceLog.getErrorMessage());
             model.addAttribute("level",  serviceLog.getLevel() == null ? "无" : serviceLog.getLevel());
