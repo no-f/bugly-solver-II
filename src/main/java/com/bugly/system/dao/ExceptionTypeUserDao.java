@@ -18,4 +18,7 @@ public interface ExceptionTypeUserDao extends BaseMapper<ExceptionTypeUser> {
     @Select("SELECT * FROM `exception_type_user` where exception_type_id=#{exceptionTypeId} order by ctime desc")
     List<ExceptionTypeUser> findByExceptionTypeId(String exceptionTypeId);
 
+    @Select("SELECT remark FROM `exception_type_user` where exception_type_id=#{exceptionTypeId} and remark is not null order by ctime desc limit 1")
+    String findByExceptionTypeIdByOne(String exceptionTypeId);
+
 }

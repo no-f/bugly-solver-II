@@ -93,7 +93,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     public CommonResult<Boolean> saveServiceLog(JSONObject content) {
         ServiceLog serviceLog = getData(JSONObject.fromObject(content));
         ExceptionType exceptionType = exceptionTypeAction(content);
-        if (null == exceptionType) {
+        if (null == exceptionType || exceptionType.getState() == 3) {
             return success(true);
         }
         serviceLog.setExceptionTypeId(exceptionType.getId());
@@ -120,7 +120,8 @@ public class ExceptionServiceImpl implements ExceptionService {
             alarmConfig = (dubboAlarmConfig == null) ? alarmConfig : dubboAlarmConfig;
             content.put("reason","调用超时");
         } else {
-            content.put("dealReason",exceptionType.getTag());
+            String remark = exceptionTypeUserDao.findByExceptionTypeIdByOne(exceptionType.getId());
+            content.put("dealReason",remark);
         }
 
         //1.发生钉群 2.通知所有用户或单独通知责任人

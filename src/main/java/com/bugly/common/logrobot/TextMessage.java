@@ -131,9 +131,6 @@ public class TextMessage extends BaseMessage {
         if (jsonObject.containsKey("reason")) {
             content.append("常见原因：").append(jsonObject.get("reason")).append("\n").append("\n");
         }
-        if (jsonObject.containsKey("dealReason")) {
-            content.append("上次出现原因：").append(jsonObject.get("dealReason")).append("\n").append("\n");
-        }
 
         if (jsonObject.containsKey("errorLocation")) {
             content.append("位置：").append(jsonObject.get("errorLocation")).append("\n").append("\n");
@@ -155,6 +152,9 @@ public class TextMessage extends BaseMessage {
             } else {
                 content.append("异常：").append(errorException).append("\n").append("\n");
             }
+        }
+        if (jsonObject.containsKey("dealReason")) {
+            content.append("上一次出现原因：").append(jsonObject.get("dealReason")).append("\n").append("\n");
         }
 
         return content.toString();

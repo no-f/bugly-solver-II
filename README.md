@@ -51,6 +51,8 @@ bugly-boot-admin 服务异常展示，分析，通知用户的平台
 
 3.首页优化
 
+4.下拉选中框的时候就查询
+
 # 效果图
 <p align="center" >
     <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/favicon.ico" width="150">
