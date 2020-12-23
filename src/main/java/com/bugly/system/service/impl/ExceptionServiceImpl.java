@@ -99,10 +99,10 @@ public class ExceptionServiceImpl implements ExceptionService {
         serviceLog.setExceptionTypeId(exceptionType.getId());
         serviceLogDao.insert(serviceLog);
 
-        //最近24h发生异常
+
         Date endTime = new Date();
-        int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
-        content.put("num",num);
+//        int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
+//        content.put("num",num);
         content.put("buglyHttpUrl", buglyHttpUrl);
         content.put("id", serviceLog.getId());
 
@@ -110,6 +110,10 @@ public class ExceptionServiceImpl implements ExceptionService {
         if (sendOrNot(exceptionType.getId(), content)) {
             return success(true);
         }
+
+        //最近24h发生异常
+        int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
+        content.put("num",num);
 
         //超时的异常单独群通知
         AlarmConfig alarmConfig = cacheUtil.getAlarmConfig("common");
