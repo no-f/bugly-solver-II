@@ -101,8 +101,6 @@ public class ExceptionServiceImpl implements ExceptionService {
 
 
         Date endTime = new Date();
-//        int num = serviceLogDao.findNumByToday(exceptionType.getId(), TimeUtils.getOneDayBefore(endTime), endTime);
-//        content.put("num",num);
         content.put("buglyHttpUrl", buglyHttpUrl);
         content.put("id", serviceLog.getId());
 
@@ -121,12 +119,13 @@ public class ExceptionServiceImpl implements ExceptionService {
         if (dubboTimeOut(content)) {
             alarmConfig = (dubboAlarmConfig == null) ? alarmConfig : dubboAlarmConfig;
             content.put("reason","调用超时");
+        } else {
+            content.put("dealReason",exceptionType.getTag());
         }
 
+        //1.发生钉群 2.通知所有用户或单独通知责任人
         DingTalkSender.sendDingTalk(content, alarmConfig.getWebhookUrl());
-        //通知所有用户  单独通知责任人
-        List<String> mobiels = saveServiceNameType(content);
-        DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl(), mobiels);
+        DingTalkSender.sendCommonDingTalk(content, alarmConfig.getWebhookUrl(), saveServiceNameType(content));
         return success(true);
     }
 

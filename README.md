@@ -44,6 +44,13 @@ bugly-boot-admin 服务异常展示，分析，通知用户的平台
 4. 打开运行BuglyBootApplication.java
 5. 打开浏览器，输入 http://127.0.0.1:8600/bugly/（默认账户 admin/123456）
 
+# 计划
+1.处理功能优化
+
+2.页面加载速度提升
+
+3.首页优化
+
 # 效果图
 <p align="center" >
     <img src="https://github.com/qhysjpw/bugly-solver-II/blob/master/doc/image/favicon.ico" width="150">
