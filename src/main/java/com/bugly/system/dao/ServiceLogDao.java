@@ -51,6 +51,9 @@ public interface ServiceLogDao extends BaseMapper<ServiceLog> {
     @Select("SELECT count(id) FROM `service_log` where mtime >=#{startTime} and mtime <=#{endTime}")
     int findAllNumByTime(Date startTime, Date endTime);
 
+    @Select("SELECT count(id) FROM `service_log` where mtime >=#{startTime} and mtime <=#{endTime} and service_name=#{serviceName} ")
+    int findAllNumByTimeAndServiceName(Date startTime, Date endTime, String serviceName);
+
     @SelectProvider(type = ServiceLogProvider.class, method = "countCondition")
     int countCondition(GetServerLogDto getServerLogDto);
 

@@ -1,18 +1,13 @@
 package com.bugly.common.job;
 
 import com.bugly.system.bo.ServiceDetail;
-import com.bugly.system.dao.ServiceLogDao;
 import com.bugly.system.dao.ServiceTypeDao;
-import com.bugly.system.dto.GetServerLogDto;
 import com.bugly.system.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.bugly.common.utils.TimeUtils.getFirstDay;
 import static com.bugly.common.utils.TimeUtils.getLastDay;
@@ -28,7 +23,7 @@ public class CacheTask {
     private ServiceTypeDao serviceTypeDao;
 
     @Autowired
-    private ServiceLogDao serviceLogDao;
+    private HomeCacheTask homeCacheTask;
 
     private static Map<String, List<String>> serverNamePhoneMap = new HashMap<>();
 
@@ -79,15 +74,13 @@ public class CacheTask {
             return null;
         }
         List<ServiceDetail> serviceDetails = new ArrayList<>();
-        GetServerLogDto getServerLogDto = new GetServerLogDto();
+        Date sTime = getFirstDay();
+        Date eTime = getLastDay();
+
         serviceTypes.forEach(serviceType -> {
-            getServerLogDto.setServiceName(serviceType.getServiceName())
-                    .setStartTime(getFirstDay())
-                    .setEndTime(getLastDay());
-            int num = serviceLogDao.countCondition(getServerLogDto);
             ServiceDetail serviceDetail = new ServiceDetail();
             serviceDetail.setName(serviceAbbreviation(serviceType.getServiceName()));
-            serviceDetail.setNum(num);
+            serviceDetail.setNum(homeCacheTask.getServiceNNum(sTime, eTime, serviceType.getServiceName()));
             serviceDetails.add(serviceDetail);
         });
         return serviceDetails;
