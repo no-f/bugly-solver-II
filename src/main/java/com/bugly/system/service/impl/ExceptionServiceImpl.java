@@ -388,7 +388,8 @@ public class ExceptionServiceImpl implements ExceptionService {
                 serviceLog.setServiceName((String) jsonObject.get("serviceName"));
             }
             if (jsonObject.containsKey("machineAddress")) {
-                serviceLog.setMachineAddress((String) jsonObject.get("machineAddress"));
+                String address = (String) jsonObject.get("machineAddress");
+                serviceLog.setMachineAddress(address.substring(address.indexOf("/") + 1));
             }
             if (jsonObject.containsKey("triggerTime")) {
                 String triggerTime = (String) jsonObject.get("triggerTime");
