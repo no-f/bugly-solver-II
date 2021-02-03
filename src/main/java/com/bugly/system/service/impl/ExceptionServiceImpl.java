@@ -121,7 +121,11 @@ public class ExceptionServiceImpl implements ExceptionService {
             content.put("reason","调用超时");
         } else {
             String remark = exceptionTypeUserDao.findByExceptionTypeIdByOne(exceptionType.getId());
-            content.put("dealReason",remark == null ? exceptionType.getTag() : remark);
+            if (remark == null) {
+                remark = StringUtils.isBlank(exceptionType.getTag()) ? "异常出现还未解释说明" : exceptionType.getTag();
+
+            }
+            content.put("dealReason",remark);
         }
 
         //1.发生钉群 2.通知所有用户或单独通知责任人
