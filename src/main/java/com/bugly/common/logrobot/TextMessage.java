@@ -110,7 +110,8 @@ public class TextMessage extends BaseMessage {
             content.append("服务名称：").append(jsonObject.get("serviceName")).append("\n").append("\n");
         }
         if (jsonObject.containsKey("machineAddress")) {
-            content.append("机器地址：").append(jsonObject.get("machineAddress")).append("\n").append("\n");
+            String address = (String) jsonObject.get("machineAddress");
+            content.append("机器地址：").append(address.substring(address.indexOf("/") + 1)).append("\n").append("\n");
         }
         if (jsonObject.containsKey("triggerTime")) {
             String triggerTime = (String) jsonObject.get("triggerTime");
